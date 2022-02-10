@@ -5,7 +5,7 @@ title: Home
 email: your-email@domain.com
 description: >
   The demo site for Bulma Clean Theme, made for Jekyll and GitHub pages websites
-baseurl: "forsyth-creations"
+baseurl: "https://forsyth-creations.github.io/Forsyth-Creations-Site/"
 #url: "https://www.csrhymes.com"
 permalink: pretty
 #favicon: /path/to/favicon.png
