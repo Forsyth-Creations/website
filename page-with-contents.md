@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Page With Contents
+title: Page With Contents Test
 subtitle: Example page with contents
 toc: true
 #toc_title: Custom Title
@@ -10,7 +10,7 @@ show_sidebar: false
 
 ## Introduction
 
-This is an example page with contents that are generated from the page content. 
+Been spending most of life living in a gastas
 
 The page contents are generated automatically using [Jekyll TOC](https://github.com/allejo/jekyll-toc).
 
