@@ -4,15 +4,15 @@ title: Home
 #tagline: Testing123
 email: your-email@domain.com
 description: >
-  The demo site for Bulma Clean Theme, made for Jekyll and GitHub pages websites
+  Home of Forsyth Creations
 baseurl: "/Forsyth-Creations-Site"
 url: "https://forsyth-creations.github.io"
 permalink: pretty
 #favicon: /path/to/favicon.png
-gh_sponsor: chrisrhymes
+gh_sponsor: Forsyth-Creations
 #hide_share_buttons: true
-#theme_color: '#eeeeee'
-#fixed_navbar: top
+theme_color: '#eeeeee'
+fixed_navbar: top
 
 paginate: 5
 paginate_path: "/blog/page:num"
