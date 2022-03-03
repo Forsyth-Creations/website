@@ -5,7 +5,7 @@ title: Forsyth Creations
 email: your-email@domain.com
 description: >
   Home of Forsyth Creations
-baseurl: "/Forsyth-Creations-Site"
+baseurl: ""
 url: "https://forsyth-creations.github.io"
 permalink: pretty
 #favicon: /path/to/favicon.png
