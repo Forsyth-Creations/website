@@ -13,7 +13,7 @@ gh_sponsor: Forsyth-Creations
 hide_share_buttons: false
 theme_color: '#eeeeee'
 fixed_navbar: top
-logo_image: "/Forsyth-Creations-Site/img/path817.png"
+logo_image: "/Forsyth-Creations-Site/img/logo2.png"
 
 paginate: 5
 paginate_path: "/blog/page:num"
