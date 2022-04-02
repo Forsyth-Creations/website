@@ -1,15 +1,15 @@
 - name: About Me
-  link: /products/
+  link: /about/
 - name: Contact
-  link: /showcase/
+  link: /contact/
 - name: Creations
-  link: /products/
+  link: /creations/
 - name: Submit a Project Idea
-  link: /products/
+  link: /submit_an_idea/
 # - name: Get Something Printed!
 #   link: /products/
-- name: Downloads
-  link: /products/
+- name: Branding
+  link: /branding/
 
 # - name: Pages
 #   link: /#

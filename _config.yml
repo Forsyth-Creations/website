@@ -5,7 +5,7 @@ title: Forsyth Creations
 email: robert.h.forsyth@gmail.com
 description: >
   Home of Forsyth Creations
-baseurl: ""
+baseurl: "site"
 url: "https://forsyth-creations.github.io"
 permalink: pretty
 #favicon: /path/to/favicon.png
@@ -13,7 +13,7 @@ gh_sponsor: Forsyth-Creations
 hide_share_buttons: false
 theme_color: '#eeeeee'
 fixed_navbar: top
-logo_image: "/img/logo2.png"
+logo_image: "/img/Branding/logo2.png"
 
 paginate: 5
 paginate_path: "/blog/page:num"
