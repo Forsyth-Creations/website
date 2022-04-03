@@ -1,10 +1,10 @@
 <nav class="navbar is-primary {% if site.fixed_navbar %} is-fixed-{{ site.fixed_navbar }} {% endif %}" x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
-            <link href="{{ site.baseurl }}/"><img style="width:auto;height:60px;" class="navbar-item"
-                {% if  site.favicon %} src="{{ site.logo_image | relative_url }}" {% else %} src="{{ site.baseurl }}/navBarIcon.png" {% endif %}
-            />
-                
+            <a href="{{ site.baseurl }}/"><img style="width:auto;height:60px;" class="navbar-item"
+                {% if site.favicon %} src="{{ site.logo_image | relative_url }}" {% else %} src="{{ site.baseurl }}/navBarIcon.png" {% endif %}
+                ></a>
+
 
             <!-- <img src="{{ site.logo_image }}" style="width:60px;height:70px;" class="navbar-item"> -->
             <!-- <a href="{{ site.baseurl }}/" class="navbar-item">
