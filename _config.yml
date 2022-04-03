@@ -13,7 +13,7 @@ gh_sponsor: Forsyth-Creations
 hide_share_buttons: false
 theme_color: '#eeeeee'
 fixed_navbar: top
-logo_image: "img/Branding/logo2.png"
+logo_image: "navBarIcon.png"
 
 paginate: 5
 paginate_path: "/creations/page:num"
@@ -71,7 +71,7 @@ defaults:
 markdown: kramdown
 highlighter: rouge
 
-footer_menu: example_footer_menu
+footer_menu: main_footer_menu
 
 collections:
   products: 
