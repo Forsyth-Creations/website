@@ -1,7 +1,7 @@
 - title: Work Experience
   images:
-    - link: img/Achieve/flex.jpg
-      large_link: img/Achieve/flex.jpg
+    - link: site/img/Achieve/flex.jpg
+      large_link: site/img/Achieve/flex.jpg
       alt: The alt text for the image
       description: |-
         ### Personal Projects
@@ -10,8 +10,8 @@
         since then, numerous projects have been born. The 3D printers I built, with more mods than I can count, have been the backbone of that dedication to design.
 
       ratio: is-2by3
-    - link: img/Achieve/Torc.png
-      large_link: img/Achieve/Torc.png
+    - link: site/img/Achieve/Torc.png
+      large_link: site/img/Achieve/Torc.png
       alt: The alt text for the image
       description: |-
         ### Working at Torc Robotics
@@ -23,8 +23,8 @@
         Pushing the limits of my knowledge is something I find wonderfully exhausting
         It takes focus and dedication, all of which have been enstilled within me at Torc.
       ratio: is-4by3
-    - link: img/Achieve/logo.png
-      large_link: img/Achieve/logo.png
+    - link: site/img/Achieve/logo.png
+      large_link: site/img/Achieve/logo.png
       alt: The alt text for the image
       description: |-
         ### Forsyth Creations
@@ -39,8 +39,8 @@
 
 
       ratio: is-4by4
-    - link: img/Achieve/uva.jpg
-      large_link: img/Achieve/uva.jpg
+    - link: site/img/Achieve/uva.jpg
+      large_link: site/img/Achieve/uva.jpg
       alt: The alt text for the image
       description: |-
         ### UVA Researcher
@@ -55,8 +55,8 @@
         and don't regret a single moment. Check out our work at <a href="https://maketolearn.org/" >maketolearn.org</a> 
       
       ratio: is-4by3
-    - link: img/Achieve/vt.jpg
-      large_link: img/Achieve/vt.jpg
+    - link: site/img/Achieve/vt.jpg
+      large_link: site/img/Achieve/vt.jpg
       alt: The alt text for the image
       description: |-
         ### VT Research/Student
@@ -68,8 +68,8 @@
         of our work here: <a href="https://vtx.vt.edu/articles/2021/04/me-research-batear.html" > BatBot Project</a> 
 
       ratio: is-16by9
-    - link: img/Achieve/Galileo.png
-      large_link: img/Achieve/Galileo.png
+    - link: site/img/Achieve/Galileo.png
+      large_link: site/img/Achieve/Galileo.png
       alt: The alt text for the image
       description: |-
         ### Galileo LLC
@@ -79,8 +79,8 @@
         and was able to meet likeminded individuals who encouraged me to work smarter.
 
       ratio: is-2by1
-    - link: img/Achieve/car.png
-      large_link: img/Achieve/car.png
+    - link: site/img/Achieve/car.png
+      large_link: site/img/Achieve/car.png
       alt: The alt text for the image
       description: |-
         ### YouTube Channel
@@ -91,8 +91,8 @@
         So, combining my hobby and my occupation, I created "Forsyth Creations". 
 
       ratio: is-2by1
-    - link: img/Achieve/amp.png
-      large_link: img/Achieve/amp.png
+    - link: site/img/Achieve/amp.png
+      large_link: site/img/Achieve/amp.png
       alt: The alt text for the image
       description: |-
         ### Amp Lab Mentor
@@ -103,8 +103,8 @@
         all the student projects here: <a href="https://amp-lab-at-vt.github.io/web/" >Amp Lab Website</a>
 
       ratio: is-2by1
-    - link: img/Achieve/signs.png
-      large_link: img/Achieve/amp.png
+    - link: site/img/Achieve/signs.png
+      large_link: site/img/Achieve/amp.png
       alt: The alt text for the image
       description: |-
         ### Signs for Non-Profits
