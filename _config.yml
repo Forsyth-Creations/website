@@ -5,7 +5,7 @@ title: Forsyth Creations
 email: robert.h.forsyth@gmail.com
 description: >
   Home of Forsyth Creations
-baseurl: "/site"
+baseurl: 
 url: "https://forsyth-creations.github.io"
 permalink: pretty
 #favicon: /path/to/favicon.png
