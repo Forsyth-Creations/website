@@ -8,3 +8,14 @@ $primary: #234c73;
 	font-family: "Optimus";
 	src: url("../assets/fonts/Optimus.otf");
 }
+
+@-moz-document url-prefix(about:blank) {
+    html > body:empty {
+        background-color: rgb(19,19,20) !important;
+    }
+}
+@-moz-document url(about:blank) {
+    html > body:empty {
+        background-color: rgb(19,19,20) !important;
+    }
+}

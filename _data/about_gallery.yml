@@ -1,0 +1,126 @@
+- title: Work Experience
+  images:
+    - link: img/Achieve/flex.jpg
+      large_link: img/Achieve/flex.jpg
+      alt: The alt text for the image
+      description: |-
+        ### Personal Projects
+        Before middle school, I was constantly designing things.
+        With newfound CAD and code skills that I have picked up
+        since then, numerous projects have been born. The 3D printers I built, with more mods than I can count, have been the backbone of that dedication to design.
+
+      ratio: is-2by3
+    - link: img/Achieve/Torc.png
+      large_link: img/Achieve/Torc.png
+      alt: The alt text for the image
+      description: |-
+        ### Working at Torc Robotics
+        Torc is an autonomous truck company devoted to making the highways safer through robotic assistance.
+        They specialize in 18 wheelers, implementing LIDAR and cameras for better control.
+        For the entire 2022 school year, I have had the pleasure of learning from their engineers, take on new tasks
+        as well as work on full-stack web development. This is something that was foreign to me, but
+        Torc gave me the flexibility to learn in every aspect where I was lacking knowledge.
+        Pushing the limits of my knowledge is something I find wonderfully exhausting
+        It takes focus and dedication, all of which have been enstilled within me at Torc.
+      ratio: is-4by3
+    - link: img/Achieve/logo.png
+      large_link: img/Achieve/logo.png
+      alt: The alt text for the image
+      description: |-
+        ### Forsyth Creations
+
+        Forsyth Creations is a passion project of mine. It started out as a way to catalog my projects.
+        A way of identifying my work. However, over the years it has morphed into something new. Not only
+        is Forsyth Creations for my work, but it represents my small-business of CAD, coding, and fabrication
+        consultancy. It also is the monicure that my YouTube channel resides under. As I create more, I want
+        to better document my work so that others can learn and build from it. After all, Newton said
+        "If I have seen further, it is by standing on the shoulders of giants". I want to help others
+        see further, in any way I can.
+
+
+      ratio: is-4by4
+    - link: img/Achieve/uva.jpg
+      large_link: img/Achieve/uva.jpg
+      alt: The alt text for the image
+      description: |-
+        ### UVA Researcher
+
+        This was one of the greatest experiences of my early career. After being apart of an engineering 
+        piolet program in 8th grade, I had the pleasure of meeting Dr.Bull at UVA. Like any professor,
+        I could tell he was driven to succeed in his research. Not only that, he cared for the success of
+        his students. That mix makes him an incredible force for good. Under him, I was encouraged to learn
+        CAD, code, and a miriad of other skills. He connected me with his collegues, such as Dr.Littman of
+        Princeton, as well as employees James Rutter and Jo Watt, to develop engineering teaching aids based
+        on 19th century technology (telegraph, linear motor, speaker, etc). I worked under them for about 6 years,
+        and don't regret a single moment. Check out our work at <a href="https://maketolearn.org/" >maketolearn.org</a> 
+      
+      ratio: is-4by3
+    - link: img/Achieve/vt.jpg
+      large_link: img/Achieve/vt.jpg
+      alt: The alt text for the image
+      description: |-
+        ### VT Research/Student
+
+        In this position, I worked with the BatLab to research devices that would mimic the horseshoe bat. With their
+        impressive echolocation abilities, my team was interested in reproducing a facimily for advanced sound-based
+        3D imaging and perception. This led the team in many directions. My job was mainly in system integration, where
+        I linked the physical hardware and PCBs to the Python and MatLab-generated deep-learning model. Check out more
+        of our work here: <a href="https://vtx.vt.edu/articles/2021/04/me-research-batear.html" > BatBot Project</a> 
+
+      ratio: is-16by9
+    - link: img/Achieve/Galileo.png
+      large_link: img/Achieve/Galileo.png
+      alt: The alt text for the image
+      description: |-
+        ### Galileo LLC
+
+        My freshman year of college, despite it being cur short due to COVID, I applied and was accepted to an LLC on campus:
+        The Galileo/Hipatia living-learning community, for engineers. It was here where I met some of my closest friends,
+        and was able to meet likeminded individuals who encouraged me to work smarter.
+
+      ratio: is-2by1
+    - link: img/Achieve/car.png
+      large_link: img/Achieve/car.png
+      alt: The alt text for the image
+      description: |-
+        ### YouTube Channel
+
+        Ever since COVID struck, and I was sent home, I have been looking for a creative outlet. Much of my time was spent working,
+        or running my private consultancy for CAD (Primarily Fusion 360) and code (Primarily C++). However, when I was granted
+        that rare moment of freetime, I spent it making YouTube videos. In fact, the private consultancy is usually what funds my projects.
+        So, combining my hobby and my occupation, I created "Forsyth Creations". 
+
+      ratio: is-2by1
+    - link: img/Achieve/amp.png
+      large_link: img/Achieve/amp.png
+      alt: The alt text for the image
+      description: |-
+        ### Amp Lab Mentor
+
+        The Amp Lab is a student run, student led organization at Virgina Tech for the EE and CPE departments. It is designed to be a 
+        space where students can develop their ideas, while also teaching them proper project budgeting, and valuble team-working skills.
+        Through the Amp Lab's funding, I was able to create a smart mirror, which I proudly display on my YouTube channel. Check out
+        all the student projects here: <a href="https://amp-lab-at-vt.github.io/web/" >Amp Lab Website</a>
+
+      ratio: is-2by1
+    - link: img/Achieve/signs.png
+      large_link: img/Achieve/amp.png
+      alt: The alt text for the image
+      description: |-
+        ### Signs for Non-Profits
+
+        An engineer thrives on problem-solving. At the core of being an engineer, we are meant to help others. Making signs for non-profits
+        has given me that chance to help others, all while using my talents. This side gig, which I have done both on commission and for free,
+        is one of the most fufilling parts of my life. Organizations that I have helped are the following:
+        - <a href="https://www.wintergreenadaptivesports.org/" >Wintergreen Adaptive Sports</a>
+        - <a href="https://vtcatholic.com/" >Catholic Campus Ministry at VT</a>
+
+      ratio: is-4by3
+ 
+# - title: Second Image Gallery Title
+#   images:
+#     - link: img/Achieve/uva.jpg
+#       large_link: img/Achieve/uva.jpg
+#       alt: The alt text for the image
+#       description: The image description
+#       ratio: is-4by3
