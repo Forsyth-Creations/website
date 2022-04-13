@@ -1,14 +1,5 @@
 - title: Work Experience
   images:
-    - link: site/img/Achieve/flex.jpg
-      large_link: site/img/Achieve/flex.jpg
-      alt: 3D Printers
-      description: |-
-        ### Personal Projects
-        Before middle school, I was constantly designing things.
-        With newfound CAD and code skills that I have picked up
-        since then, numerous projects have been born. The 3D printers I built, with more mods than I can count, have been the backbone of that dedication to design.
-      ratio: is-2by3
 
     - link: site/img/Achieve/Torc.png
       large_link: site/img/Achieve/Torc.png
@@ -23,21 +14,6 @@
         Pushing the limits of my knowledge is something I find wonderfully exhausting
         It takes focus and dedication, all of which have been enstilled within me at Torc.
       ratio: is-4by3
-
-    - link: site/img/Achieve/logo.png
-      large_link: site/img/Achieve/logo.png
-      alt: Forsyth Creations Brand
-      description: |-
-        ### Forsyth Creations
-
-        Forsyth Creations is a passion project of mine. It started out as a way to catalog my projects.
-        A way of identifying my work. However, over the years it has morphed into something new. Not only
-        is Forsyth Creations for my work, but it represents my small-business of CAD, coding, and fabrication
-        consultancy. It also is the monicure that my YouTube channel resides under. As I create more, I want
-        to better document my work so that others can learn and build from it. After all, Newton said
-        "If I have seen further, it is by standing on the shoulders of giants". I want to help others
-        see further, in any way I can.
-      ratio: is-4by4
 
     - link: site/img/Achieve/uva.jpg
       large_link: site/img/Achieve/uva.jpg
@@ -79,29 +55,43 @@
         and was able to meet likeminded individuals who encouraged me to work smarter.
       ratio: is-2by1
 
-    - link: site/img/Achieve/car.png
-      large_link: site/img/Achieve/car.png
-      alt: YouTube Channel
+    - link: site/img/Achieve/ServantLeaders.png
+      large_link: site/img/Achieve/ServantLeaders.png
+      alt: Servant Leader Team
       description: |-
-        ### YouTube Channel
+        ### Servant Leader Team
 
-        Ever since COVID struck, and I was sent home, I have been looking for a creative outlet. Much of my time was spent working,
-        or running my private consultancy for CAD (Primarily Fusion 360) and code (Primarily C++). However, when I was granted
-        that rare moment of freetime, I spent it making YouTube videos. In fact, the private consultancy is usually what funds my projects.
-        So, combining my hobby and my occupation, I created "Forsyth Creations". 
-      ratio: is-2by1
-
-    - link: site/img/Achieve/amp.png
-      large_link: site/img/Achieve/amp.png
-      alt: Amp Lab Mentor
+        For the 2022 school year, I was asked to serve as apart of my ministry's Servant Leader team, in which I sought to serve the ministry's
+        evangelization needs. Even though as I write this I am only four months in, it has been a critical learning experience. It has taught me
+        that seeking hte help of others is not weakness. Sharing a burden of work amongst people who want you and the community to succeed is actually
+        a valuable part of developing friendship and community.
+        - <a href="https://vtcatholic.com/" >Catholic Campus Ministry at VT</a>
+      # ratio: is-4by3
+- title: Passions and Side Hustles
+  images:
+    - link: site/img/Achieve/logo.png
+      large_link: site/img/Achieve/logo.png
+      alt: Forsyth Creations Brand
       description: |-
-        ### Amp Lab Mentor
+        ### Forsyth Creations
 
-        The Amp Lab is a student run, student led organization at Virgina Tech for the EE and CPE departments. It is designed to be a 
-        space where students can develop their ideas, while also teaching them proper project budgeting, and valuble team-working skills.
-        Through the Amp Lab's funding, I was able to create a smart mirror, which I proudly display on my YouTube channel. Check out
-        all the student projects here: <a href="https://amp-lab-at-vt.github.io/web/" >Amp Lab Website</a>
-      ratio: is-2by1
+        Forsyth Creations is a passion project of mine. It started out as a way to catalog my projects.
+        A way of identifying my work. However, over the years it has morphed into something new. Not only
+        is Forsyth Creations for my work, but it represents my small-business of CAD, coding, and fabrication
+        consultancy. It also is the monicure that my YouTube channel resides under. As I create more, I want
+        to better document my work so that others can learn and build from it. After all, Newton said
+        "If I have seen further, it is by standing on the shoulders of giants". I want to help others
+        see further, in any way I can.
+      ratio: is-4by4
+    - link: site/img/Achieve/flex.jpg
+      large_link: site/img/Achieve/flex.jpg
+      alt: 3D Printers
+      description: |-
+        ### Personal Projects
+        Before middle school, I was constantly designing things.
+        With newfound CAD and code skills that I have picked up
+        since then, numerous projects have been born. The 3D printers I built, with more mods than I can count, have been the backbone of that dedication to design.
+      ratio: is-2by3
 
     - link: site/img/Achieve/signs.png
       large_link: site/img/Achieve/signs.png
@@ -115,16 +105,25 @@
         - <a href="https://www.wintergreenadaptivesports.org/" >Wintergreen Adaptive Sports</a>
         - <a href="https://vtcatholic.com/" >Catholic Campus Ministry at VT</a>
       ratio: is-4by3
-
-      - link: site/img/Achieve/ServantLeaders.png
-      large_link: site/img/Achieve/ServantLeaders.png
-      alt: Servant Leader Team
+    - link: site/img/Achieve/amp.png
+      large_link: site/img/Achieve/amp.png
+      alt: Amp Lab Mentor
       description: |-
-        ### Servant Leader Team
+        ### Amp Lab Mentor
 
-        For the 2022 school year, I was asked to serve as apart of my ministry's Servant Leader team, in which I sought to serve the ministry's
-        evangelization needs. Even though as I write this I am only four months in, it has been a critical learning experience. It has taught me
-        that seeking hte help of others is not weakness. Sharing a burden of work amongst people who want you and the community to succeed is actually
-        a valuable part of developing friendship and community.
-        - <a href="https://vtcatholic.com/" >Catholic Campus Ministry at VT</a>
-      ratio: is-4by3
+        The Amp Lab is a student run, student led organization at Virgina Tech for the EE and CPE departments. It is designed to be a 
+        space where students can develop their ideas, while also teaching them proper project budgeting, and valuble team-working skills.
+        Through the Amp Lab's funding, I was able to create a smart mirror, which I proudly display on my YouTube channel. Check out
+        all the student projects here: <a href="https://amp-lab-at-vt.github.io/web/" >Amp Lab Website</a>
+      ratio: is-2by1
+    - link: site/img/Achieve/car.png
+      large_link: site/img/Achieve/car.png
+      alt: YouTube Channel
+      description: |-
+        ### YouTube Channel
+
+        Ever since COVID struck, and I was sent home, I have been looking for a creative outlet. Much of my time was spent working,
+        or running my private consultancy for CAD (Primarily Fusion 360) and code (Primarily C++). However, when I was granted
+        that rare moment of freetime, I spent it making YouTube videos. In fact, the private consultancy is usually what funds my projects.
+        So, combining my hobby and my occupation, I created "Forsyth Creations". 
+      ratio: is-2by1
