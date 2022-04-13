@@ -1,11 +1,11 @@
 - name: About Me
-  link: site/about/
+  link: about/
 - name: Contact
-  link: site/contact/
-- name: site/Creations
-  link: site/creations/
+  link: contact/
+- name: Creations
+  link: creations/
 - name: Submit a Project Idea
-  link: site/submit_an_idea/
+  link: submit_an_idea/
 # - name: Get Something Printed!
 #   link: /products/
 
