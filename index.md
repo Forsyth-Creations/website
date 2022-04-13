@@ -25,4 +25,4 @@ Get in touch with me, and see what I'm up to! Join my Discord server for some gr
 
 Here, you'll be able to see my 3D printers printing in nearly real-time, with updates posted every 10% of the way. 
 
-<a class="button is-link" href="https://discord.gg/pX5XqD6fJP" >Click Here to Join My Discord</a>
+<a class="button is-link" href="https://discord.gg/bJc8gUBXDj" >Click Here to Join My Discord</a>
