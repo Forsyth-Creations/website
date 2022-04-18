@@ -4,6 +4,7 @@ layout: page
 # callouts: home_callouts
 hero_height: is-small
 show_sidebar: false
+hide_hero: true
 carousels:
   - images: 
     - image: 'img/Branding/Channel Art 2-forsythcreations.png'
