@@ -4,7 +4,7 @@ title: Upgrading the Ender 3 Pro for Consistant Printing
 description: 3D Printing
 date: 2022-6-26 09:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
-# image: /site/img/ProjectPhotos/MagicMirror
+image: /site/img/PostImages/Ender3.png
 hero_height: is-small
 hero_darken: true
 tags: 3dprinting
@@ -91,3 +91,16 @@ Reason: Makes your machine whisper quiet
 [4010 Fan](https://www.amazon.com/gp/product/B07CH6YC32/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
 
 [Power Bucks](https://www.amazon.com/gp/product/B07RVG34WR/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+
+## Tier 8: Great tools to help fix your printer
+```
+Reason: 3D printers breaking isn't an 'if' question, its a 'when'. These will save you a lot of headache
+```
+
+[8-in-1 Compact Ratcheting Multi-Bit Screwdriver](https://www.homedepot.com/p/Milwaukee-8-in-1-Compact-Ratcheting-Multi-Bit-Screwdriver-48-22-2330/308510693)
+
+[Socket Wrench Driver Adapter](https://www.homedepot.com/p/Milwaukee-SHOCKWAVE-Impact-Duty-1-4-in-x-1-4-in-Alloy-Steel-Square-Socket-Adapter-48-32-5030/202562857)
+
+[7 mm socket for hotend](https://www.homedepot.com/p/Husky-1-4-in-Drive-7-mm-6-Point-Metric-Standard-Socket-H4D6P7MM/202911900)
+
+
