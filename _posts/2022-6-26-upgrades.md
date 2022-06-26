@@ -4,7 +4,7 @@ title: Upgrading the Ender 3 Pro for Consistant Printing
 description: 3D Printing
 date: 2022-6-26 09:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
-image: /site/img/PostImages/Ender3.png
+image: /img/PostImages/Ender3.png
 hero_height: is-small
 hero_darken: true
 tags: 3dprinting
