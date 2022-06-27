@@ -2,8 +2,8 @@
   link: about/
 - name: Contact
   link: contact/
-- name: Creations
-  link: creations/
+- name: Blog
+  link: blog/
 - name: Submit a Project Idea
   link: submit_an_idea/
 # - name: Get Something Printed!
