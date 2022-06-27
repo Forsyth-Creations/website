@@ -1,6 +1,6 @@
 ---
 layout: project_template
-title: Great tools for MOD-ing your 3D printer
+title: Great tools for fixing your 3D printer
 description: 3D Printing
 date: 2022-6-26 22:16:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
@@ -32,7 +32,7 @@ show_sidebar: false
 
 # Mat
 
-[Sodlering Mat](https://www.amazon.com/gp/product/B08TMBMVCY/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+[Soldering Mat](https://www.amazon.com/gp/product/B08TMBMVCY/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
 
 # Spare Wire
 
