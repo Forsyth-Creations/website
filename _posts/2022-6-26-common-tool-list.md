@@ -38,7 +38,7 @@ show_sidebar: false
 
 [Spare Wire](https://www.amazon.com/TUOFENG-Wire-Solid-different-colored-spools/dp/B07TX6BX47/ref=sr_1_4?crid=29EGL9GCY6HTK&keywords=wire+spools&qid=1656296502&sprefix=wire+spools%2Caps%2C61&sr=8-4)
 
-# Nossle Wrench
+# Nozzle Wrench
 
 [8-in-1 Compact Ratcheting Multi-Bit Screwdriver](https://www.homedepot.com/p/Milwaukee-8-in-1-Compact-Ratcheting-Multi-Bit-Screwdriver-48-22-2330/308510693)
 
