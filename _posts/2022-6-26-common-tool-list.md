@@ -4,7 +4,7 @@ title: Great tools for MOD-ing your 3D printer
 description: 3D Printing
 date: 2022-6-26 22:16:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
-image: /img/PostImages/Ender3.png
+image: img/PostImages/tools-for-3d-printing.JPG
 hero_height: is-small
 hero_darken: true
 tags: 3dprinting
