@@ -17,4 +17,4 @@ show_sidebar: false
 
 [Kyle and Sally][1]
 
-[1]:{{ site.url }}/downloads/Kyle-Slicer-Profile-PLA.curaprofile
+[1]: https://forsythcreations.com/downloads/Kyle-Slicer-Profile-PLA.curaprofile
