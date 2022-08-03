@@ -16,4 +16,5 @@ show_sidebar: false
 # Slicer Settings
 
 [Kyle and Sally][1]
+
 [1]:{{ site.url }}/downloads/Kyle-Slicer-Profile-PLA.curaprofile
