@@ -21,4 +21,4 @@ show_sidebar: false
 
 [Highly Modified Taz4 with a Creality Extruder][2]
 
-[1]: https://forsythcreations.com/downloads/Frankie-Slicer-Profile-PLA.curaprofile
+[2]: https://forsythcreations.com/downloads/Frankie-Slicer-Profile-PLA.curaprofile
