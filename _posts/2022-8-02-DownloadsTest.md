@@ -15,6 +15,10 @@ show_sidebar: false
 
 # Slicer Settings
 
-[Kyle and Sally][1]
+[Kyle and Sally (Ender 3 Pros with an E3D V6 Volcano Hotend)][1]
 
 [1]: https://forsythcreations.com/downloads/Kyle-Slicer-Profile-PLA.curaprofile
+
+[Highly Modified Taz4 with a Creality Extruder][2]
+
+[1]: https://forsythcreations.com/downloads/Frankie-Slicer-Profile-PLA.curaprofile
