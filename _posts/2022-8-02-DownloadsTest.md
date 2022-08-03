@@ -2,7 +2,7 @@
 layout: project_template
 title: Downloads and Such
 description: Robotics and 3D Printing
-date: 2022-8-03 09:00:00
+date: 2022-8-02 09:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
 image: /img/PostImages/Ender3.png
 hero_height: is-small

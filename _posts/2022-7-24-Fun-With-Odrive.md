@@ -4,7 +4,7 @@ title: Fun With ODrive
 description: Robotics and 3D Printing
 date: 2022-7-20 09:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
-image: /img/PostImages/odrive.png
+image: /img/PostImages/odrive.jpg
 hero_height: is-small
 hero_darken: true
 tags: 3dprinting
