@@ -2,7 +2,7 @@
 layout: project_template
 title: Writing Your Own Marlin Firmware
 description: 3D Printing
-date: 2022-8-10 22:16:00
+date: 2022-8-10 9:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
 # image: /img/PostImages/tools-for-3d-printing.JPG
 hero_height: is-small
