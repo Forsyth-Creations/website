@@ -36,5 +36,6 @@ show_sidebar: false
 
 The lab space is a great space to great some spectacular things. Let's not abuse it, and make sure no one else has to clean up after someone else's mess. The lab space should also be presentable for when special guests come over, such as Torc, Pratt Miller, Dream Lab, etc.
 
+# Punishments
 
-
+These rules mean nothing if there is no punishment. Any member who fails to comply after 3 warnings will be forced to deep-clean their counterparts kitchen. In this case, anyone from C side who cannot keep to the letter of their agreement must clean the A side kitchen, and vice versa
