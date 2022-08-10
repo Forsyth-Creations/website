@@ -34,7 +34,7 @@ show_sidebar: false
 
 # TLDR
 
-The lab space is a great space to great some spectacular things. Let's not abuse it, and make sure no one else has to clean up after someone else's mess
+The lab space is a great space to great some spectacular things. Let's not abuse it, and make sure no one else has to clean up after someone else's mess. The lab space should also be presentable for when special guests come over, such as Torc, Pratt Miller, Dream Lab, etc.
 
 
 
