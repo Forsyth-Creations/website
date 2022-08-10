@@ -7,8 +7,6 @@ show_sidebar: false
 
 # Rules for the Lab
 
-## Rules for the Lab
-
 ## 3D Printers 
 
 1. All plastic around the printers must be placed in the trash before the end of the night. This includes:
