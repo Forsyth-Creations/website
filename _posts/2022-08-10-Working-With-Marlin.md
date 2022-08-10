@@ -2,7 +2,7 @@
 layout: project_template
 title: Writing Your Own Marlin Firmware
 description: 3D Printing
-date: 2022-6-26 22:16:00
+date: 2022-8-10 22:16:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
 # image: /img/PostImages/tools-for-3d-printing.JPG
 hero_height: is-small
@@ -17,7 +17,7 @@ show_sidebar: false
 
 As you start to mod your printer more and more, things will rapidly become highly custom. As such, you may hit a point in your 3D printing expereince where you need to write the firmware from scratch. In this blog post, we will cover the tools and steps needed to customize the Marlin firmware for your needs.
 
-** WARNING: This tutorial is just a brain dump, and is intended for higher-level users. It will be updated to accomidate beginners when time is avalible **
+**WARNING: This tutorial is just a brain dump, and is intended for higher-level users. It will be updated to accomidate beginners when time is avalible**
 
 # Download and Install VS Code
 The download link is avalible below:
@@ -26,6 +26,7 @@ The download link is avalible below:
 # Downloading all the software. Below is a Ubuntu Tutorial, most of it done in the CLI. The relivant repos are below:
 
 [Marlin Firmware](https://github.com/MarlinFirmware/Marlin)
+
 [Marlin Configurations](https://github.com/MarlinFirmware/Configurations)
 
 Go to your home directory and run the following
@@ -38,7 +39,7 @@ git clone https://github.com/MarlinFirmware/Marlin.git
 ```
 It might be worth forking the Marlin repo so you can keep up to date with master. However, for a single-shot usage, this should work
 
-Now here's the important part: the versions of Marlin coorespond to particular config files. They are linked to ensure that ** all configured settings reflect what is avalible in the source code ** . Do the following to make sure each of the repos exists on the same branch. For more information about branching, look into learning git. Some great git things to learn include: git clone, git branch, git checkout, git status, git log
+Now here's the important part: the versions of Marlin coorespond to particular config files. They are linked to ensure that **all configured settings reflect what is avalible in the source code** . Do the following to make sure each of the repos exists on the same branch. For more information about branching, look into learning git. Some great git things to learn include: git clone, git branch, git checkout, git status, git log
 
 ```
 cd Configurations
@@ -67,3 +68,43 @@ code .
 
 ## Configuring Your Local Marlin repo with the Config Files 
 
+Let's get familiar with your repo. Unless you are working on integrating new hardware that **no one has seen before**, then the only files you will be touching are as follows:
+
+```
+/Marlin/Configuration.h
+/Marlin/Configuration_adv.h
+platformio.ini
+```
+
+Here's the neat part about the ```Configurations``` repo you clones: Marlin supports common printers by providing you the configuration. As such, find your printer in the ```Configurations``` repo, and copy them over into the ```/Marlin``` folder in your build. 
+
+**In all of the Configuration.h files, there is a macro/setting called ```MOTHERBOARD```. It is crucial this setting matches your make and model**
+
+Now that you have the configuration files copied over, here comes the challenging part: making sure dependencies are met. The great part about this is that platformio takes care of installing the files you need. You will need to change this section of the ini file to reflect your board:
+
+```
+[platformio]
+src_dir      = Marlin
+boards_dir   = buildroot/share/PlatformIO/boards
+default_envs = mega2560
+include_dir  = Marlin
+extra_configs =
+    Marlin/config.ini
+    ini/avr.ini
+    ini/due.ini
+    ini/esp32.ini
+    ini/features.ini
+    ini/lpc176x.ini
+    ini/native.ini
+    ini/samd51.ini
+    ini/stm32-common.ini
+    ini/stm32f0.ini
+    ini/stm32f1-maple.ini
+    ini/stm32f1.ini
+    ini/stm32f4.ini
+    ini/stm32f7.ini
+    ini/stm32h7.ini
+    ini/stm32g0.ini
+    ini/teensy.ini
+    ini/renamed.ini
+```
