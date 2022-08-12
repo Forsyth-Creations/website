@@ -5,8 +5,8 @@ show_sidebar: false
 ---
 
 <!-- Display the countdown timer in an element -->
-<div style="display : flex">
-    <p style="font-size: 40px" id="countdown"></p>
+<div style="display : flex; justify-content : center;">
+    <p style="font-size: 40px; font-weight: bold;" id="countdown"></p>
 </div>
 
 <script>
@@ -35,7 +35,7 @@ var x = setInterval(function() {
   // If the count down is finished, write some text
   if (distance < 0) {
     clearInterval(x);
-    document.getElementById("countdown").innerHTML = "Finally";
+    document.getElementById("countdown").innerHTML = "Finally. My Quest is Complete";
   }
 }, 1000);
 </script>
