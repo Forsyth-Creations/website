@@ -7,8 +7,8 @@ show_sidebar: false
 <!-- Display the countdown timer in an element -->
 <div style="display : flex; justify-content : center;">
     <div style="flex-direction: column; display : flex;">
-        <p style="font-size: 40px; font-weight: bold;" id="countdown"></p>
-        <p style="font-size: 40px; font-weight: bold;" id="flavortext"></p>
+        <p style="font-size: 40px; font-weight: bold; text-align: center" id="countdown"></p>
+        <p style="font-size: 40px; font-weight: bold; text-align: center" id="flavortext"></p>
     </div>
 </div>
 
