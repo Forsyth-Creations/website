@@ -5,9 +5,11 @@ show_sidebar: false
 ---
 
 <!-- Display the countdown timer in an element -->
-<div style="display : flex; justify-content : center; flex-direction: column;">
-    <p style="font-size: 40px; font-weight: bold;" id="countdown"></p>
-    <p style="font-size: 40px; font-weight: bold;" id="flavortext"></p>
+<div style="display : flex; justify-content : center;">
+    <div style="flex-direction: column; display : flex;">
+        <p style="font-size: 40px; font-weight: bold;" id="countdown"></p>
+        <p style="font-size: 40px; font-weight: bold;" id="flavortext"></p>
+    </div>
 </div>
 
 <script>
@@ -21,13 +23,14 @@ show_sidebar: false
 
         // Find the distance between now and the count down date
         var distance = countDownDate - now;
-        console.log(distance)
 
         // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        console.log(days)
 
         // Display the result in the element with id="countdown"
         document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
@@ -38,6 +41,27 @@ show_sidebar: false
             clearInterval(x);
             document.getElementById("countdown").innerHTML = "Finally. My Quest is Complete";
         }
+        else if (days < 7)
+        {
+            document.getElementById("flavortext").innerHTML = "This week, my love. This week";
+        }
+        else if (days < 14)
+        {
+            document.getElementById("flavortext").innerHTML = "2 weeks away";
+        }
+        else if (days < 21)
+        {
+            document.getElementById("flavortext").innerHTML = "3 weeks away";
+        }
+        else if (days < 28)
+        {
+            document.getElementById("flavortext").innerHTML = "4 weeks away";
+        }
+        else if (days <= 35)
+        {
+            document.getElementById("flavortext").innerHTML = "5 weeks away";
+        }
+
     }, 1000);
 </script>
 
