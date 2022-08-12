@@ -39,6 +39,7 @@ show_sidebar: false
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("countdown").innerHTML = "Finally. My Quest is Complete";
+            document.getElementById("flavortext").innerHTML = "I've missed you";
         }
         else if (days < 7)
         {
