@@ -47,15 +47,15 @@ show_sidebar: false
         }
         else if (days < 14)
         {
-            document.getElementById("flavortext").innerHTML = "2 weeks away";
+            document.getElementById("flavortext").innerHTML = "2 weeks away. Almost there, my love. We can just sit and be in one anothers company.";
         }
         else if (days < 21)
         {
-            document.getElementById("flavortext").innerHTML = "3 weeks away";
+            document.getElementById("flavortext").innerHTML = "You know, 3 more weeks and we could bake a cake together. Man I loved How To Train Your Dragon night";
         }
         else if (days < 28)
         {
-            document.getElementById("flavortext").innerHTML = "4 weeks away";
+            document.getElementById("flavortext").innerHTML = "Remember when I carried you home? 4 more weeks and I'll sweep you off your feet again";
         }
         else if (days <= 35)
         {
