@@ -144,6 +144,8 @@ odrv0.axis0.encoder.config.hall_polarity_calibrated = True
 odrv0.axis0.motor.config.current_control_bandwidth = 2000
 
 odrv0.axis0.requested_state = AXIS_STATE_IDLE
+
+odrv0.axis1.motor.motor_thermistor
 ```
 
 ## Some notes on current developmemt:
