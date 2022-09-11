@@ -120,10 +120,16 @@ odrv0.axis0.controller.input_vel = 1
 ```
 odrv0.config.gpio5_mode = GPIO_MODE_DIGITAL
 odrv0.axis0.min_endstop.config.gpio_num = 5
-odrv0.axis0.min_endstop.config.is_active_high = False
-odrv0.axis0.min_endstop.config.offset = -0.25
+odrv0.axis0.min_endstop.config.is_active_high = True
+odrv0.axis0.min_endstop.config.offset = -3
 odrv0.axis0.min_endstop.config.enabled = True
-odrv0.config.gpio5_mode = GPIO_MODE_DIGITAL_PULL_UP
+odrv0.config.gpio5_mode = GPIO_MODE_DIGITAL_PULL_DOWN
+
+odrv0.save_configuration()
+
+odrv0.axis0.controller.config.homing_speed = 2
+
+odrv0.axis0.requested_state=AXIS_STATE_HOMING
 ```
 
 ## Trajectory Control
