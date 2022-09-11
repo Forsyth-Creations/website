@@ -46,6 +46,8 @@ Always save configuration and reboot before trying to run the calibration
 [Pinout](https://docs.odriverobotics.com/v/0.5.5/pinout.html?highlight=pinout)
 
 ```python
+odrv0.erase_configuration()
+odrv0.reboot()
 
 # axis0
 odrv0.config.gpio9_mode = GPIO_MODE_DIGITAL
@@ -57,10 +59,7 @@ odrv0.config.gpio12_mode = GPIO_MODE_DIGITAL
 odrv0.config.gpio13_mode = GPIO_MODE_DIGITAL
 odrv0.config.gpio14_mode = GPIO_MODE_DIGITAL
 
-odrv0.save_configuration()
-odrv0.reboot()
-
-odrv0.axis0.motor.config.current_lim = 10
+odrv0.axis0.motor.config.current_lim = 20
 odrv0.axis0.controller.config.vel_limit = 2
 odrv0.config.enable_brake_resistor = True
 odrv0.axis0.motor.config.pole_pairs = 7
@@ -70,19 +69,29 @@ odrv0.axis0.encoder.config.cpr = 42
 odrv0.axis0.motor.config.resistance_calib_max_voltage = 2
 odrv0.axis0.encoder.config.mode = ENCODER_MODE_HALL
 
+# ------- Additional Needed Configs -----------
+odrv0.axis0.encoder.config.bandwidth = 100
+odrv0.axis0.controller.config.pos_gain = 1
+odrv0.axis0.controller.config.vel_gain = 0.02 * odrv0.axis0.motor.config.torque_constant * odrv0.axis0.encoder.config.cpr
+odrv0.axis0.controller.config.vel_integrator_gain = 0.1 * odrv0.axis0.motor.config.torque_constant * odrv0.axis0.encoder.config.cpr
+odrv0.axis0.controller.config.vel_limit = 20
+
+# ----------------------------------------------
+
 odrv0.save_configuration()
-odrv0.reboot()
 
 odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
 odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 
-odrv0.axis0.requested_state = AXIS_STATE_ENCODER_HALL_POLARITY_CALIBRATION   # ?????
+odrv0.axis0.motor.config.pre_calibrated = True
+odrv0.axis0.encoder.config.pre_calibrated = True
+odrv0.axis0.config.startup_encoder_index_search=True
+
 
 dump_errors(odrv0)
 
-odrv0.axis0.controller.config.vel_limit = 20
-
 odrv0.save_configuration()
+
 odrv0.reboot()
 
 # Below are the steps to enter velocity control mode and run a quick test
@@ -93,6 +102,17 @@ odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
 odrv0.axis0.controller.input_vel = 5
 
 ```
+# Ramped Velocity Control
+
+```python
+
+odrv0.axis0.controller.config.vel_ramp_rate = 0.5
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_VEL_RAMP
+
+# Control Velocity with the below:
+odrv0.axis0.controller.input_vel = 1
+```
+
 
 ## Homing the Odrive Axis 
 ```
@@ -119,6 +139,9 @@ odrv0.erase_configuration()
 odrv0.clear_errors()
 odrv0.axis0.encoder.config.ignore_illegal_hall_state = True
 odrv0.axis0.encoder.config.hall_polarity_calibrated = True
+odrv0.axis0.motor.config.current_control_bandwidth = 2000
+
+odrv0.axis0.requested_state = AXIS_STATE_IDLE
 ```
 
 ## Some notes on current developmemt:
