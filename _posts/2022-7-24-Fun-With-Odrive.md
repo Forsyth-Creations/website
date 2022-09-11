@@ -39,6 +39,8 @@ Always save configuration and reboot before trying to run the calibration
 
 [API for v3.6](https://docs.odriverobotics.com/v/0.5.5/fibre_types/com_odriverobotics_ODrive.html)
 
+[Therminstor Docs](https://docs.odriverobotics.com/v/0.5.5/thermistors.html)
+
 # Steps:
 
 # Modified Setup for a Flipsky Motor
@@ -157,5 +159,8 @@ It could be multiple things, but here are the steps forward that I want to take:
 Scope the output of the motor, although I don't know how that would help based on the testing above
 Make sure pinouts and axis are configured the same
 Check voltage on board to make sure encoder is being powered
+
+^^ Looks like the above notes were solved by using the recommended caps, seen in a post here:
+[Caps](https://discourse.odriverobotics.com/t/easy-capacitor-encoder-fix/3312)
 
 
