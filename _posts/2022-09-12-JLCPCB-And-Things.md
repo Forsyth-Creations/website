@@ -4,7 +4,7 @@ title: JLCPCB and Things
 description: 3D Printing
 date: 2022-9-12 9:00:00
 # hero_image: /site/img/ProjectPhotos/MagicMirror
-# image: /img/PostImages/tools-for-3d-printing.JPG
+image: /img/PostImages/PCB.PNG
 hero_height: is-small
 hero_darken: true
 tags: PCB
