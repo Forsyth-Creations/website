@@ -135,13 +135,15 @@ odrv0.axis0.requested_state=AXIS_STATE_HOMING
 ## Trajectory Control
 
 ```
-odrv0.axis1.trap_traj.config.vel_limit
-odrv0.axis1.trap_traj.config.accel_limit = <Float>
-odrv0.axis1.trap_traj.config.decel_limit = <Float>
-odrv0.axis1.controller.config.inertia = <Float>
+odrv0.axis0.trap_traj.config.vel_limit = 10
+odrv0.axis0.trap_traj.config.accel_limit = 6
+odrv0.axis0.trap_traj.config.decel_limit = 6
+odrv0.axis0.controller.config.inertia = 0
 
-odrv0.axis0.controller.config.input_mode = InputMode.TRAP_TRAJ
-odrv0.axis0.controller.input_pos = <Float>
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_TRAP_TRAJ
+odrv0.axis0.controller.input_pos = <Float> (For my setup, 0 to 4.4 have been working for a full rotation)
 
 ```
 
