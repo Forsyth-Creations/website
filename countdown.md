@@ -14,7 +14,7 @@ show_sidebar: false
 
 <script>
     // Set the date we're counting down to
-    var countDownDate = new Date("Sep 16, 2022 18:30:00").getTime();
+    var countDownDate = new Date("Mar 24, 2023 16:00:00").getTime();
 
     // Update the count down every 1 second
     var x = setInterval(function() {
@@ -47,19 +47,19 @@ show_sidebar: false
         }
         else if (days < 14)
         {
-            document.getElementById("flavortext").innerHTML = "2 weeks away. Almost there, my love. We can just sit and be in one anothers company.";
+            document.getElementById("flavortext").innerHTML = "2 weeks away. Hope the committee is ready";
         }
         else if (days < 21)
         {
-            document.getElementById("flavortext").innerHTML = "You know, 3 more weeks and we could bake a cake together. Man I loved How To Train Your Dragon night";
+            document.getElementById("flavortext").innerHTML = "3 more weeks, and you're going to have your own personal chef.";
         }
         else if (days < 28)
         {
-            document.getElementById("flavortext").innerHTML = "Remember when I carried you home? 4 more weeks and I'll sweep you off your feet again";
+            document.getElementById("flavortext").innerHTML = "A little more than 4 weeks away. I cannot wait to wrap you in my arms";
         }
         else if (days <= 35)
         {
-            document.getElementById("flavortext").innerHTML = "5 weeks away";
+            document.getElementById("flavortext").innerHTML = "And you thought I wasn't going to recode it ;)";
         }
 
     }, 1000);
