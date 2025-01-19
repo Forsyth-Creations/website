@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import ForsythTheme from "@/contexts/ThemeProvider";
+import { AutoScrollProvider } from "@/contexts/AutoScrollContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ForsythTheme>{children}</ForsythTheme>
+        <ForsythTheme>
+          <AutoScrollProvider>{children}</AutoScrollProvider>
+        </ForsythTheme>
       </body>
     </html>
   );

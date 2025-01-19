@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, useMediaQuery, Popper, IconButton, Paper } from "@mui/material";
+import {
+  Button,
+  Box,
+  useMediaQuery,
+  Popper,
+  IconButton,
+  Paper,
+} from "@mui/material";
 
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
@@ -49,7 +56,7 @@ const PaperStack = ({ papers }) => {
         position: "relative",
         height: "70vh",
         width: "100vw",
-        p : 2
+        p: 2,
       }}
     >
       {Object.keys(stack).length <= 0 && (
@@ -83,19 +90,19 @@ const PaperStack = ({ papers }) => {
       {/* Show dots on the side of the screen with the names of the dismissed files */}
 
       {/* If it is small, show an icon that the user can click that uses a popper to recover the dismissed papers */}
-      {(
+      {
         <IconButton
           sx={{
             position: "absolute",
             bottom: "2%",
             right: "2%",
-            backgroundColor: "primary.main",   
+            backgroundColor: "primary.main",
           }}
           onClick={(event) => setAnchor(anchor ? null : event.currentTarget)}
         >
-          <ReceiptLongIcon sx = {{color: "white"}}/>
+          <ReceiptLongIcon sx={{ color: "white" }} />
         </IconButton>
-      )}
+      }
 
       <Popper
         open={Boolean(anchor)}

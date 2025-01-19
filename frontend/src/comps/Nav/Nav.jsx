@@ -10,15 +10,19 @@ import {
   Tooltip,
   IconButton,
   Stack,
+  Switch,
 } from "@mui/material";
 
 // import the theme provider context
 import { DarkmodeContext } from "@/contexts/ThemeProvider.jsx";
+import { AutoScrollContext } from "@/contexts/AutoScrollContext.jsx";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 export default function Navigation() {
   const { isDark } = React.useContext(DarkmodeContext);
+  const { enableAutoScroll, setEnableAutoScroll } =
+    React.useContext(AutoScrollContext);
 
   // scroll to the top of the page
   const scrollToTop = () => {
@@ -37,7 +41,15 @@ export default function Navigation() {
           bgcolor: "background.default",
         }}
       >
-        <DarkModeSwitch />
+        <Stack direction={"row"} spacing={2}>
+          <DarkModeSwitch />
+          <Tooltip title="Toggle scroll lock" placement="bottom">
+            <Switch
+              checked={enableAutoScroll}
+              onChange={() => setEnableAutoScroll(!enableAutoScroll)}
+            />
+          </Tooltip>
+        </Stack>
         <Box sx={{ cursor: "pointer" }} onClick={scrollToTop}>
           {isDark && (
             <img

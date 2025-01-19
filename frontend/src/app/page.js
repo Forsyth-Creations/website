@@ -2,7 +2,7 @@
 
 import WithNav from "@/comps/PageWrappers/WithNav.jsx";
 import Art from "@/comps/Art/StandardArt.jsx";
-import WholeScreen, { useAdjustScroll } from "@/comps/Frames/WholeScreen";
+import WholeScreen from "@/comps/Frames/WholeScreen";
 import Contact from "@/comps/Toolbox/Contact";
 import WhoAmI from "@/comps/Toolbox/WhoAmI";
 import WorkExperience from "@/comps/Toolbox/WorkExperience";
@@ -14,8 +14,6 @@ import { FaDiscord } from "react-icons/fa";
 import { Button, Stack, Typography } from "@mui/material";
 
 export default function Home() {
-  useAdjustScroll();
-
   return (
     <WithNav>
       <WholeScreen>

@@ -25,7 +25,9 @@ const Projects = () => {
     return (
       <WholeScreen>
         <Box sx={{ width: "100%", width: "100%" }}>
-          <Button sx ={{ml : 3}} onClick={() => setViewMode("list")}>View as List</Button>
+          <Button sx={{ ml: 3 }} onClick={() => setViewMode("list")}>
+            View as List
+          </Button>
           <PaperStack papers={papers} />
         </Box>
       </WholeScreen>
