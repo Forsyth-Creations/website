@@ -1,7 +1,4 @@
-*.gem
-.bundle
-.sass-cache
-_site
-Gemfile.lock
-.idea
-.DS_Store
+# Ignore the node modules
+node_modules
+out
+.next
