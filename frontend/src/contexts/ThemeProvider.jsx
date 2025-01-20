@@ -179,7 +179,7 @@ export function DarkmodeWrapper(props) {
   // if they do, set the dark mode to their preference
 
   useEffect(() => {
-    const isDark = getCookie("isDark") === "true" ? true : false;
+    const isDark = getCookie("isDark") !== undefined ? getCookie("isDark") === "true" : true;
     setIsDarkFinal(isDark);
   }, []);
 
