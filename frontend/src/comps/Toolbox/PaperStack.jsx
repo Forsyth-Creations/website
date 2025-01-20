@@ -1,170 +1,133 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Box,
-  useMediaQuery,
-  Popper,
-  IconButton,
-  Paper,
-} from "@mui/material";
+import { Button, Box, Paper, Stack } from "@mui/material";
 
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+// pause and play button Mui icons
+import { PlayArrow, Pause } from "@mui/icons-material";
 
 const PaperStack = ({ papers }) => {
   const [stack, setStack] = useState(papers);
-  const [dismissedPapers, setDismissedPapers] = useState({});
-  const [animatingIndex, setAnimatingIndex] = useState(null);
-  const [anchor, setAnchor] = useState(null);
+  const [animating, setAnimating] = useState(false); // Tracks animation status
+  const [hovered, setHovered] = useState(false); // Tracks hover state for the entire stack
+  const [paused, setPaused] = useState(false); // Tracks pause state for the entire stack
 
-  const retrievePaperFromDismissed = (key) => {
-    setStack((prev) => {
-      return { [key]: dismissedPapers[key], ...prev };
-    });
+  // Rotate top paper to the back every 5 seconds
+  useEffect(() => {
+    if (animating || hovered || paused) return; // Skip if animation is ongoing or stack is hovered
+    const interval = setInterval(() => {
+      if (Object.keys(stack).length > 0) {
+        setAnimating(true); // Lock during animation
+        const keys = Object.keys(stack);
+        const topKey = keys[0];
+        const topValue = stack[topKey];
 
-    setDismissedPapers((prev) => {
-      const newDismissed = { ...prev };
-      delete newDismissed[key];
-      return newDismissed;
-    });
-  };
+        const newStack = { ...stack };
+        delete newStack[topKey];
+        setStack({ ...newStack, [topKey]: topValue }); // Move top paper to the back
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [stack, animating, hovered, paused]);
 
   const resetStack = () => {
     setStack(papers);
-    setDismissedPapers({});
-    setAnimatingIndex(null);
+    setAnimating(false);
   };
 
-  const handleAnimationEnd = (key_value) => {
-    setAnimatingIndex(null);
-    // the dismissedPapers is a dict
-    setDismissedPapers((prev) => {
-      return { ...prev, [key_value]: stack[key_value] };
-    });
+  const handleAnimationEnd = () => {
+    setAnimating(false); // Allow next animation
+  };
 
-    // remove the paper from the stack
-    setStack((prev) => {
-      const newStack = { ...prev };
-      delete newStack[key_value];
-      return newStack;
-    });
+  const handleHover = (isHovered) => {
+    setHovered(isHovered);
+  };
+
+  const handleClick = () => {
+    if (animating) return; // Skip if animation is ongoing
+    console.log(`Clicked on paper stack`);
+
+    // Rotate top paper to the back
+    if (Object.keys(stack).length > 0) {
+      setAnimating(true); // Lock during animation
+      const keys = Object.keys(stack);
+      const topKey = keys[0];
+      const topValue = stack[topKey];
+
+      const newStack = { ...stack };
+      delete newStack[topKey];
+      setStack({ ...newStack, [topKey]: topValue }); // Move top paper to the back
+    }
   };
 
   return (
-    <Box
+    <Stack
       id="paper_stack"
       sx={{
         position: "relative",
         height: "70vh",
         width: "100vw",
-        p: 2,
+        ml: 5,
       }}
     >
-      {Object.keys(stack).length <= 0 && (
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-          onClick={resetStack}
-        >
-          Reset Stack
-        </Button>
-      )}
-      {/* Active stack */}
-      {Object.entries(stack).map(([key, paper], index) => (
-        <SinglePaperFlyaway
-          key_value={key}
-          key={key}
-          paper={paper}
-          dismissed={dismissedPapers[key]}
-          onAnimationEnd={handleAnimationEnd}
-          index={index}
-          setAnimatingIndex={setAnimatingIndex}
-        />
-      ))}
-
-      {/* Show dots on the side of the screen with the names of the dismissed files */}
-
-      {/* If it is small, show an icon that the user can click that uses a popper to recover the dismissed papers */}
-      {
-        <IconButton
-          sx={{
-            position: "absolute",
-            bottom: "2%",
-            right: "2%",
-            backgroundColor: "primary.main",
-          }}
-          onClick={(event) => setAnchor(anchor ? null : event.currentTarget)}
-        >
-          <ReceiptLongIcon sx={{ color: "white" }} />
-        </IconButton>
-      }
-
-      <Popper
-        open={Boolean(anchor)}
-        anchorEl={anchor}
-        placement="top"
+      <Box
         sx={{
-          zIndex: 100,
+          height: "100%",
         }}
+        onMouseEnter={() => handleHover(true)}
+        onMouseLeave={() => handleHover(false)}
+        onClick={handleClick}
       >
-        <Paper
-          sx={{
-            padding: "5px",
-            borderRadius: "5px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          {Object.entries(dismissedPapers).map(([key, paper]) => (
-            <Box
-              key={key}
-              sx={{
-                padding: "5px",
-                borderRadius: "5px",
-                marginBottom: "5px",
-                cursor: "pointer",
-              }}
-              onClick={() => retrievePaperFromDismissed(key)}
-            >
-              {key}
-            </Box>
-          ))}
-        </Paper>
-      </Popper>
-    </Box>
+        {Object.entries(stack).map(([key, paper], index) => (
+          <SinglePaperFlyaway
+            key_value={key}
+            key={key}
+            paper={paper}
+            onAnimationEnd={handleAnimationEnd}
+            index={index}
+            sx={hovered || paused ? { transform: `scale(${1.05})` } : {}}
+          />
+        ))}
+      </Box>
+      {/* Pause and Play */}
+
+      <Stack direction="row" spacing={2}>
+        {paused ? (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<PlayArrow />}
+            onClick={() => setPaused(false)}
+          >
+            Play
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<Pause />}
+            onClick={() => setPaused(true)}
+          >
+            Pause
+          </Button>
+        )}
+      </Stack>
+    </Stack>
   );
 };
 
-const SinglePaperFlyaway = ({
-  paper,
-  dismissed,
-  onAnimationEnd,
-  key_value,
-  setAnimatingIndex,
-  index,
-}) => {
+const SinglePaperFlyaway = ({ paper, onAnimationEnd, index, sx }) => {
   const [flyAway, setFlyAway] = useState(false);
 
   useEffect(() => {
-    if (dismissed) {
+    if (index === 0) {
       setFlyAway(true);
-      setAnimatingIndex(key_value);
+    } else {
+      setFlyAway(false);
     }
-  }, [dismissed, key_value, setAnimatingIndex]);
+  }, [index]);
 
   const handleAnimationEnd = () => {
     if (flyAway) {
-      onAnimationEnd(key_value);
-    }
-  };
-
-  const handleClick = () => {
-    if (!flyAway) {
-      setFlyAway(true);
+      onAnimationEnd();
     }
   };
 
@@ -182,12 +145,18 @@ const SinglePaperFlyaway = ({
         justifyContent: "center",
         zIndex: -index,
         cursor: "pointer",
-        width: "90vw",
+        width: "70vw",
+        // pl : 4,
+        ...sx,
       }}
       onTransitionEnd={handleAnimationEnd}
-      onClick={handleClick}
     >
-      {paper}
+      <Paper
+        sx={{ width: "100%", height: "100%", minHeight: "60vh" }}
+        variant="outlined"
+      >
+        {paper}
+      </Paper>
     </Box>
   );
 };
