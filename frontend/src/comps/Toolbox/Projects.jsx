@@ -1,23 +1,32 @@
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import PaperStack from "@/comps/Toolbox/PaperStack";
+import ProjectStack from "@/comps/Toolbox/PaperStack";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import WholeScreen, { useAdjustScroll } from "@/comps/Frames/WholeScreen";
+import WholeScreen from "@/comps/Frames/WholeScreen";
 
 const Projects = () => {
   const [viewMode, setViewMode] = useState("stack");
 
   const papers = {
     "Project 1": (
-      <Project title="Project 1" description="This is the first project." />
+      <ProjectContents
+        title="Project 1"
+        description="This is the first project."
+      />
     ),
     "Project 2": (
-      <Project title="Project 2" description="This is the second project." />
+      <ProjectContents
+        title="Project 2"
+        description="This is the second project."
+      />
     ),
     "Project 3": (
-      <Project title="Project 3" description="This is the third project." />
+      <ProjectContents
+        title="Project 3"
+        description="This is the third project."
+      />
     ),
   };
 
@@ -28,7 +37,7 @@ const Projects = () => {
           <Button sx={{ ml: 3 }} onClick={() => setViewMode("list")}>
             View as List
           </Button>
-          <PaperStack papers={papers} />
+          <ProjectStack papers={papers} />
         </Box>
       </WholeScreen>
     );
@@ -53,11 +62,11 @@ const Projects = () => {
   );
 };
 
-const Project = ({ title, description }) => {
+const ProjectContents = ({ title, description }) => {
   return (
-    <Paper
+    <Box
       variant="outlined"
-      sx={{ height: "70vh", width: "100%", p: 2, borderRadius: 2 }}
+      sx={{ height: "60vh", width: "100%", p: 2, borderRadius: 2 }}
     >
       <Typography variant="h5" component="h2">
         {title}
@@ -65,7 +74,7 @@ const Project = ({ title, description }) => {
       <Typography variant="body1" component="p">
         {description}
       </Typography>
-    </Paper>
+    </Box>
   );
 };
 

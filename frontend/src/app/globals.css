@@ -57,16 +57,3 @@ a {
 html {
   scroll-behavior: smooth;
 }
-
-.paper {
-  transform: translateX(0);
-  opacity: 1;
-  transition:
-    transform 1s ease,
-    opacity 0.3s ease; /* Match the transition duration */
-}
-
-.paper.dismiss {
-  transform: translateX(200%); /* Move out of view */
-  opacity: 0; /* Fade out */
-}
