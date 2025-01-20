@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, Paper } from "@mui/material";
+import { Button, Box, Paper, Stack } from "@mui/material";
+
+// pause and play button Mui icons
+import { PlayArrow, Pause } from "@mui/icons-material";
 
 const PaperStack = ({ papers }) => {
   const [stack, setStack] = useState(papers);
   const [animating, setAnimating] = useState(false); // Tracks animation status
   const [hovered, setHovered] = useState(false); // Tracks hover state for the entire stack
+  const [paused, setPaused] = useState(false); // Tracks pause state for the entire stack
 
   // Rotate top paper to the back every 5 seconds
   useEffect(() => {
-    if (animating || hovered) return; // Skip if animation is ongoing or stack is hovered
+    if (animating || hovered || paused) return; // Skip if animation is ongoing or stack is hovered
     const interval = setInterval(() => {
       if (Object.keys(stack).length > 0) {
         setAnimating(true); // Lock during animation
@@ -22,7 +26,7 @@ const PaperStack = ({ papers }) => {
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [stack, animating, hovered]);
+  }, [stack, animating, hovered, paused]);
 
   const resetStack = () => {
     setStack(papers);
@@ -55,29 +59,15 @@ const PaperStack = ({ papers }) => {
   };
 
   return (
-    <Box
+    <Stack
       id="paper_stack"
       sx={{
         position: "relative",
         height: "70vh",
         width: "100vw",
+        ml: 5,
       }}
     >
-      {Object.keys(stack).length === 0 && (
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-          onClick={resetStack}
-        >
-          Reset Stack
-        </Button>
-      )}
       <Box
         sx={{
           height: "100%",
@@ -93,11 +83,34 @@ const PaperStack = ({ papers }) => {
             paper={paper}
             onAnimationEnd={handleAnimationEnd}
             index={index}
-            sx={hovered ? { transform: `scale(${1.05})` } : {}}
+            sx={hovered || paused ? { transform: `scale(${1.05})` } : {}}
           />
         ))}
       </Box>
-    </Box>
+      {/* Pause and Play */}
+
+      <Stack direction="row" spacing={2}>
+        {paused ? (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<PlayArrow />}
+            onClick={() => setPaused(false)}
+          >
+            Play
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<Pause />}
+            onClick={() => setPaused(true)}
+          >
+            Pause
+          </Button>
+        )}
+      </Stack>
+    </Stack>
   );
 };
 
@@ -138,7 +151,12 @@ const SinglePaperFlyaway = ({ paper, onAnimationEnd, index, sx }) => {
       }}
       onTransitionEnd={handleAnimationEnd}
     >
-      <Paper sx={{ width: "100%", height: "100%" }}>{paper}</Paper>
+      <Paper
+        sx={{ width: "100%", height: "100%", minHeight: "60vh" }}
+        variant="outlined"
+      >
+        {paper}
+      </Paper>
     </Box>
   );
 };

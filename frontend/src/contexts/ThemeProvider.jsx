@@ -10,6 +10,7 @@ import { deepOrange, grey } from "@mui/material/colors";
 
 import { setCookie, getCookie } from "cookies-next";
 import { LinearProgress } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 export const brand = {
   // Blue shades (original palette)
@@ -216,6 +217,14 @@ function ModifiedThemeProvider(props) {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <CssBaseline />
+      <ToastContainer
+        stacked
+        limit={3}
+        // Darkmode toast styling
+        autoClose={2000}
+        pauseOnFocusLoss
+        theme={isDark ? "dark" : "light"}
+      />
       {props.children}
     </ThemeProvider>
   );
