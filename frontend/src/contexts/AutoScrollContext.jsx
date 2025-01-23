@@ -63,8 +63,6 @@ export const AutoScrollProvider = ({ children }) => {
   const scrollTimeout = useRef(null);
   const scrollDuration = 500; // Adjust duration for smooth scroll
 
-
-
   useEffect(() => {
     // Detect user-initiated scrolling
     const handleUserScroll = () => {
