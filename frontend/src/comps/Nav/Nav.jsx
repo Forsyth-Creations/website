@@ -25,8 +25,14 @@ export default function Navigation() {
     React.useContext(AutoScrollContext);
 
   // scroll to the top of the page
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
+  const FullHome = () => {
+    if (window === undefined) return;
+
+    if (window.location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
+    } else {
+      window.location.href = "/"; // This navigates to the home page
+    }
   };
 
   return (
@@ -50,7 +56,7 @@ export default function Navigation() {
             />
           </Tooltip>
         </Stack>
-        <Box sx={{ cursor: "pointer" }} onClick={scrollToTop}>
+        <Box sx={{ cursor: "pointer" }} onClick={FullHome}>
           {isDark && (
             <img
               src={"/forsyth/Branding/Name_White.svg"}

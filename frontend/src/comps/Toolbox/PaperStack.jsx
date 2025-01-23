@@ -5,32 +5,65 @@ import { Button, Box, Paper, Stack } from "@mui/material";
 import { PlayArrow, Pause } from "@mui/icons-material";
 
 const PaperStack = ({ papers }) => {
-  const [stack, setStack] = useState(papers);
-  const [animating, setAnimating] = useState(false); // Tracks animation status
-  const [hovered, setHovered] = useState(false); // Tracks hover state for the entire stack
-  const [paused, setPaused] = useState(false); // Tracks pause state for the entire stack
+  const [stack, setStack] = useState({});
+  const [holder, setHolder] = useState(null); // this is the top element
+  const [animating, setAnimating] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  // whenever papers changes, update the stack and holder
+  useEffect(() => {
+    if (Object.keys(papers).length > 1) {
+      // set the stack to every entry except the first one
+      const keys = Object.keys(papers);
+      const firstKey = keys[0];
+      const firstValue = papers[firstKey];
+
+      const newStack = { ...papers };
+      delete newStack[firstKey];
+
+      setStack(newStack);
+      setHolder({ [firstKey]: firstValue });
+    }
+  }, [papers]);
 
   // Rotate top paper to the back every 5 seconds
   useEffect(() => {
-    if (animating || hovered || paused) return; // Skip if animation is ongoing or stack is hovered
+    if (animating || hovered || paused) return;
+
     const interval = setInterval(() => {
-      if (Object.keys(stack).length > 0) {
-        setAnimating(true); // Lock during animation
-        const keys = Object.keys(stack);
-        const topKey = keys[0];
-        const topValue = stack[topKey];
+      rotateTopPaperToBack();
+    }, 3000);
 
-        const newStack = { ...stack };
-        delete newStack[topKey];
-        setStack({ ...newStack, [topKey]: topValue }); // Move top paper to the back
-      }
-    }, 5000);
     return () => clearInterval(interval);
-  }, [stack, animating, hovered, paused]);
+  }, [animating, hovered, paused, stack]);
 
-  const resetStack = () => {
-    setStack(papers);
-    setAnimating(false);
+  const rotateTopPaperToBack = () => {
+    if (Object.keys(stack).length > 0) {
+      setAnimating(true); // Lock animation
+
+      // after the animation is done, move the top paper to the back and set the new top paper
+      setTimeout(() => {
+        const newStack = { ...stack };
+        const newHolder = { ...holder };
+
+        const keys = Object.keys(holder);
+        const key = keys[0];
+        const value = holder[key];
+
+        delete newHolder[key];
+        newStack[key] = value;
+
+        const nextKey = Object.keys(newStack)[0];
+        const nextValue = newStack[nextKey];
+        delete newStack[nextKey];
+        newHolder[nextKey] = nextValue;
+
+        setStack(newStack);
+        setHolder(newHolder);
+        setAnimating(false); // Unlock animation
+      }, 500); // Adjust the timeout duration as needed
+    }
   };
 
   const handleAnimationEnd = () => {
@@ -42,20 +75,10 @@ const PaperStack = ({ papers }) => {
   };
 
   const handleClick = () => {
-    if (animating) return; // Skip if animation is ongoing
+    if (animating) return;
+
     console.log(`Clicked on paper stack`);
-
-    // Rotate top paper to the back
-    if (Object.keys(stack).length > 0) {
-      setAnimating(true); // Lock during animation
-      const keys = Object.keys(stack);
-      const topKey = keys[0];
-      const topValue = stack[topKey];
-
-      const newStack = { ...stack };
-      delete newStack[topKey];
-      setStack({ ...newStack, [topKey]: topValue }); // Move top paper to the back
-    }
+    rotateTopPaperToBack(0); // Rotate the top paper on click
   };
 
   return (
@@ -76,7 +99,10 @@ const PaperStack = ({ papers }) => {
         onMouseLeave={() => handleHover(false)}
         onClick={handleClick}
       >
-        {Object.entries(stack).map(([key, paper], index) => (
+        {[
+          ...(holder ? Object.entries(holder) : []),
+          ...Object.entries(stack),
+        ].map(([key, paper], index) => (
           <SinglePaperFlyaway
             key_value={key}
             key={key}
@@ -84,11 +110,12 @@ const PaperStack = ({ papers }) => {
             onAnimationEnd={handleAnimationEnd}
             index={index}
             sx={hovered || paused ? { transform: `scale(${1.05})` } : {}}
+            isAnimating={index === 0 && animating}
           />
         ))}
       </Box>
-      {/* Pause and Play */}
 
+      {/* Pause and Play */}
       <Stack direction="row" spacing={2}>
         {paused ? (
           <Button
@@ -114,16 +141,22 @@ const PaperStack = ({ papers }) => {
   );
 };
 
-const SinglePaperFlyaway = ({ paper, onAnimationEnd, index, sx }) => {
+const SinglePaperFlyaway = ({
+  paper,
+  onAnimationEnd,
+  index,
+  sx,
+  isAnimating,
+}) => {
   const [flyAway, setFlyAway] = useState(false);
 
   useEffect(() => {
-    if (index === 0) {
+    if (isAnimating) {
       setFlyAway(true);
     } else {
       setFlyAway(false);
     }
-  }, [index]);
+  }, [isAnimating]);
 
   const handleAnimationEnd = () => {
     if (flyAway) {
@@ -139,20 +172,24 @@ const SinglePaperFlyaway = ({ paper, onAnimationEnd, index, sx }) => {
         left: `${10 - index * 10}px`,
         transition: "transform 1s ease, opacity 0.5s ease",
         transform: flyAway ? "translateX(200%)" : "translateX(0)",
-        opacity: flyAway ? 0 : 1,
+        opacity: index === 0 ? (flyAway ? 0 : 1) : 0.1,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         zIndex: -index,
         cursor: "pointer",
         width: "70vw",
-        // pl : 4,
         ...sx,
       }}
       onTransitionEnd={handleAnimationEnd}
     >
       <Paper
-        sx={{ width: "100%", height: "100%", minHeight: "60vh" }}
+        sx={{
+          width: "100%",
+          height: "100%",
+          minHeight: "60vh",
+          border: isAnimating ? "1px solid green" : null,
+        }}
         variant="outlined"
       >
         {paper}
