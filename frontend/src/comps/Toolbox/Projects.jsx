@@ -10,6 +10,13 @@ const Projects = () => {
   const [viewMode, setViewMode] = useState("stack");
 
   const papers = {
+    Padua: (
+      <ProjectContents
+        title="Padua Software"
+        description="Padua is a software that I developed to help me manage my lab inventory. It has quickly evolved to include a database of all my projects, and a way to track my progress on them. It is written in Python, Javascript (Nextjs) and uses a MongoDB database."
+        imageSrc="/forsyth/Projects/Padua.png"
+      />
+    ),
     Drones: (
       <ProjectContents
         title="Senior Capstone: Autonomous Drones"
@@ -114,7 +121,7 @@ const ProjectContents = ({ title, description, imageSrc, buttonLink }) => {
           alt={title}
           sx={{
             width: isSmall ? "70%" : "30%",
-            height: "auto",
+            width: isSmall ? "20vh" : "auto",
             borderRadius: 2,
             objectFit: "cover",
           }}

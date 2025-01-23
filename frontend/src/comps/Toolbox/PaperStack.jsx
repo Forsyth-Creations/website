@@ -172,14 +172,13 @@ const SinglePaperFlyaway = ({
         left: `${10 - index * 10}px`,
         transition: "transform 1s ease, opacity 0.5s ease",
         transform: flyAway ? "translateX(200%)" : "translateX(0)",
-        opacity: flyAway ? 0 : 1,
+        opacity: index === 0 ? (flyAway ? 0 : 1) : 0.1,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         zIndex: -index,
         cursor: "pointer",
         width: "70vw",
-        // pl : 4,
         ...sx,
       }}
       onTransitionEnd={handleAnimationEnd}
