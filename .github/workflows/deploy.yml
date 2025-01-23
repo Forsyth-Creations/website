@@ -50,9 +50,8 @@ jobs:
       - name: Static HTML export with Next.js
         run: cd frontend && npm run build
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
           path: ./frontend/out
 
   # Deployment job
