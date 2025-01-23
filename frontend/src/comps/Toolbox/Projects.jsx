@@ -41,7 +41,7 @@ const Projects = () => {
     ),
     Design: (
       <ProjectContents
-        title="Free Lance 3D printing"
+        title="Freelance 3D printing"
         description="As apart of Forsyth Creations, I take commissioned 3D printing projects. I have made custom parts for drones, custom phone stands, custom parts for 3D printers, and this model of a home"
         imageSrc="/forsyth/Projects/Home.png"
       />

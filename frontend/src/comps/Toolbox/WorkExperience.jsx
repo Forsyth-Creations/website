@@ -6,6 +6,7 @@ import {
   Typography,
   ToggleButton,
   Stack,
+  Button,
   useMediaQuery,
 } from "@mui/material";
 
@@ -18,36 +19,42 @@ export default function WorkExperience() {
       image: "/forsyth/Achieve/Torc.png",
       description:
         "Torc is an autonomous truck company devoted to making the highways safer through robotic assistance. They specialize in 18 wheelers, implementing LIDAR and cameras for better control. For the entire 2022 school year, I have had the pleasure of learning from their engineers, take on new tasks as well as work on full-stack web development. This is something that was foreign to me, but Torc gave me the flexibility to learn in every aspect where I was lacking knowledge. Pushing the limits of my knowledge is something I find wonderfully exhausting. It takes focus and dedication, all of which have been instilled within me at Torc.",
+      link: "https://torc.ai/",
     },
     {
       name: "University of Virginia",
       image: "/forsyth/Achieve/uva.jpg",
       description:
         "This was one of the greatest experiences of my early career. After being a part of an engineering pilot program in 8th grade, I had the pleasure of meeting Dr. Bull at UVA. Like any professor, I could tell he was driven to succeed in his research. Not only that, he cared for the success of his students. That mix makes him an incredible force for good. Under him, I was encouraged to learn CAD, code, and a myriad of other skills. He connected me with his colleagues, such as Dr. Littman of Princeton, as well as employees James Rutter and Jo Watt, to develop engineering teaching aids based on 19th-century technology (telegraph, linear motor, speaker, etc). I worked under them for about 6 years, and don’t regret a single moment.",
+      link: "https://maketolearn.org/",
     },
     {
       name: "Batlab at Virginia Tech",
       image: "/forsyth/Achieve/vt.jpg",
       description:
         "In this position, I worked with the BatLab to research devices that would mimic the horseshoe bat. With their impressive echolocation abilities, my team was interested in reproducing a facsimile for advanced sound-based 3D imaging and perception. This led the team in many directions. My job was mainly in system integration, where I linked the physical hardware and PCBs to the Python and MatLab-generated deep-learning model.",
+      link: "https://news.vt.edu/articles/2021/04/me-research-batear.html",
     },
     {
       name: "GTA at Virginia Tech",
       image: "/forsyth/Achieve/Whittemore.png",
       description:
         "In this position, I helped students and professors manage the Senior Capstone projects, providing guidance and support throughout the process. I also assisted in grading and provided feedback on project deliverables.",
+      link: "https://ece.vt.edu/",
     },
     {
       name: "Amp Lab at Virginia Tech",
       image: "/forsyth/Achieve/Whittemore.png",
       description:
         "The Amp Lab at Virginia Tech is a student led, faculty mentored research group that focuses on the development of personal projects, and mentoring others. I lead this group, and we have worked on projects ranging from a 3D printed multi-agent robotic systems to a PCB design. I have also worked with the group to develop a curriculum for teaching basic electronics and programming to new members.",
+      link: "https://amp-lab.org/",
     },
     {
       name: "Forsyth Creations",
       image: "/forsyth/Achieve/Forsyth.png",
       description:
         "Freelance web development and design. I've worked with clients on projects ranging from small business websites to full-stack applications. My work involves front-end and back-end development, ensuring that the websites are both visually appealing and functional.",
+      link: "https://forsythcreations.com/",
     },
   ];
 
@@ -70,7 +77,7 @@ export default function WorkExperience() {
         height: "100vh",
         overflow: "hidden",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
       }}
     >
@@ -94,12 +101,12 @@ export default function WorkExperience() {
 
       {/* Content */}
       <Box sx={{ p: 3, position: "relative", zIndex: 1, height: "80vh" }}>
-        <Typography variant="h4" align="center" sx={{ mb: 3 }}>
+        <Typography variant="h4" align="left" sx={{ mb: 3 }}>
           Experience
         </Typography>
 
         {/* Toggle Buttons */}
-        <Stack direction="row" justifyContent="center" flexWrap={"wrap"}>
+        <Stack direction="row" justifyContent="flex-start" flexWrap={"wrap"}>
           {experiences.map((exp) => (
             <ToggleButton
               key={exp.name}
@@ -141,10 +148,20 @@ export default function WorkExperience() {
             overflowY: "auto",
           }}
         >
-          <Stack>
+          <Stack justifyContent={"flex-start"} alignItems={"flex-start"}>
             <Typography variant="h3" sx={{ color: "white" }}>
               {selected.name}
             </Typography>
+            {/* If there is a link, provide a button */}
+            {selected.link && (
+              <Button
+                href={selected.link}
+                target="_blank"
+                sx={{ color: "white" }}
+              >
+                Learn More
+              </Button>
+            )}
             <Typography mt={1} sx={{ color: "white", fontSize: "1.2rem" }}>
               {selected.description}
             </Typography>
