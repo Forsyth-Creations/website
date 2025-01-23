@@ -11,7 +11,6 @@ import {
   Paper,
   Tooltip,
 } from "@mui/material";
-import { Download as DownloadIcon } from "@mui/icons-material";
 import WithNav from "@/comps/PageWrappers/WithNav.jsx";
 import { toast } from "react-toastify";
 

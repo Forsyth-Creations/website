@@ -1,6 +1,6 @@
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Box, useMediaQuery, Stack } from "@mui/material";
 import ProjectStack from "@/comps/Toolbox/PaperStack";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
@@ -10,21 +10,21 @@ const Projects = () => {
   const [viewMode, setViewMode] = useState("stack");
 
   const papers = {
-    "Project 1": (
-      <ProjectContents
-        title="Custom Stairs for Home Garden"
-        description="For this project, I sourced retaining wall block, and cut it with a diamond blade to create custom stairs for a home garden."
-        imageSrc="/forsyth/Projects/Stairs.png"
-      />
-    ),
-    "Project 2": (
+    Drones: (
       <ProjectContents
         title="Senior Capstone: Autonomous Drones"
         description="Partnering with Anduril, I lead a team of 5 to develop a drone that could autonomously navigate a room, ingest visual datawith YOLOv8, and output human-readible text (Llama LLM) to describe the room"
         imageSrc="/forsyth/Projects/Drones.png"
       />
     ),
-    "Project 3": (
+    Garden: (
+      <ProjectContents
+        title="Custom Stairs for Home Garden"
+        description="For this project, I sourced retaining wall block, and cut it with a diamond blade to create custom stairs for a home garden."
+        imageSrc="/forsyth/Projects/Stairs.png"
+      />
+    ),
+    Hermes: (
       <ProjectContents
         title="Project Hermes"
         description="Hermes is a custom made, 3D printed and metal cut, swerve drive robot. Operating with ROS2 (Humble), Hermes is capable of autonomously navigating. His simulation environment is Gazebo. See more about him at his Github page."
@@ -32,12 +32,11 @@ const Projects = () => {
         buttonLink="https://github.com/Forsyth-Creations/ros_rigor"
       />
     ),
-    "Project 4": (
+    Design: (
       <ProjectContents
         title="Free Lance 3D printing"
         description="As apart of Forsyth Creations, I take commissioned 3D printing projects. I have made custom parts for drones, custom phone stands, custom parts for 3D printers, and this model of a home"
         imageSrc="/forsyth/Projects/Home.png"
-        buttonLink="https://github.com/Forsyth-Creations/ros_rigor"
       />
     ),
   };
@@ -104,25 +103,17 @@ const Projects = () => {
 };
 
 const ProjectContents = ({ title, description, imageSrc, buttonLink }) => {
+  const isSmall = useMediaQuery("(max-width: 600px)");
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-        p: 2,
-        borderRadius: 2,
-        height: "auto",
-        width: "100%",
-      }}
-    >
+    <Stack direction={isSmall ? "column" : "row"} spacing={2} sx={{ p: 2 }}>
       {imageSrc && (
         <Box
           component="img"
           src={imageSrc}
           alt={title}
           sx={{
-            width: "30%",
+            width: isSmall ? "70%" : "30%",
             height: "auto",
             borderRadius: 2,
             objectFit: "cover",
@@ -148,7 +139,7 @@ const ProjectContents = ({ title, description, imageSrc, buttonLink }) => {
           </Button>
         )}
       </Box>
-    </Box>
+    </Stack>
   );
 };
 

@@ -27,7 +27,7 @@ export default function Navigation() {
   // scroll to the top of the page
   const FullHome = () => {
     if (window === undefined) return;
-    
+
     if (window.location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
     } else {
