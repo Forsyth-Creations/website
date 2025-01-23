@@ -121,7 +121,7 @@ const ProjectContents = ({ title, description, imageSrc, buttonLink }) => {
           alt={title}
           sx={{
             width: isSmall ? "70%" : "30%",
-            width: isSmall ? "20vh" : "auto",
+            height: isSmall ? "20vh" : "auto",
             borderRadius: 2,
             objectFit: "cover",
           }}
