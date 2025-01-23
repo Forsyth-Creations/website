@@ -11,53 +11,53 @@ import {
   Paper,
   Tooltip,
 } from "@mui/material";
+import { Download as DownloadIcon } from "@mui/icons-material";
 import WithNav from "@/comps/PageWrappers/WithNav.jsx";
 import { toast } from "react-toastify";
 
-// const ImageAndDownload = ({ src, alt, width }) => (
-//   <Stack
-//     direction="row"
-//     spacing={2}
-//     alignItems="center"
-//     sx={{ width: "100%", p : 4 }}
-//     justifyContent={"center"}
-//     component={Paper}
-//     variant="outlined"
-//   >
-//     <a href={src} download>
-//       <img src={src} alt={alt} style={{ width : width }} />
-//     </a>
-//   </Stack>
-// );
+const ImageAndDownload = ({ src, alt, width }) => (
+  <Stack
+    direction="row"
+    spacing={2}
+    alignItems="center"
+    sx={{ width: "100%", p: 4 }}
+    justifyContent={"center"}
+    component={Paper}
+    variant="outlined"
+  >
+    <a href={src} download>
+      <img src={src} alt={alt} style={{ width: width }} />
+    </a>
+  </Stack>
+);
 
-// const ColorSwatch = ({ colors }) => {
+const ColorSwatch = ({ colors }) => {
+  const handleCopy = (color) => {
+    navigator.clipboard.writeText(color);
+    toast.info(`Copied ${color} to clipboard`);
+  };
 
-//   const handleCopy = (color) => {
-//     navigator.clipboard.writeText(color);
-//     toast.info(`Copied ${color} to clipboard`);
-//   };
-
-//   return (
-//     <Grid container spacing={2}>
-//       {colors.map((color) => (
-//         <Grid item key={color}>
-//           <Tooltip title={color} arrow>
-//             <Box
-//               onClick={() => handleCopy(color)}
-//               sx={{
-//                 backgroundColor: color,
-//                 width: "100px",
-//                 height: "100px",
-//                 borderRadius: "50%",
-//                 cursor: "pointer",
-//               }}
-//             ></Box>
-//           </Tooltip>
-//         </Grid>
-//       ))}
-//     </Grid>
-//   );
-// };
+  return (
+    <Grid container spacing={2}>
+      {colors.map((color) => (
+        <Grid item key={color}>
+          <Tooltip title={color} arrow>
+            <Box
+              onClick={() => handleCopy(color)}
+              sx={{
+                backgroundColor: color,
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+            ></Box>
+          </Tooltip>
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
 
 const BrandingPage = () => {
   return (
@@ -72,7 +72,7 @@ const BrandingPage = () => {
             Images
           </Typography>
           <Stack spacing={2}>
-            {/* <ImageAndDownload
+            <ImageAndDownload
               src="/forsyth/Branding/Desktops/BlueStandard.png"
               alt="Logo"
               width="100%"
@@ -81,7 +81,7 @@ const BrandingPage = () => {
               src="/forsyth/Branding/Banner/banner1.png"
               alt="Banner"
               width="100%"
-            /> */}
+            />
           </Stack>
         </Box>
 

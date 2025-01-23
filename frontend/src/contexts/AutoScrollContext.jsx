@@ -21,24 +21,24 @@ export const AutoScrollProvider = ({ children }) => {
 
   // detect when the user changes the zoom value for the page
   useEffect(() => {
-    const handleZoomChange = () => {
-      if (window !== undefined) {
-        const newZoom = window.devicePixelRatio || 1;
-        const zoomThreshold = 0.1; // Define a threshold for zoom change
-        if (Math.abs(newZoom - zoom) > zoomThreshold) {
-          setZoom(newZoom);
-          const previousValue = enableAutoScroll;
-          setEnableAutoScroll(true);
-          toast.info(
-            "We saw you zoomed in! We're going to scroll to better match up the content with your screen.",
-          );
-          // Temporarily enable auto-scroll to adjust the scroll position
+    if (window === undefined) return;
 
-          // Create a timeout to disable auto-scroll after a short delay
-          setTimeout(() => {
-            setEnableAutoScroll(previousValue);
-          }, 3000);
-        }
+    const handleZoomChange = () => {
+      const newZoom = window.devicePixelRatio || 1;
+      const zoomThreshold = 0.1; // Define a threshold for zoom change
+      if (Math.abs(newZoom - zoom) > zoomThreshold) {
+        setZoom(newZoom);
+        const previousValue = enableAutoScroll;
+        setEnableAutoScroll(true);
+        toast.info(
+          "We saw you zoomed in! We're going to scroll to better match up the content with your screen.",
+        );
+        // Temporarily enable auto-scroll to adjust the scroll position
+
+        // Create a timeout to disable auto-scroll after a short delay
+        setTimeout(() => {
+          setEnableAutoScroll(previousValue);
+        }, 3000);
       }
     };
 
@@ -67,6 +67,8 @@ export const AutoScrollProvider = ({ children }) => {
 
   useEffect(() => {
     // Detect user-initiated scrolling
+    if (window === undefined) return;
+
     const handleUserScroll = () => {
       setIsUserScrolling(true);
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
@@ -116,7 +118,7 @@ export const AutoScrollProvider = ({ children }) => {
       window.removeEventListener("scroll", handleUserScroll);
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
-  }, [isUserScrolling, enableAutoScroll, zoom, window.devicePixelRatio]);
+  }, [isUserScrolling, enableAutoScroll, zoom]);
 
   return (
     <AutoScrollContext.Provider
