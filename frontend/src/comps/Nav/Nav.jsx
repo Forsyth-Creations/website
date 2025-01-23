@@ -25,13 +25,15 @@ export default function Navigation() {
     React.useContext(AutoScrollContext);
 
   // scroll to the top of the page
-  const FullHome = () => {
-    if (window.location.pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
-    } else {
-      window.location.href = "/"; // This navigates to the home page
-    }
-  };
+  // const FullHome = () => {
+  //   if (window.location.pathname === "/") {
+  //     window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
+  //   } else {
+  //     window.location.href = "/"; // This navigates to the home page
+  //   }
+  // };
+
+  const FullHome = () => {};
 
   return (
     <AppBar sx={{ position: "fixed", top: 0, width: "100%" }} elevation={0}>

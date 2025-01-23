@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -9,32 +9,29 @@ import {
   Stack,
   IconButton,
   Paper,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Download as DownloadIcon } from "@mui/icons-material";
 import WithNav from "@/comps/PageWrappers/WithNav.jsx";
 import { toast } from "react-toastify";
 
-
-const ImageAndDownload = ({ src, alt, width }) => (
-  <Stack
-    direction="row"
-    spacing={2}
-    alignItems="center"
-    sx={{ width: "100%", p : 4 }}
-    justifyContent={"center"}
-    component={Paper}
-    variant="outlined"
-  >
-    <a href={src} download>
-      <img src={src} alt={alt} style={{ width : width }} />
-    </a>
-  </Stack>
-);
-
+// const ImageAndDownload = ({ src, alt, width }) => (
+//   <Stack
+//     direction="row"
+//     spacing={2}
+//     alignItems="center"
+//     sx={{ width: "100%", p : 4 }}
+//     justifyContent={"center"}
+//     component={Paper}
+//     variant="outlined"
+//   >
+//     <a href={src} download>
+//       <img src={src} alt={alt} style={{ width : width }} />
+//     </a>
+//   </Stack>
+// );
 
 const ColorSwatch = ({ colors }) => {
-
   const handleCopy = (color) => {
     navigator.clipboard.writeText(color);
     toast.info(`Copied ${color} to clipboard`);
@@ -75,7 +72,7 @@ const BrandingPage = () => {
             Images
           </Typography>
           <Stack spacing={2}>
-            <ImageAndDownload
+            {/* <ImageAndDownload
               src="/forsyth/Branding/Desktops/BlueStandard.png"
               alt="Logo"
               width="100%"
@@ -84,7 +81,7 @@ const BrandingPage = () => {
               src="/forsyth/Branding/Banner/banner1.png"
               alt="Banner"
               width="100%"
-            />
+            /> */}
           </Stack>
         </Box>
 
@@ -95,12 +92,13 @@ const BrandingPage = () => {
           <ColorSwatch
             colors={[
               "#204D71",
+              "#3A8DFF",
               "#FFFFFF",
               "#505050",
               "#808080",
               "#F9A825",
             ]}
-            />
+          />
         </Box>
       </Container>
     </WithNav>
