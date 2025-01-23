@@ -11,7 +11,6 @@ import {
   Paper,
   Tooltip,
 } from "@mui/material";
-import { Download as DownloadIcon } from "@mui/icons-material";
 import WithNav from "@/comps/PageWrappers/WithNav.jsx";
 import { toast } from "react-toastify";
 
@@ -31,33 +30,34 @@ import { toast } from "react-toastify";
 //   </Stack>
 // );
 
-const ColorSwatch = ({ colors }) => {
-  const handleCopy = (color) => {
-    navigator.clipboard.writeText(color);
-    toast.info(`Copied ${color} to clipboard`);
-  };
+// const ColorSwatch = ({ colors }) => {
 
-  return (
-    <Grid container spacing={2}>
-      {colors.map((color) => (
-        <Grid item key={color}>
-          <Tooltip title={color} arrow>
-            <Box
-              onClick={() => handleCopy(color)}
-              sx={{
-                backgroundColor: color,
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-            ></Box>
-          </Tooltip>
-        </Grid>
-      ))}
-    </Grid>
-  );
-};
+//   const handleCopy = (color) => {
+//     navigator.clipboard.writeText(color);
+//     toast.info(`Copied ${color} to clipboard`);
+//   };
+
+//   return (
+//     <Grid container spacing={2}>
+//       {colors.map((color) => (
+//         <Grid item key={color}>
+//           <Tooltip title={color} arrow>
+//             <Box
+//               onClick={() => handleCopy(color)}
+//               sx={{
+//                 backgroundColor: color,
+//                 width: "100px",
+//                 height: "100px",
+//                 borderRadius: "50%",
+//                 cursor: "pointer",
+//               }}
+//             ></Box>
+//           </Tooltip>
+//         </Grid>
+//       ))}
+//     </Grid>
+//   );
+// };
 
 const BrandingPage = () => {
   return (
