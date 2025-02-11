@@ -6,14 +6,11 @@ import WholeScreen from "@/comps/Frames/WholeScreen";
 import Contact from "@/comps/Toolbox/Contact";
 import WhoAmI from "@/comps/Toolbox/WhoAmI";
 import WorkExperience from "@/comps/Toolbox/WorkExperience";
+import MoreToSee from "@/comps/Toolbox/MoreToSee";
 import Projects from "@/comps/Toolbox/Projects";
 import axios from "axios";
-
-// discord icon
 import { FaDiscord } from "react-icons/fa";
-
 import { Button, Stack, Typography, Box, Chip } from "@mui/material";
-
 import React from "react";
 
 const BuildStatus = () => {
@@ -37,7 +34,7 @@ const PaduaStatus = ({ api_endpoint }) => {
       .then((response) => {
         setStatus(response.data.message);
       })
-      .catch((error) => {
+      .catch(() => {
         setStatus("error");
       });
   }, [api_endpoint]);
@@ -52,6 +49,35 @@ const PaduaStatus = ({ api_endpoint }) => {
 };
 
 export default function Home() {
+  const [stillOnTop, setStillOnTop] = React.useState(false);
+  const timeoutRef = React.useRef(null);
+
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setStillOnTop(false);
+      clearTimeout(timeoutRef.current);
+    } else {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setStillOnTop(true);
+      }, 2000);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    // Initial timeout in case the user doesn't scroll at all
+    timeoutRef.current = setTimeout(() => {
+      setStillOnTop(true);
+    }, 2000);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
     <WithNav>
       <WholeScreen>
@@ -59,6 +85,7 @@ export default function Home() {
           lightModeSVG={"/forsyth/Branding/Logo_Black.svg"}
           darkModeSVG={"/forsyth/Branding/Logo_White.svg"}
         />
+        <MoreToSee show={stillOnTop} />
       </WholeScreen>
       <WholeScreen>
         <Stack>
