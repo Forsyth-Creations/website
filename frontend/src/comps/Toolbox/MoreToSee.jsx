@@ -50,7 +50,7 @@ const MoreToSee = ({ show }) => {
             animation: `${bobbing} 2s infinite`,
           }}
         >
-          <Stack direction="row" spacing={2} sx = {{alignItems: "center"}}>
+          <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
             <ArrowDownward />
             <Typography variant="h6">Scroll for more!</Typography>
             <ArrowDownward />
