@@ -57,7 +57,7 @@ const SwerveDrivePage = () => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
-    if (window !== undefined) {
+    if (window == undefined) {
       return;
     }
     setRenderedPosition([window.innerWidth / 2, window.innerHeight / 2]);
