@@ -52,13 +52,16 @@ const SwerveDrivePage = () => {
   const [renderedPosition, setRenderedPosition] = useState([0, 0]);
   const [toggleValidationWindow, setToggleValidationWindow] = useState(false);
   const [toggleOdom, setToggleOdom] = useState(false);
+  const [windowCenter, setWindowCenter] = useState([0, 0]);
 
   const isSmall = useMediaQuery("(max-width:900px)");
 
-  const windowCenter = [window.innerWidth / 2, window.innerHeight / 2];
-
   useEffect(() => {
+    if (window !== undefined) {
+      return;
+    }
     setRenderedPosition([window.innerWidth / 2, window.innerHeight / 2]);
+    setWindowCenter([window.innerWidth / 2, window.innerHeight / 2]);
   }, []);
 
   function updatePose() {
@@ -86,6 +89,10 @@ const SwerveDrivePage = () => {
   }, [position, linearVelocity, angularVelocity, paused]);
 
   const handleReset = () => {
+    if (window !== undefined) {
+      setWindowCenter([window.innerWidth / 2, window.innerHeight / 2]);
+    }
+    setWindowCenter([window.innerWidth / 2, window.innerHeight / 2]);
     setRenderedPosition([window.innerWidth / 2, window.innerHeight / 2]);
     setAngularVelocity(0);
     setLinearVelocity([0, 0]);
