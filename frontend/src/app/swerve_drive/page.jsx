@@ -41,6 +41,8 @@ const SwerveDrivePage = () => {
     [0, 0],
   ]);
 
+  const wheelAngles = useRef([0, 0, 0, 0]);
+
   const [paused, setPaused] = useState(false);
   const [frequency, setFrequency] = useState(60);
   const [robotAngle, setRobotAngle] = useState(0);
@@ -103,13 +105,13 @@ const SwerveDrivePage = () => {
     setToggleValidationWindow(!toggleValidationWindow);
   };
 
-  const averageX =
-    wheelVectors.current.reduce((acc, curr) => acc + parseFloat(curr[0]), 0) /
-    4;
+  const averageX = (
+    wheelVectors.current.reduce((acc, curr) => acc + parseFloat(curr[0]), 0) / 4
+  ).toFixed(2);
 
-  const averageY =
-    wheelVectors.current.reduce((acc, curr) => acc + parseFloat(curr[1]), 0) /
-    4;
+  const averageY = (
+    wheelVectors.current.reduce((acc, curr) => acc + parseFloat(curr[1]), 0) / 4
+  ).toFixed(2);
 
   return (
     <WholeScreen>
@@ -168,12 +170,12 @@ const SwerveDrivePage = () => {
               {/* If the x average is equal to the x component of the robot, show a check */}
               <Tooltip
                 title={
-                  averageX.toFixed(2) === linearVelocity[0].toFixed(2)
+                  averageX === linearVelocity[0].toFixed(2)
                     ? "Matches overall velocity"
                     : "Incorrect"
                 }
               >
-                {averageX.toFixed(2) === linearVelocity[0].toFixed(2) ? (
+                {averageX === linearVelocity[0].toFixed(2) ? (
                   <CheckIcon />
                 ) : (
                   <CloseIcon />
@@ -191,12 +193,12 @@ const SwerveDrivePage = () => {
               {/* If the x average is equal to the x component of the robot, show a check */}
               <Tooltip
                 title={
-                  averageY.toFixed(2) === linearVelocity[1].toFixed(2)
+                  averageY === linearVelocity[1].toFixed(2)
                     ? "Matches overall velocity"
                     : "Incorrect"
                 }
               >
-                {averageY.toFixed(2) === linearVelocity[1].toFixed(2) ? (
+                {averageY === linearVelocity[1].toFixed(2) ? (
                   <CheckIcon />
                 ) : (
                   <CloseIcon />
@@ -204,6 +206,20 @@ const SwerveDrivePage = () => {
               </Tooltip>
             </Stack>
             <Divider />
+            {/* Show the set wheel angles */}
+            <Typography>Wheel Angles (Units are counter clockwise):</Typography>
+            <Chip
+              label={`Front Left: Rads: ${-wheelAngles.current[0].toFixed(2)} Deg: ${-wheelAngles.current[0] * (180 / Math.PI).toFixed(2)}`}
+            />
+            <Chip
+              label={`Front Right: Rads:  ${-wheelAngles.current[1].toFixed(2)} Deg: ${-wheelAngles.current[1] * (180 / Math.PI).toFixed(2)}`}
+            />
+            <Chip
+              label={`Back Right: Rads:  ${-wheelAngles.current[2].toFixed(2)} Deg: ${-wheelAngles.current[2] * (180 / Math.PI).toFixed(2)}`}
+            />
+            <Chip
+              label={`Back Left: Rads:  ${-wheelAngles.current[3].toFixed(2)} Deg: ${-wheelAngles.current[3] * (180 / Math.PI).toFixed(2)}`}
+            />
           </Stack>
         </Paper>
       )}
@@ -217,6 +233,7 @@ const SwerveDrivePage = () => {
         robotAngle={robotAngle}
         wheelVectors={wheelVectors}
         spacing={spacing}
+        wheelAngles={wheelAngles}
       />
 
       {toggleOdom && (
@@ -440,6 +457,7 @@ const RobotRender = ({
   robotAngle,
   wheelVectors,
   spacing,
+  wheelAngles,
 }) => {
   const offsets = [
     [spacing, -spacing],
@@ -544,6 +562,9 @@ const RobotRender = ({
           wheelSpeedX.toFixed(2),
           -wheelSpeedY.toFixed(2),
         ];
+
+        // Update the wheel angles
+        wheelAngles.current[index] = wheelAngle;
 
         return (
           <ArrowVector
