@@ -13,6 +13,7 @@ import {
   IconButton,
   useMediaQuery,
   Divider,
+  Drawer
 } from "@mui/material";
 import WholeScreen from "@/comps/Frames/WholeScreen";
 
@@ -25,6 +26,8 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import NorthIcon from "@mui/icons-material/North"; // For flip y
 import EastIcon from "@mui/icons-material/East"; // For flip x
 import LineAxisIcon from "@mui/icons-material/LineAxis";
+import SocialDistanceIcon from '@mui/icons-material/SocialDistance';
+import { LineChart } from '@mui/x-charts/LineChart';
 
 // Check and Cross icon
 import CheckIcon from "@mui/icons-material/Check";
@@ -41,10 +44,18 @@ const SwerveDrivePage = () => {
     [0, 0],
   ]);
 
+  // const wheelAnglesLog = useRef([
+
   const wheelAngles = useRef([0, 0, 0, 0]);
+
+  const [simTime, setSimTime] = useState(0);
+  const [counter, setCounter] = useState(0);
+
+  const angleHistoryA = useRef({});
 
   const [paused, setPaused] = useState(false);
   const [frequency, setFrequency] = useState(60);
+  const [samplingPeriod, setSamplingPeriod] = useState(10);
   const [robotAngle, setRobotAngle] = useState(0);
   const [angularVelocity, setAngularVelocity] = useState(0);
   const [linearVelocity, setLinearVelocity] = useState([0, 0]);
@@ -53,6 +64,7 @@ const SwerveDrivePage = () => {
   const [toggleValidationWindow, setToggleValidationWindow] = useState(false);
   const [toggleOdom, setToggleOdom] = useState(false);
   const [windowCenter, setWindowCenter] = useState([0, 0]);
+  const [toggleGraph, setToggleGraph] = useState(false);
 
   const isSmall = useMediaQuery("(max-width:900px)");
 
@@ -68,10 +80,10 @@ const SwerveDrivePage = () => {
     let xt1 = position[0] + linearVelocity[0] * (1 / frequency);
     let yt1 = position[1] + linearVelocity[1] * (1 / frequency);
     let thetat1 = robotAngle + angularVelocity * (1 / frequency);
-    console.log(`xt1: ${xt1} yt1: ${yt1}`);
-    console.log(
-      `Position: ${position}, Linear Velocity: ${linearVelocity}, Angular Velocity: ${angularVelocity}, Rendered Position: ${renderedPosition} xt1: ${xt1} yt1: ${yt1}`,
-    );
+    // console.log(`xt1: ${xt1} yt1: ${yt1}`);
+    // console.log(
+    //   `Position: ${position}, Linear Velocity: ${linearVelocity}, Angular Velocity: ${angularVelocity}, Rendered Position: ${renderedPosition} xt1: ${xt1} yt1: ${yt1}`,
+    // );
     setPosition([xt1, yt1]);
     setRobotAngle(thetat1);
     setRenderedPosition([windowCenter[0] + xt1, windowCenter[1] - yt1]);
@@ -83,10 +95,26 @@ const SwerveDrivePage = () => {
         return;
       }
       updatePose();
-    }, 1000 / frequency);
+      setSimTime((prev) => {
 
+        const newCounter = counter + 1;
+        setCounter(newCounter);
+
+
+        if (newCounter % samplingPeriod === 0) {
+          angleHistoryA.current[prev] = wheelAngles.current[0];
+          console.log(angleHistoryA);
+        }
+
+
+        const newTime = prev + 1 / frequency;
+        return newTime;
+      });
+    }, 1000 / frequency);
+  
     return () => clearInterval(interval);
-  }, [position, linearVelocity, angularVelocity, paused]);
+  }, [position, linearVelocity, angularVelocity, paused, wheelAngles, samplingPeriod]);
+  
 
   const handleReset = () => {
     if (window !== undefined) {
@@ -98,6 +126,9 @@ const SwerveDrivePage = () => {
     setLinearVelocity([0, 0]);
     setPosition([0, 0]);
     setRobotAngle(0);
+    setSimTime(0);
+    setCounter(0);
+    angleHistoryA.current = {};
   };
 
   const togglePause = () => {
@@ -121,6 +152,7 @@ const SwerveDrivePage = () => {
   ).toFixed(2);
 
   return (
+    <>
     <WholeScreen>
       {/* Show an x and y axis symbol in the top right */}
       <Box sx={{ position: "absolute", top: 20, right: 100 }}>
@@ -246,10 +278,12 @@ const SwerveDrivePage = () => {
       {toggleOdom && (
         <Odometry position={position} windowCenter={windowCenter} />
       )}
+      <Stack sx={{ position: "absolute", top: 20, left: 20 }}>
       <Chip
-        sx={{ position: "absolute", top: 20, left: 20 }}
         label={`Position   X: ${position[0].toFixed(2)}   Y: ${position[1].toFixed(2)}`}
       />
+      <Chip label={`Time: ${simTime.toFixed(2)}`} />
+      </Stack>
       <Box
         sx={{
           position: "absolute",
@@ -349,6 +383,14 @@ const SwerveDrivePage = () => {
                 variant="contained"
                 onClick={() => setToggleOdom(!toggleOdom)}
               >
+                <SocialDistanceIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Toggle Graph">
+              <IconButton
+                variant="contained"
+                onClick={() => setToggleGraph(!toggleGraph)}
+              >
                 <LineAxisIcon />
               </IconButton>
             </Tooltip>
@@ -357,6 +399,24 @@ const SwerveDrivePage = () => {
         <Joystick setLinearVelocity={setLinearVelocity} />
       </Box>
     </WholeScreen>
+      <Drawer anchor="right" open={toggleGraph} onClose={() => setToggleGraph(false)}>
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="h6">Swerve Module A Graph</Typography>
+          <LineChart
+            skipAnimation
+            xAxis={[{ data: Object.keys(angleHistoryA.current).map((key) => parseFloat(key)) }]}
+            series={[
+              {
+                data: Object.values(angleHistoryA.current).map((value) => -value),
+              },
+            ]}
+            width={500}
+            height={300}
+          />
+          <Button onClick={() => setToggleGraph(false)}>Close</Button>
+        </Box>
+      </Drawer>
+    </>
   );
 };
 
@@ -481,6 +541,10 @@ const RobotRender = ({
     return Math.atan2(Vy + omega * Xi, Vx - omega * Yi);
   }
 
+  function compute_angle_relative_to_robot(angle) {
+    return angle - robotAngle;
+  }
+
   return (
     <>
       {/* Robot body */}
@@ -510,12 +574,16 @@ const RobotRender = ({
             key={index}
             sx={{
               position: "absolute",
-              left: wheelX,
+              left: wheelX + radius/2,
               top: wheelY,
-              width: radius * 2,
+              width: radius,
               height: radius * 2,
               // borderRadius: "50%",
               border: "1px solid white",
+              // rotate with the vector
+              transform: `rotate(${
+                (wheelAngles.current[index] * (180 / Math.PI) - 90)
+              }deg)`,
             }}
           />
         );
@@ -552,6 +620,7 @@ const RobotRender = ({
           rotatedX,
           rotatedY,
         );
+
 
         const endpoints = [
           [wheelCenterX, wheelCenterY],
