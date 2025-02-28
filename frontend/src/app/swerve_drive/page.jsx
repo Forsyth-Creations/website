@@ -13,6 +13,8 @@ import {
   IconButton,
   useMediaQuery,
   Divider,
+  Drawer,
+  Modal,
 } from "@mui/material";
 import WholeScreen from "@/comps/Frames/WholeScreen";
 
@@ -25,10 +27,43 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import NorthIcon from "@mui/icons-material/North"; // For flip y
 import EastIcon from "@mui/icons-material/East"; // For flip x
 import LineAxisIcon from "@mui/icons-material/LineAxis";
+import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
+import { LineChart } from "@mui/x-charts/LineChart";
+import { Joystick } from "react-joystick-component";
 
 // Check and Cross icon
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+
+function normalizeAngle(angle) {
+  return ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+}
+
+function optimizeSwerveAngle(angle, speed) {
+  angle = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI); // Normalize to [0, 2π)
+
+  if (angle > Math.PI) {
+    // If the angle is greater than 180 degrees
+    angle -= Math.PI; // Subtract π to get the equivalent forward angle
+    speed = -speed; // Reverse wheel direction
+  }
+
+  return { angle, speed };
+}
+
+const modal_style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  maxHeight: "80vh",
+  overflowY: "auto",
+};
 
 const SwerveDrivePage = () => {
   const radius = 20;
@@ -41,10 +76,20 @@ const SwerveDrivePage = () => {
     [0, 0],
   ]);
 
+  // const wheelAnglesLog = useRef([
+
   const wheelAngles = useRef([0, 0, 0, 0]);
+
+  const [simTime, setSimTime] = useState(0);
+  const [counter, setCounter] = useState(0);
+
+  const angleHistoryA = useRef({});
 
   const [paused, setPaused] = useState(false);
   const [frequency, setFrequency] = useState(60);
+  const [samplingPeriod, setSamplingPeriod] = useState(
+    Math.round(frequency * 0.1),
+  );
   const [robotAngle, setRobotAngle] = useState(0);
   const [angularVelocity, setAngularVelocity] = useState(0);
   const [linearVelocity, setLinearVelocity] = useState([0, 0]);
@@ -53,6 +98,7 @@ const SwerveDrivePage = () => {
   const [toggleValidationWindow, setToggleValidationWindow] = useState(false);
   const [toggleOdom, setToggleOdom] = useState(false);
   const [windowCenter, setWindowCenter] = useState([0, 0]);
+  const [toggleGraph, setToggleGraph] = useState(false);
 
   const isSmall = useMediaQuery("(max-width:900px)");
 
@@ -68,12 +114,12 @@ const SwerveDrivePage = () => {
     let xt1 = position[0] + linearVelocity[0] * (1 / frequency);
     let yt1 = position[1] + linearVelocity[1] * (1 / frequency);
     let thetat1 = robotAngle + angularVelocity * (1 / frequency);
-    console.log(`xt1: ${xt1} yt1: ${yt1}`);
-    console.log(
-      `Position: ${position}, Linear Velocity: ${linearVelocity}, Angular Velocity: ${angularVelocity}, Rendered Position: ${renderedPosition} xt1: ${xt1} yt1: ${yt1}`,
-    );
+    // console.log(`xt1: ${xt1} yt1: ${yt1}`);
+    // console.log(
+    //   `Position: ${position}, Linear Velocity: ${linearVelocity}, Angular Velocity: ${angularVelocity}, Rendered Position: ${renderedPosition} xt1: ${xt1} yt1: ${yt1}`,
+    // );
     setPosition([xt1, yt1]);
-    setRobotAngle(thetat1);
+    setRobotAngle(normalizeAngle(thetat1));
     setRenderedPosition([windowCenter[0] + xt1, windowCenter[1] - yt1]);
   }
 
@@ -83,10 +129,30 @@ const SwerveDrivePage = () => {
         return;
       }
       updatePose();
+      setSimTime((prev) => {
+        const newCounter = counter + 1;
+        setCounter(newCounter);
+
+        if (newCounter % samplingPeriod === 0) {
+          angleHistoryA.current[prev] = normalizeAngle(
+            wheelAngles.current[0] - robotAngle,
+          );
+        }
+
+        const newTime = prev + 1 / frequency;
+        return newTime;
+      });
     }, 1000 / frequency);
 
     return () => clearInterval(interval);
-  }, [position, linearVelocity, angularVelocity, paused]);
+  }, [
+    position,
+    linearVelocity,
+    angularVelocity,
+    paused,
+    wheelAngles,
+    samplingPeriod,
+  ]);
 
   const handleReset = () => {
     if (window !== undefined) {
@@ -98,6 +164,9 @@ const SwerveDrivePage = () => {
     setLinearVelocity([0, 0]);
     setPosition([0, 0]);
     setRobotAngle(0);
+    setSimTime(0);
+    setCounter(0);
+    angleHistoryA.current = {};
   };
 
   const togglePause = () => {
@@ -121,242 +190,271 @@ const SwerveDrivePage = () => {
   ).toFixed(2);
 
   return (
-    <WholeScreen>
-      {/* Show an x and y axis symbol in the top right */}
-      <Box sx={{ position: "absolute", top: 20, right: 100 }}>
-        <svg
-          width="100"
-          height="100"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            pointerEvents: "none",
-          }}
-        >
-          <line x1="0" y1="0" x2="0" y2="50" stroke="red" strokeWidth="1" />
-          <line x1="0" y1="50" x2="50" y2="50" stroke="red" strokeWidth="1" />
-          <text x="5" y="45" fill="red">
-            Y
-          </text>
-          <text x="45" y="65" fill="red">
-            X
-          </text>
-        </svg>
-      </Box>
+    <Box sx={{ maxHeight: "100vh", overflowY: "clip" }}>
+      <WholeScreen>
+        {/* Show an x and y axis symbol in the top right */}
+        <Axis sx={{ position: "absolute", top: 20, right: 80 }} />
 
-      {/* When I toggle the validation window, show me a printout in the exact center of the screen with all the wheelVectors */}
-      {toggleValidationWindow && (
-        <Paper
+        <Modal
+          open={toggleValidationWindow}
+          onClose={handleToggleValidationWindow}
+        >
+          <Paper sx={modal_style}>
+            <Stack direction="column" spacing={2}>
+              <Typography>Wheel Vectors</Typography>
+              <Chip
+                label={`Robot XY Components: ${linearVelocity[0].toFixed(2)}, ${linearVelocity[1].toFixed(2)}`}
+              />
+              <Chip label={`Front Left: ${wheelVectors.current[0]}`} />
+              <Chip label={`Front Right: ${wheelVectors.current[1]}`} />
+              <Chip label={`Back Right: ${wheelVectors.current[2]}`} />
+              <Chip label={`Back Left: ${wheelVectors.current[3]}`} />
+              {/* Confirm that the math is sound */}
+              <Divider />
+              <Typography>X Components:</Typography>
+              <Stack direction="row" spacing={2}>
+                <Typography>
+                  {`(${wheelVectors.current[0][0]} + ${wheelVectors.current[1][0]} + ${wheelVectors.current[2][0]} + ${wheelVectors.current[3][0]}) / 4`}{" "}
+                  = {averageX}
+                </Typography>
+                {/* If the x average is equal to the x component of the robot, show a check */}
+                <Tooltip
+                  title={
+                    averageX === linearVelocity[0].toFixed(2)
+                      ? "Matches overall velocity"
+                      : "Incorrect"
+                  }
+                >
+                  {averageX === linearVelocity[0].toFixed(2) ? (
+                    <CheckIcon />
+                  ) : (
+                    <CloseIcon />
+                  )}
+                </Tooltip>
+              </Stack>
+              {/* Now show the average heading */}
+              <Divider />
+              <Typography>Y Components:</Typography>
+              <Stack direction="row" spacing={2}>
+                <Typography>
+                  {`(${wheelVectors.current[0][1]} + ${wheelVectors.current[1][1]} + ${wheelVectors.current[2][1]} + ${wheelVectors.current[3][1]}) / 4`}{" "}
+                  = {averageY}
+                </Typography>
+                {/* If the x average is equal to the x component of the robot, show a check */}
+                <Tooltip
+                  title={
+                    averageY === linearVelocity[1].toFixed(2)
+                      ? "Matches overall velocity"
+                      : "Incorrect"
+                  }
+                >
+                  {averageY === linearVelocity[1].toFixed(2) ? (
+                    <CheckIcon />
+                  ) : (
+                    <CloseIcon />
+                  )}
+                </Tooltip>
+              </Stack>
+              <Divider />
+              {/* Show the set wheel angles */}
+              <Typography>
+                Wheel Angles (Units are counter clockwise):
+              </Typography>
+              <Chip
+                label={`A: Rads: ${optimizeSwerveAngle(robotAngle - wheelAngles.current[0]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[0]).angle * (180 / Math.PI)).toFixed(2)}`}
+              />
+              <Chip
+                label={`B: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[1]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[1]).angle * (180 / Math.PI)).toFixed(2)}`}
+              />
+              <Chip
+                label={`C: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[2]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[2]).angle * (180 / Math.PI)).toFixed(2)}`}
+              />
+              <Chip
+                label={`D: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[3]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[3]).angle * (180 / Math.PI)).toFixed(2)}`}
+              />
+            </Stack>
+          </Paper>
+        </Modal>
+
+        <RobotRender
+          position={renderedPosition}
+          radius={radius}
+          angularVelocity={angularVelocity}
+          frequency={frequency}
+          linearVelocity={linearVelocity}
+          robotAngle={robotAngle}
+          wheelVectors={wheelVectors}
+          spacing={spacing}
+          wheelAngles={wheelAngles}
+          showAxis={toggleOdom}
+        />
+
+        {toggleOdom && (
+          <Odometry position={position} windowCenter={windowCenter} />
+        )}
+        <Stack sx={{ position: "absolute", top: 20, left: 20 }} spacing={1}>
+          <Chip
+            label={`Position   X: ${position[0].toFixed(2)}   Y: ${position[1].toFixed(2)}`}
+          />
+          <Chip label={`Time: ${simTime.toFixed(2)}`} />
+          <Chip label={`Robot Angle: ${robotAngle.toFixed(2)}`} />
+          <Chip label={`Angular Velocity: ${angularVelocity.toFixed(2)}`} />
+        </Stack>
+        <Box
           sx={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            padding: 2,
-            zIndex: 100,
+            height: "100vh",
+            width: "100vw",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
-          <Stack direction="column" spacing={2}>
-            <Typography>Wheel Vectors</Typography>
-            <Chip
-              label={`Robot XY Components: ${linearVelocity[0].toFixed(2)}, ${linearVelocity[1].toFixed(2)}`}
-            />
-            <Chip label={`Front Left: ${wheelVectors.current[0]}`} />
-            <Chip label={`Front Right: ${wheelVectors.current[1]}`} />
-            <Chip label={`Back Right: ${wheelVectors.current[2]}`} />
-            <Chip label={`Back Left: ${wheelVectors.current[3]}`} />
-            {/* Confirm that the math is sound */}
-            <Divider />
-            <Typography>X Components:</Typography>
-            <Stack direction="row" spacing={2}>
-              <Typography>
-                {`(${wheelVectors.current[0][0]} + ${wheelVectors.current[1][0]} + ${wheelVectors.current[2][0]} + ${wheelVectors.current[3][0]}) / 4`}{" "}
-                = {averageX}
-              </Typography>
-              {/* If the x average is equal to the x component of the robot, show a check */}
-              <Tooltip
-                title={
-                  averageX === linearVelocity[0].toFixed(2)
-                    ? "Matches overall velocity"
-                    : "Incorrect"
-                }
-              >
-                {averageX === linearVelocity[0].toFixed(2) ? (
-                  <CheckIcon />
-                ) : (
-                  <CloseIcon />
-                )}
-              </Tooltip>
-            </Stack>
-            {/* Now show the average heading */}
-            <Divider />
-            <Typography>Y Components:</Typography>
-            <Stack direction="row" spacing={2}>
-              <Typography>
-                {`(${wheelVectors.current[0][1]} + ${wheelVectors.current[1][1]} + ${wheelVectors.current[2][1]} + ${wheelVectors.current[3][1]}) / 4`}{" "}
-                = {averageY}
-              </Typography>
-              {/* If the x average is equal to the x component of the robot, show a check */}
-              <Tooltip
-                title={
-                  averageY === linearVelocity[1].toFixed(2)
-                    ? "Matches overall velocity"
-                    : "Incorrect"
-                }
-              >
-                {averageY === linearVelocity[1].toFixed(2) ? (
-                  <CheckIcon />
-                ) : (
-                  <CloseIcon />
-                )}
-              </Tooltip>
-            </Stack>
-            <Divider />
-            {/* Show the set wheel angles */}
-            <Typography>Wheel Angles (Units are counter clockwise):</Typography>
-            <Chip
-              label={`Front Left: Rads: ${-wheelAngles.current[0].toFixed(2)} Deg: ${-wheelAngles.current[0] * (180 / Math.PI).toFixed(2)}`}
-            />
-            <Chip
-              label={`Front Right: Rads:  ${-wheelAngles.current[1].toFixed(2)} Deg: ${-wheelAngles.current[1] * (180 / Math.PI).toFixed(2)}`}
-            />
-            <Chip
-              label={`Back Right: Rads:  ${-wheelAngles.current[2].toFixed(2)} Deg: ${-wheelAngles.current[2] * (180 / Math.PI).toFixed(2)}`}
-            />
-            <Chip
-              label={`Back Left: Rads:  ${-wheelAngles.current[3].toFixed(2)} Deg: ${-wheelAngles.current[3] * (180 / Math.PI).toFixed(2)}`}
-            />
-          </Stack>
-        </Paper>
-      )}
-
-      <RobotRender
-        position={renderedPosition}
-        radius={radius}
-        angularVelocity={angularVelocity}
-        frequency={frequency}
-        linearVelocity={linearVelocity}
-        robotAngle={robotAngle}
-        wheelVectors={wheelVectors}
-        spacing={spacing}
-        wheelAngles={wheelAngles}
-      />
-
-      {toggleOdom && (
-        <Odometry position={position} windowCenter={windowCenter} />
-      )}
-      <Chip
-        sx={{ position: "absolute", top: 20, left: 20 }}
-        label={`Position   X: ${position[0].toFixed(2)}   Y: ${position[1].toFixed(2)}`}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          alignItems: "center",
-        }}
-      >
-        <Stack direction={isSmall ? "column" : "row"} spacing={2} sx={{ m: 4 }}>
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="Angular Velocity (rad/s)"
-              type="number"
-              value={angularVelocity}
-              onChange={(e) =>
-                setAngularVelocity(parseFloat(e.target.value) || 0)
-              }
-              size="small"
-            />
-            <TextField
-              label="X Velocity (m/s)"
-              type="number"
-              value={linearVelocity[0]}
-              onChange={(e) =>
-                setLinearVelocity([
-                  parseFloat(e.target.value) || 0,
-                  linearVelocity[1],
-                ])
-              }
-              size="small"
-            />
-            <TextField
-              label="Y Velocity (m/s)"
-              type="number"
-              value={linearVelocity[1]}
-              onChange={(e) =>
-                setLinearVelocity([
-                  linearVelocity[0],
-                  parseFloat(e.target.value) || 0,
-                ])
-              }
-              size="small"
-            />
-          </Stack>
           <Stack
-            direction="row"
-            sw={{ width: "100%" }}
-            justifyContent={"space-between"}
+            direction={isSmall ? "column" : "row"}
+            spacing={2}
+            sx={{ m: 4 }}
           >
-            <Tooltip title="Reset">
-              <IconButton variant="contained" onClick={handleReset}>
-                <RestartAltIcon />
-              </IconButton>
-            </Tooltip>
-            <IconButton variant="contained" onClick={togglePause}>
-              {paused ? <PlayArrowIcon /> : <PauseIcon />}
-            </IconButton>
-            <Tooltip title="Toggle validation window">
-              <IconButton
-                variant="contained"
-                onClick={handleToggleValidationWindow}
-              >
-                {toggleValidationWindow ? (
-                  <VisibilityOffIcon />
-                ) : (
-                  <VisibilityIcon />
-                )}
-              </IconButton>
-            </Tooltip>
-            {/* Multiply x velocity by -1 */}
-            <Tooltip title="Flip X">
-              <IconButton
-                variant="contained"
-                onClick={() =>
-                  setLinearVelocity([linearVelocity[0] * -1, linearVelocity[1]])
+            <Stack direction="row" spacing={2}>
+              <TextField
+                label="Angular Velocity (rad/s)"
+                type="number"
+                value={angularVelocity}
+                onChange={(e) =>
+                  setAngularVelocity(parseFloat(e.target.value) || 0)
                 }
-              >
-                <EastIcon />
-              </IconButton>
-            </Tooltip>
-            {/* Multiply y velocity by -1 */}
-            <Tooltip title="Flip Y">
-              <IconButton
-                variant="contained"
-                onClick={() =>
-                  setLinearVelocity([linearVelocity[0], linearVelocity[1] * -1])
+                size="small"
+              />
+              <TextField
+                label="X Velocity (m/s)"
+                type="number"
+                value={linearVelocity[0]}
+                onChange={(e) =>
+                  setLinearVelocity([
+                    parseFloat(e.target.value) || 0,
+                    linearVelocity[1],
+                  ])
                 }
-              >
-                <NorthIcon />
+                size="small"
+              />
+              <TextField
+                label="Y Velocity (m/s)"
+                type="number"
+                value={linearVelocity[1]}
+                onChange={(e) =>
+                  setLinearVelocity([
+                    linearVelocity[0],
+                    parseFloat(e.target.value) || 0,
+                  ])
+                }
+                size="small"
+              />
+            </Stack>
+            <Stack
+              direction="row"
+              sw={{ width: "100%" }}
+              justifyContent={"space-between"}
+            >
+              <Tooltip title="Reset">
+                <IconButton variant="contained" onClick={handleReset}>
+                  <RestartAltIcon />
+                </IconButton>
+              </Tooltip>
+              <IconButton variant="contained" onClick={togglePause}>
+                {paused ? <PlayArrowIcon /> : <PauseIcon />}
               </IconButton>
-            </Tooltip>
-            <Tooltip title="Toggle Odom">
-              <IconButton
-                variant="contained"
-                onClick={() => setToggleOdom(!toggleOdom)}
-              >
-                <LineAxisIcon />
-              </IconButton>
-            </Tooltip>
+              <Tooltip title="Toggle validation window">
+                <IconButton
+                  variant="contained"
+                  onClick={handleToggleValidationWindow}
+                >
+                  {toggleValidationWindow ? (
+                    <VisibilityOffIcon />
+                  ) : (
+                    <VisibilityIcon />
+                  )}
+                </IconButton>
+              </Tooltip>
+              {/* Multiply x velocity by -1 */}
+              <Tooltip title="Flip X">
+                <IconButton
+                  variant="contained"
+                  onClick={() =>
+                    setLinearVelocity([
+                      linearVelocity[0] * -1,
+                      linearVelocity[1],
+                    ])
+                  }
+                >
+                  <EastIcon />
+                </IconButton>
+              </Tooltip>
+              {/* Multiply y velocity by -1 */}
+              <Tooltip title="Flip Y">
+                <IconButton
+                  variant="contained"
+                  onClick={() =>
+                    setLinearVelocity([
+                      linearVelocity[0],
+                      linearVelocity[1] * -1,
+                    ])
+                  }
+                >
+                  <NorthIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Toggle Axis">
+                <IconButton
+                  variant="contained"
+                  onClick={() => setToggleOdom(!toggleOdom)}
+                >
+                  <SocialDistanceIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Toggle Graph">
+                <IconButton
+                  variant="contained"
+                  onClick={() => setToggleGraph(!toggleGraph)}
+                >
+                  <LineAxisIcon />
+                </IconButton>
+              </Tooltip>
+            </Stack>
           </Stack>
-        </Stack>
-        <Joystick setLinearVelocity={setLinearVelocity} />
-      </Box>
-    </WholeScreen>
+          <Joystick2 setLinearVelocity={setLinearVelocity} />
+        </Box>
+      </WholeScreen>
+      <Drawer
+        anchor="right"
+        open={toggleGraph}
+        onClose={() => setToggleGraph(false)}
+      >
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="h6">Swerve Module A Graph</Typography>
+          <LineChart
+            skipAnimation
+            xAxis={[
+              {
+                data: Object.keys(angleHistoryA.current).map((key) =>
+                  parseFloat(key),
+                ),
+              },
+            ]}
+            series={[
+              {
+                data: Object.values(angleHistoryA.current).map(
+                  (value) => -value,
+                ),
+              },
+            ]}
+            width={500}
+            height={300}
+          />
+          <Button onClick={() => setToggleGraph(false)}>Close</Button>
+        </Box>
+      </Drawer>
+    </Box>
   );
 };
 
@@ -381,78 +479,32 @@ const Odometry = ({ position, windowCenter }) => {
   );
 };
 
-const Joystick = ({ setLinearVelocity }) => {
-  const [joystickPosition, setJoystickPosition] = useState([0, 0]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [offset, setOffset] = useState([0, 0]); // Stores the initial click offset
-  const joystickRef = useRef(null);
-
-  const handleStart = (e) => {
-    setIsDragging(true);
-    const rect = joystickRef.current.getBoundingClientRect();
-    const clientX = e.touches?.[0]?.clientX ?? e.clientX;
-    const clientY = e.touches?.[0]?.clientY ?? e.clientY;
-
-    const x = clientX - rect.left - rect.width / 2;
-    const y = clientY - rect.top - rect.height / 2;
-
-    // Store the initial offset when clicked
-    setOffset([x - joystickPosition[0], y - joystickPosition[1]]);
-  };
-
-  const handleMove = (e) => {
-    if (!isDragging) return;
-
-    const rect = joystickRef.current.getBoundingClientRect();
-    const clientX = e.touches?.[0]?.clientX ?? e.clientX;
-    const clientY = e.touches?.[0]?.clientY ?? e.clientY;
-
-    let x = clientX - rect.left - rect.width / 2 - offset[0];
-    let y = clientY - rect.top - rect.height / 2 - offset[1];
-
-    // Constrain joystick movement within the circle
-    const radius = 40;
-    const distance = Math.sqrt(x * x + y * y);
-    if (distance > radius) {
-      x = (x / distance) * radius;
-      y = (y / distance) * radius;
-    }
-
-    const multiplier = 5;
-    setJoystickPosition([x, y]);
-    setLinearVelocity([x * multiplier, -y * multiplier]); // Adjust divisor for sensitivity
-  };
-
-  const handleEnd = () => {
-    setIsDragging(false);
+const Joystick2 = ({ setLinearVelocity }) => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const [joystick, setJoystick] = useState({ x: 0, y: 0 });
+  const scaler = 100;
+  const handleMove = (event) => {
+    setJoystick({ x: event.x, y: event.y });
+    setLinearVelocity([event.x * scaler, event.y * scaler]);
   };
 
   return (
-    <svg
-      ref={joystickRef}
-      width="100"
-      height="100"
-      style={{
-        border: "1px solid black",
-        borderRadius: "50%",
-        touchAction: "none",
-      }}
-      onMouseDown={handleStart}
-      onMouseMove={handleMove}
-      onMouseUp={handleEnd}
-      onMouseLeave={handleEnd}
-      onTouchStart={handleStart}
-      onTouchMove={handleMove}
-      onTouchEnd={handleEnd}
+    <Stack
+      alignContent={"center"}
+      justifyContent={"center"}
+      alignItems={"center"}
     >
-      <circle cx="50" cy="50" r="40" fill="lightgray" />
-      <circle
-        cx={50 + joystickPosition[0]}
-        cy={50 + joystickPosition[1]}
-        r="10"
-        fill="blue"
+      <Typography>Joystick</Typography>
+      <Joystick
+        size={isSmall ? 100 : 150}
+        baseColor={"#204D71"}
+        stickColor={"#505050"}
+        move={handleMove}
+        throttle={10}
+        pos={joystick}
+        stickSize={isSmall ? 50 : 75}
       />
-    </svg>
+    </Stack>
   );
 };
 
@@ -465,6 +517,7 @@ const RobotRender = ({
   wheelVectors,
   spacing,
   wheelAngles,
+  showAxis = false,
 }) => {
   const offsets = [
     [spacing, -spacing],
@@ -472,6 +525,8 @@ const RobotRender = ({
     [-spacing, spacing],
     [-spacing, -spacing],
   ];
+
+  const names = ["A", "B", "C", "D"];
 
   function computeWheelSpeed(Vx, Vy, omega, Xi, Yi) {
     return Math.sqrt((Vx - omega * Yi) ** 2 + (Vy + omega * Xi) ** 2);
@@ -496,6 +551,17 @@ const RobotRender = ({
         }}
       />
 
+      {/* Axis for the main body */}
+      {showAxis && (
+        <Axis
+          sx={{
+            position: "absolute",
+            top: position[1] - 50,
+            left: position[0],
+          }}
+        />
+      )}
+
       {/* Wheels */}
       {offsets.map((offset, index) => {
         const rotatedX =
@@ -504,20 +570,42 @@ const RobotRender = ({
           offset[0] * Math.sin(robotAngle) + offset[1] * Math.cos(robotAngle);
         const wheelX = position[0] + rotatedX - radius;
         const wheelY = position[1] + rotatedY - radius;
+        const name = names[index];
 
         return (
           <Box
             key={index}
             sx={{
               position: "absolute",
-              left: wheelX,
+              left: wheelX + radius / 2,
               top: wheelY,
-              width: radius * 2,
+              width: radius,
               height: radius * 2,
               // borderRadius: "50%",
               border: "1px solid white",
+              borderTop: "1px solid green",
+              // rotate with the vector
+              transform: `rotate(${
+                wheelAngles.current[index] * (180 / Math.PI) + 90
+              }deg)`,
             }}
-          />
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                color: "white",
+              }}
+            >
+              {name}
+            </Typography>
+
+            {showAxis && (
+              <Axis sx={{ position: "absolute", top: -30, right: 10 }} />
+            )}
+          </Box>
         );
       })}
 
@@ -545,12 +633,14 @@ const RobotRender = ({
           rotatedX,
           rotatedY,
         );
-        const wheelAngle = computeWheelAngle(
-          linearVelocity[0],
-          -linearVelocity[1],
-          angularVelocity,
-          rotatedX,
-          rotatedY,
+        const wheelAngle = normalizeAngle(
+          computeWheelAngle(
+            linearVelocity[0],
+            -linearVelocity[1],
+            angularVelocity,
+            rotatedX,
+            rotatedY,
+          ),
         );
 
         const endpoints = [
@@ -650,6 +740,46 @@ const ArrowVector = ({
         </text>
       )}
     </svg>
+  );
+};
+
+const Axis = ({ sx, size = 50, stroke = 3 }) => {
+  return (
+    <Box sx={sx}>
+      <svg
+        width="100"
+        height="100"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <line
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={size}
+          stroke="red"
+          strokeWidth={stroke}
+        />
+        <line
+          x1="0"
+          y1={size}
+          x2="50"
+          y2={size}
+          stroke="red"
+          strokeWidth={stroke}
+        />
+        <text x="5" y={size - 5} fill="red">
+          Y
+        </text>
+        <text x={size - 5} y="65" fill="red">
+          X
+        </text>
+      </svg>
+    </Box>
   );
 };
 

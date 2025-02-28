@@ -15,6 +15,8 @@ const WholeScreen = ({ children }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            maxHeight: "100vh",
+            overflowY: "hidden",
           }}
         >
           {children}
