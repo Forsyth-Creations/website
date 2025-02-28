@@ -186,6 +186,20 @@ const SwerveDrivePage = () => {
     wheelVectors.current.reduce((acc, curr) => acc + parseFloat(curr[1]), 0) / 4
   ).toFixed(2);
 
+  const downloadHistoryAsCSV = () => {
+    const csv = Object.keys(angleHistoryA.current)
+      .map((key) => {
+        return `${key},${angleHistoryA.current[key]}`;
+      })
+      .join("\n");
+    const element = document.createElement("a");
+    const file = new Blob([csv], { type: "text/csv" });
+    element.href = URL.createObjectURL(file);
+    element.download = "swerve_module_a_history.csv";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  };
+
   return (
     <Box sx={{ maxHeight: "100vh", overflowY: "clip" }}>
       <WholeScreen>
@@ -433,16 +447,16 @@ const SwerveDrivePage = () => {
             skipAnimation
             xAxis={[
               {
-                data: Object.keys(angleHistoryA.current).map((key) =>
-                  parseFloat(key),
-                ),
+                data: Object.keys(angleHistoryA.current)
+                  .slice(-50)
+                  .map((key) => parseFloat(key)),
               },
             ]}
             series={[
               {
-                data: Object.values(angleHistoryA.current).map(
-                  (value) => value,
-                ),
+                data: Object.values(angleHistoryA.current)
+                  .slice(-50)
+                  .map((value) => value),
               },
             ]}
             width={500}
@@ -462,6 +476,15 @@ const SwerveDrivePage = () => {
               variant="contained"
             >
               Clear History
+            </Button>
+            {/* Download as CSV */}
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={downloadHistoryAsCSV}
+            >
+              Download as CSV ({Object.keys(angleHistoryA.current).length})
+              entries
             </Button>
           </Stack>
           <Stack sx={{ overflowY: "auto", p: 2 }} spacing={2}>
