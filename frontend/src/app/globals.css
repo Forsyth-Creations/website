@@ -57,3 +57,11 @@ a {
 html {
   scroll-behavior: smooth;
 }
+
+.code-block {
+  background: #282c34;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}

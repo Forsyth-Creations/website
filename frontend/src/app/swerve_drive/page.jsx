@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import {
+  Alert,
   Paper,
   Box,
   TextField,
@@ -17,7 +18,8 @@ import {
   Modal,
 } from "@mui/material";
 import WholeScreen from "@/comps/Frames/WholeScreen";
-
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 // Pause and play icon
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -39,16 +41,9 @@ function normalizeAngle(angle) {
   return ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
 }
 
-function optimizeSwerveAngle(angle, speed) {
-  angle = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI); // Normalize to [0, 2π)
-
-  if (angle > Math.PI) {
-    // If the angle is greater than 180 degrees
-    angle -= Math.PI; // Subtract π to get the equivalent forward angle
-    speed = -speed; // Reverse wheel direction
-  }
-
-  return { angle, speed };
+function shortestAngle(currentAngle, targetAngle) {
+  let diff = ((targetAngle - currentAngle + Math.PI) % (2 * Math.PI)) - Math.PI;
+  return currentAngle + diff;
 }
 
 const modal_style = {
@@ -114,10 +109,6 @@ const SwerveDrivePage = () => {
     let xt1 = position[0] + linearVelocity[0] * (1 / frequency);
     let yt1 = position[1] + linearVelocity[1] * (1 / frequency);
     let thetat1 = robotAngle + angularVelocity * (1 / frequency);
-    // console.log(`xt1: ${xt1} yt1: ${yt1}`);
-    // console.log(
-    //   `Position: ${position}, Linear Velocity: ${linearVelocity}, Angular Velocity: ${angularVelocity}, Rendered Position: ${renderedPosition} xt1: ${xt1} yt1: ${yt1}`,
-    // );
     setPosition([xt1, yt1]);
     setRobotAngle(normalizeAngle(thetat1));
     setRenderedPosition([windowCenter[0] + xt1, windowCenter[1] - yt1]);
@@ -134,9 +125,10 @@ const SwerveDrivePage = () => {
         setCounter(newCounter);
 
         if (newCounter % samplingPeriod === 0) {
-          angleHistoryA.current[prev] = normalizeAngle(
+          let currentAngle = normalizeAngle(
             wheelAngles.current[0] - robotAngle,
           );
+          angleHistoryA.current[prev] = currentAngle;
         }
 
         const newTime = prev + 1 / frequency;
@@ -153,6 +145,11 @@ const SwerveDrivePage = () => {
     wheelAngles,
     samplingPeriod,
   ]);
+
+  const codeSegment = `function shortestAngle(currentAngle, targetAngle) {
+        let diff = (targetAngle - currentAngle + Math.PI) % (2 * Math.PI) - Math.PI;
+        return currentAngle + diff;
+      }`;
 
   const handleReset = () => {
     if (window !== undefined) {
@@ -261,16 +258,16 @@ const SwerveDrivePage = () => {
                 Wheel Angles (Units are counter clockwise):
               </Typography>
               <Chip
-                label={`A: Rads: ${optimizeSwerveAngle(robotAngle - wheelAngles.current[0]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[0]).angle * (180 / Math.PI)).toFixed(2)}`}
+                label={`A: Rads: ${normalizeAngle(robotAngle - wheelAngles.current[0]).toFixed(2)} Deg: ${(normalizeAngle(robotAngle - wheelAngles.current[0]) * (180 / Math.PI)).toFixed(2)}`}
               />
               <Chip
-                label={`B: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[1]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[1]).angle * (180 / Math.PI)).toFixed(2)}`}
+                label={`B: Rads:  ${normalizeAngle(robotAngle - wheelAngles.current[1]).toFixed(2)} Deg: ${(normalizeAngle(robotAngle - wheelAngles.current[1]) * (180 / Math.PI)).toFixed(2)}`}
               />
               <Chip
-                label={`C: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[2]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[2]).angle * (180 / Math.PI)).toFixed(2)}`}
+                label={`C: Rads:  ${normalizeAngle(robotAngle - wheelAngles.current[2]).toFixed(2)} Deg: ${(normalizeAngle(robotAngle - wheelAngles.current[2]) * (180 / Math.PI)).toFixed(2)}`}
               />
               <Chip
-                label={`D: Rads:  ${optimizeSwerveAngle(robotAngle - wheelAngles.current[3]).angle.toFixed(2)} Deg: ${(optimizeSwerveAngle(robotAngle - wheelAngles.current[3]).angle * (180 / Math.PI)).toFixed(2)}`}
+                label={`D: Rads:  ${normalizeAngle(robotAngle - wheelAngles.current[3]).toFixed(2)} Deg: ${(normalizeAngle(robotAngle - wheelAngles.current[3]) * (180 / Math.PI)).toFixed(2)}`}
               />
             </Stack>
           </Paper>
@@ -430,7 +427,7 @@ const SwerveDrivePage = () => {
         open={toggleGraph}
         onClose={() => setToggleGraph(false)}
       >
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 2, maxWidth: "40vw" }}>
           <Typography variant="h6">Swerve Module A Graph</Typography>
           <LineChart
             skipAnimation
@@ -444,14 +441,44 @@ const SwerveDrivePage = () => {
             series={[
               {
                 data: Object.values(angleHistoryA.current).map(
-                  (value) => -value,
+                  (value) => value,
                 ),
               },
             ]}
             width={500}
             height={300}
           />
-          <Button onClick={() => setToggleGraph(false)}>Close</Button>
+          <Stack direction="row" spacing={2}>
+            <Button
+              onClick={() => setToggleGraph(false)}
+              color="error"
+              variant="contained"
+            >
+              Close
+            </Button>
+            {/* Clear History */}
+            <Button
+              onClick={() => (angleHistoryA.current = {})}
+              variant="contained"
+            >
+              Clear History
+            </Button>
+          </Stack>
+          <Stack sx={{ overflowY: "auto", p: 2 }} spacing={2}>
+            <Divider></Divider>
+            <Typography variant="h6">Notes about the graph:</Typography>
+            <Alert severity="info">
+              In this graph, you will see there are conditions where you might
+              suddenly "jump" from 0 to 2π or vice versa. This is because the
+              angle is normalized to be between 0 and 2π. This is done to ensure
+              that the angle is always between 0 and 2π. However, for the robot
+              implementation, you can use a "difference" function to calculate
+              the shortest angle between two angles. To do this, you will have
+              to keep track of a history of current and previous angles. An
+              example Javascript implementation is shown below:
+            </Alert>
+            <CodeBlock code={codeSegment}></CodeBlock>
+          </Stack>
         </Box>
       </Drawer>
     </Box>
@@ -535,6 +562,8 @@ const RobotRender = ({
   function computeWheelAngle(Vx, Vy, omega, Xi, Yi) {
     return Math.atan2(Vy + omega * Xi, Vx - omega * Yi);
   }
+
+  const previousWheelAngles = useRef([0, 0, 0, 0]);
 
   return (
     <>
@@ -625,6 +654,8 @@ const RobotRender = ({
         const wheelCenterX = position[0] + rotatedX;
         const wheelCenterY = position[1] + rotatedY;
 
+        const previousAngle = previousWheelAngles.current[index];
+
         // Run the wheel computation here
         const wheelSpeed = computeWheelSpeed(
           linearVelocity[0],
@@ -633,15 +664,22 @@ const RobotRender = ({
           rotatedX,
           rotatedY,
         );
-        const wheelAngle = normalizeAngle(
-          computeWheelAngle(
-            linearVelocity[0],
-            -linearVelocity[1],
-            angularVelocity,
-            rotatedX,
-            rotatedY,
+
+        const wheelAngle = shortestAngle(
+          previousAngle,
+          normalizeAngle(
+            computeWheelAngle(
+              linearVelocity[0],
+              -linearVelocity[1],
+              angularVelocity,
+              rotatedX,
+              rotatedY,
+            ),
           ),
         );
+
+        // update the previous angle
+        previousWheelAngles.current[index] = wheelAngle;
 
         const endpoints = [
           [wheelCenterX, wheelCenterY],
@@ -782,5 +820,11 @@ const Axis = ({ sx, size = 50, stroke = 3 }) => {
     </Box>
   );
 };
+
+const CodeBlock = ({ code }) => (
+  <SyntaxHighlighter language="javascript" style={dracula}>
+    {code}
+  </SyntaxHighlighter>
+);
 
 export default SwerveDrivePage;
