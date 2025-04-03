@@ -163,6 +163,8 @@ const PlatooningSimPage = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     const ctx = canvas.getContext("2d");
 
     const draw = () => {
@@ -204,6 +206,8 @@ const PlatooningSimPage = () => {
 
   useEffect(() => {
     // Handle keyboard events for moving the parent
+
+    if (window === undefined) return;
 
     const handleKeyDown = (event) => {
       setPosition((prev) => {
@@ -349,12 +353,7 @@ const PlatooningSimPage = () => {
           );
         }
       })}
-      <canvas
-        ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
-        style={{ display: "block" }}
-      />
+      <canvas ref={canvasRef} style={{ display: "block" }} />
 
       <Popper
         open={Boolean(anchorEl)}
