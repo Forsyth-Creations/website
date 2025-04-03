@@ -276,7 +276,7 @@ const PlatooningSimPage = () => {
     setTrackedPoints([]);
     setLastTrackedPosition({ x: position.x, y: position.y });
     setNodes([]);
-    setPosition({ x: 100, y: 100 });
+    setPosition({ x: 100, y: 150 });
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
