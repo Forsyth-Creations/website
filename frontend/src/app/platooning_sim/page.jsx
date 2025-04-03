@@ -392,10 +392,15 @@ const PlatooningSimPage = () => {
         anchor={"bottom"}
       >
         <Stack
-          sx={{ width: 300, padding: 2 }}
+          sx={{ p: 2 }}
           role="presentation"
           onClick={() => setIsDrawerOpen(false)}
         >
+          <Alert severity="info">
+            Try using the arrows keys to move the robot around! As long as you
+            don't click away from the window, you will be able to watch the
+            state changes!
+          </Alert>
           <Typography variant="h4">Node {drawerFocusIndex + 1}</Typography>
           <Divider />
           <Typography variant="body1">
