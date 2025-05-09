@@ -644,6 +644,10 @@ const VehicleWithPosition = ({
               // if the speed of the parent is 0, then set my speed to 0
               if (truckPositions[parentName]?.speed === 0) {
                 setActualSpeed(0);
+              }
+              // if the values are similar, then set my speed to the parent's speed
+              else if (Math.abs(distanceToParent - stopping_distance) < 0.1) {
+                setActualSpeed(truckPositions[parentName]?.speed);
               } else if (distanceToParent < stopping_distance) {
                 setActualSpeed(
                   Math.max(
