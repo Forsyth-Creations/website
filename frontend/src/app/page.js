@@ -12,6 +12,33 @@ import axios from "axios";
 import { FaDiscord } from "react-icons/fa";
 import { Button, Stack, Typography, Box, Chip } from "@mui/material";
 import React from "react";
+import Carousel from "@/comps/Toolbox/Carousel";
+import Link from "next/link";
+
+// A functional component to write an image in a link
+const ImageLink = ({ image, link }) => {
+  return (
+    <Link href={link} style={{ textDecoration: "none" }}>
+      <img
+        src={image}
+        alt="Simulation"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        }}
+      />
+    </Link>
+  );
+};
+
+const images = [
+  ImageLink({ image: "/sims/follow.png", link: "/sim/follow" }),
+  ImageLink({ image: "/sims/platoon.png", link: "/sim/platoon" }),
+  ImageLink({ image: "/sims/swerve.png", link: "/swerve_drive" }),
+];
 
 const BuildStatus = () => {
   let href =
@@ -95,6 +122,21 @@ export default function Home() {
       <Projects />
       <WholeScreen>
         <WorkExperience />
+      </WholeScreen>
+      <WholeScreen>
+        <Stack spacing={3} alignItems="center" justifyContent={"center"}>
+          <Typography variant="h4" align="center">
+            Online Simulations
+          </Typography>
+          <Carousel
+            slides={images}
+            interval={3000}
+            speed={20}
+            height={
+              typeof window !== "undefined" ? window.innerHeight / 1.5 : 500
+            }
+          />
+        </Stack>
       </WholeScreen>
       <WholeScreen>
         <Contact />

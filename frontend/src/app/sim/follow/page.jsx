@@ -89,8 +89,8 @@ const FollowingDistanceSimulator = () => {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [followerWeight, setFollowerWeight] = useState(20000);
   const [windowDims, setWindowDims] = useState({
-    width: 0,
-    height: 0,
+    width: null,
+    height: null,
   });
 
   function onCrash() {
@@ -146,6 +146,7 @@ const FollowingDistanceSimulator = () => {
     const handleMouseMove = (event) => {
       setCursorPos({ x: event.clientX, y: event.clientY });
     };
+    compute();
 
     const handleResize = () => compute();
     window.addEventListener("mousemove", handleMouseMove);
@@ -191,6 +192,7 @@ const FollowingDistanceSimulator = () => {
         cursorPos={cursorPos}
         followerWeight={followerWeight}
         setFollowerWeight={setFollowerWeight}
+        windowDims={windowDims}
       />
       {/* Simulator Area */}
       <Box
@@ -220,49 +222,50 @@ const FollowingDistanceSimulator = () => {
         ))}
 
         {/* Vehicles */}
-
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            alignItems: "center",
-          }}
-        >
-          <VehicleWithPosition
-            show_measurement={showMeasurement}
-            time={time}
-            origin={true}
-            speed={mph_to_mps(speed)}
-            name="Lead"
-            paused={pause}
-            // Initial position is in terms of meters
-            initialPosition={{
-              x: 10,
-              y: windowDims.height * 0.5 * PIXEL_TO_METER,
+        {windowDims.width != null && windowDims.height != null && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              alignItems: "center",
             }}
-            debug={false}
-            onCrash={onCrash}
-          />
+          >
+            <VehicleWithPosition
+              show_measurement={showMeasurement}
+              time={time}
+              origin={true}
+              speed={mph_to_mps(speed)}
+              name="Lead"
+              paused={pause}
+              // Initial position is in terms of meters
+              initialPosition={{
+                x: 10,
+                y: windowDims.height * 0.5 * PIXEL_TO_METER,
+              }}
+              debug={false}
+              onCrash={onCrash}
+            />
 
-          <VehicleWithPosition
-            show_measurement={showMeasurement}
-            time={time}
-            // speed={9.9}
-            speed={mph_to_mps(speed)}
-            name="Follower 1"
-            weight={followerWeight}
-            paused={pause}
-            initialPosition={{
-              x: 52,
-              y: windowDims.height * 0.5 * PIXEL_TO_METER,
-            }}
-            parentName="Lead"
-            enableAuto={true}
-            debug={true}
-            onCrash={onCrash}
-          />
-        </Box>
+            <VehicleWithPosition
+              show_measurement={showMeasurement}
+              time={time}
+              // speed={9.9}
+              speed={mph_to_mps(speed)}
+              name="Follower 1"
+              weight={followerWeight}
+              paused={pause}
+              initialPosition={{
+                x: 52,
+                y: windowDims.height * 0.5 * PIXEL_TO_METER,
+              }}
+              parentName="Lead"
+              enableAuto={true}
+              debug={true}
+              onCrash={onCrash}
+            />
+          </Box>
+        )}
       </Box>
       {/* A draw with the context data */}
       <Drawer
@@ -298,6 +301,7 @@ function UserButtons({
   cursorPos = { x: 0, y: 0 },
   setFollowerWeight = () => {},
   followerWeight,
+  windowDims = { width: 0, height: 0 },
 }) {
   const [local_speed, setLocalSpeed] = useState(speed);
 
@@ -409,7 +413,12 @@ function UserButtons({
             <MenuOpenIcon />
           </Button>
         </Tooltip>
-        <Chip label={`Cursor Position: (${cursorPos.x}, ${cursorPos.y})`} />
+        <Stack spacing={1}>
+          <Chip label={`Cursor Position: (${cursorPos.x}, ${cursorPos.y})`} />
+          <Chip
+            label={`Window Size: (${windowDims.height}, ${windowDims.width})`}
+          />
+        </Stack>
       </Paper>
     </Box>
   );
