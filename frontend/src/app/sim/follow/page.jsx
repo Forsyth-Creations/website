@@ -88,6 +88,10 @@ const FollowingDistanceSimulator = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [followerWeight, setFollowerWeight] = useState(20000);
+  const [windowDims, setWindowDims] = useState({
+    width: 0,
+    height: 0,
+  });
 
   function onCrash() {
     toast.error("Truck Crashed", { position: "top-center" });
@@ -113,54 +117,66 @@ const FollowingDistanceSimulator = () => {
 
   // Initialize lines and update on resize
   // Recompute line count and spacing on window resize or speed change
-  useEffect(() => {
-    const compute = () => {
-      const width = window.innerWidth;
-      const dynamicCount = Math.round(
-        LINE_TARGET_COUNT * (SPEED_MULTIPLIER + 0.5),
-      ); // dynamic line count
-      const spacing = width / dynamicCount;
-      setLineSpacing(spacing);
-      setLineOffsets(
-        Array.from({ length: dynamicCount }, (_, i) => i * spacing),
-      );
-    };
 
-    compute();
+  const compute = () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
-    const handleResize = () => compute();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [SPEED_MULTIPLIER]);
+    // set the window height and width
+    setWindowDims({ width, height });
+
+    const dynamicCount = Math.round(
+      LINE_TARGET_COUNT * (SPEED_MULTIPLIER + 0.5),
+    ); // dynamic line count
+    const spacing = width / dynamicCount;
+    setLineSpacing(spacing);
+    setLineOffsets(Array.from({ length: dynamicCount }, (_, i) => i * spacing));
+  };
+
+  // useEffect(() => {
+  //   const handleResize = () => compute();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, [SPEED_MULTIPLIER]);
 
   // Track the mouse position
   useEffect(() => {
+    if (window === undefined) return;
+
     const handleMouseMove = (event) => {
       setCursorPos({ x: event.clientX, y: event.clientY });
     };
 
+    const handleResize = () => compute();
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // Animate lines with speed as multiplier of spacing
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (pause) return;
+  // useEffect(() => {
+  //   if (window === undefined) return;
 
-      setLineOffsets((prev) =>
-        prev.map((offset) => {
-          const delta = lineSpacing * SPEED_MULTIPLIER;
-          const newOffset = offset + delta;
-          // advance the time
-          return newOffset > window.innerWidth ? 0 : newOffset;
-        }),
-      );
-      setTime((prevTime) => prevTime + 50);
-    }, DT);
+  //   const interval = setInterval(() => {
+  //     if (pause) return;
 
-    return () => clearInterval(interval);
-  }, [lineSpacing, SPEED_MULTIPLIER, pause]);
+  //     setLineOffsets((prev) =>
+  //       prev.map((offset) => {
+  //         const delta = lineSpacing * SPEED_MULTIPLIER;
+  //         const newOffset = offset + delta;
+  //         // advance the time
+  //         return newOffset > window.innerWidth ? 0 : newOffset;
+  //       }),
+  //     );
+  //     setTime((prevTime) => prevTime + 50);
+  //   }, DT);
+
+  //   return () => clearInterval(interval);
+  // }, [lineSpacing, SPEED_MULTIPLIER, pause]);
 
   return (
     <WholeScreen>
@@ -204,6 +220,7 @@ const FollowingDistanceSimulator = () => {
         ))}
 
         {/* Vehicles */}
+
         <Box
           sx={{
             position: "absolute",
@@ -222,7 +239,7 @@ const FollowingDistanceSimulator = () => {
             // Initial position is in terms of meters
             initialPosition={{
               x: 10,
-              y: window.innerHeight * 0.5 * PIXEL_TO_METER,
+              y: windowDims.height * 0.5 * PIXEL_TO_METER,
             }}
             debug={false}
             onCrash={onCrash}
@@ -238,7 +255,7 @@ const FollowingDistanceSimulator = () => {
             paused={pause}
             initialPosition={{
               x: 52,
-              y: window.innerHeight * 0.5 * PIXEL_TO_METER,
+              y: windowDims.height * 0.5 * PIXEL_TO_METER,
             }}
             parentName="Lead"
             enableAuto={true}
