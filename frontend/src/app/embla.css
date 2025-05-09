@@ -1,0 +1,87 @@
+.embla {
+  max-width: 80vw;
+  margin: 2rem auto;
+  --slide-height: 80vh;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --primary-color: #0070f3;
+  --button-bg: #f0f0f0;
+  --button-hover: #e0e0e0;
+  --button-disabled: #cccccc;
+  --text-color: #333;
+}
+
+.embla__viewport {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.embla__slide__img {
+  width: 100%;
+  height: var(--slide-height);
+  object-fit: cover;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.embla__slide__img:hover {
+  transform: scale(1.02);
+}
+
+.embla__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.embla__buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.embla__button {
+  background-color: var(--button-bg);
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  box-shadow: 0 0 0 1px #ccc;
+}
+
+.embla__button:hover:not(:disabled) {
+  background-color: var(--button-hover);
+}
+
+.embla__button:disabled {
+  background-color: var(--button-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.embla__button__svg {
+  width: 1rem;
+  height: 1rem;
+}

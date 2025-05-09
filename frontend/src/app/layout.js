@@ -1,6 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+// import embla css
+import "./embla.css";
+
 import ForsythTheme from "@/contexts/ThemeProvider";
 import { AutoScrollProvider } from "@/contexts/AutoScrollContext";
 
