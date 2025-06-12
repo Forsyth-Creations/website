@@ -138,11 +138,6 @@ function Model({
     // Smooth position (glide-to-position)
     meshRef.current.position.lerp(targetPosition.current, 0.1);
 
-    // Console.log the meshRef current position
-    console.log(
-      `Current Position: ${meshRef.current.rotation.x}, ${meshRef.current.rotation.y}, ${meshRef.current.rotation.z}`,
-    );
-
     if (autorotate) {
       // Continuous slow spin
       meshRef.current.rotation.y += 0.003;
@@ -150,6 +145,9 @@ function Model({
       // Bobbing effect
       meshRef.current.position.y =
         targetPosition.current.y + Math.sin(performance.now() / 500) * 0.05;
+
+      // Update the current rotation
+
     } else {
       // Interpolate rotation toward target
       let back_toward = lerpAngle(
@@ -158,9 +156,6 @@ function Model({
         0.05,
       );
 
-      console.log(
-        `Current Rotation: ${meshRef.current.rotation.x}, Target: ${targetRotation.current.x}, Back Toward: ${back_toward}`,
-      );
 
       meshRef.current.rotation.x = back_toward;
       meshRef.current.rotation.y = lerpAngle(
