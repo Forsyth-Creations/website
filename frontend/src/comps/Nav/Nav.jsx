@@ -77,7 +77,7 @@ export default function Navigation() {
   );
 }
 
-function DarkModeSwitch(props) {
+export function DarkModeSwitch(props) {
   const { isDark, setIsDark } = React.useContext(DarkmodeContext);
 
   return (
