@@ -3,7 +3,11 @@
 // Create an MUI theme provider
 
 import React, { useContext, useEffect } from "react"; // Import useContext from react package
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { Box } from "@mui/material";
 import { deepOrange, grey } from "@mui/material/colors";
@@ -75,7 +79,7 @@ const commonText = {
   },
 };
 
-const darkTheme = createTheme({
+let darkTheme = createTheme({
   palette: {
     mode: "dark",
     // palette values for dark mode
@@ -121,7 +125,7 @@ const darkTheme = createTheme({
   typography: commonText,
 });
 
-const lightTheme = createTheme({
+let lightTheme = createTheme({
   palette: {
     mode: "light",
     // palette values for dark mode
@@ -166,6 +170,9 @@ const lightTheme = createTheme({
   },
   typography: commonText,
 });
+
+// darkTheme = responsiveFontSizes(darkTheme);
+// lightTheme = responsiveFontSizes(lightTheme);
 
 // Create a context for dark mode or light mode
 export const DarkmodeContext = React.createContext(null);

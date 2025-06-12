@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Edges, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { Html } from "@react-three/drei";
 import { Box, Chip } from "@mui/material";
+import { DarkmodeContext } from "@/contexts/ThemeProvider";
 
 export default function AnimationPage() {
   const [scrollY, setScrollY] = useState(0);
@@ -50,7 +51,6 @@ export default function AnimationPage() {
         style={{
           height: "100vh",
           width: "100vw",
-          background: "black",
           position: "fixed",
           top: 0,
           left: 0,
@@ -58,27 +58,56 @@ export default function AnimationPage() {
         }}
       >
         <Canvas
-          camera={{ position: [0, 0, 4], fov: 50 }}
+          camera={{ position: [1.5, 1.5, 1.5], fov: 50 }}
           style={{ height: "100%", width: "100%" }}
         >
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={255} />
           <Model
-            src="/models/Lid.stl"
-            autorotate={autorotate}
+            src="/models/plane/Toy_Plane_Cockpit.stl"
+            bob={true}
             label={showLabels && "Lid Model"}
-            position={modelPosition}
-            scale={0.03}
-            labelPosition={[0, -1.5, 0]}
+            position={[0, 0.1, 0.35]}
+            scale={0.01}
+            labelPosition={[0, -1, 0]}
+            rotation={[-1.57, 0, 0]}
           />
           <Model
-            src="/models/Lid.stl"
-            autorotate={autorotate}
-            label={showLabels && "Lid Model 2"}
-            position={modelPosition2}
-            scale={0.03}
+            src="/models/plane/Toy_Plane_Engine.stl"
+            bob={true}
+            label={showLabels && "Lid Model"}
+            position={[0, 0, 0.9]}
+            scale={0.01}
             labelPosition={[0, -1.5, 0]}
+            rotation={[0, 0, 0]}
           />
-          {/* <OrbitControls /> */}
+          <Model
+            src="/models/plane/Toy_Plane_Front_Cover.stl"
+            bob={true}
+            label={showLabels && "Lid Model"}
+            position={[0, 0, 0.85]}
+            scale={0.01}
+            labelPosition={[0, -1.2, 0]}
+            rotation={[0, 3.14, 3.14]}
+          />
+          <Model
+            src="/models/plane/Toy_Plane_fuselage.stl"
+            bob={true}
+            label={showLabels && "Lid Model"}
+            position={[0, 0, 0]}
+            scale={0.01}
+            labelPosition={[0, 0, 0]}
+            rotation={[0, 3.14, -1.57]}
+          />
+          <Model
+            src="/models/plane/Toy_Plane_Lower_Wing.stl"
+            bob={true}
+            label={showLabels && "Lid Model"}
+            position={[0, -0.2, 0.5]}
+            scale={0.01}
+            labelPosition={[0, 0, 0]}
+            rotation={[1.57, 0, 2.3]}
+          />
+          <OrbitControls />
         </Canvas>
       </div>
       {/* A third, fake box to make it so scrolling can happen */}
@@ -91,7 +120,7 @@ function Model({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   labelPosition = [0, 0.5, 0],
-  autorotate = false,
+  bob = false,
   label = "",
   glideTime = 1000,
   showPose = false,
@@ -102,6 +131,7 @@ function Model({
   const targetPosition = useRef(new THREE.Vector3(...position));
   const targetRotation = useRef(new THREE.Euler(...rotation));
   const clockRef = useRef(new THREE.Clock());
+  const { isDark } = useContext(DarkmodeContext);
 
   function lerpAngle(current, target, alpha) {
     const delta = ((target - current + Math.PI) % (2 * Math.PI)) - Math.PI;
@@ -140,33 +170,31 @@ function Model({
 
     if (autorotate) {
       // Continuous slow spin
-      meshRef.current.rotation.y += 0.003;
+      meshRef.current.rotation.y += Math.sin(performance.now() / 1000) * 0.001;
 
       // Bobbing effect
       meshRef.current.position.y =
         targetPosition.current.y + Math.sin(performance.now() / 500) * 0.05;
 
       // Update the current rotation
-
     } else {
       // Interpolate rotation toward target
-      let back_toward = lerpAngle(
+
+      meshRef.current.rotation.x = lerpAngle(
         meshRef.current.rotation.x,
         targetRotation.current.x,
-        0.05,
+        0.03,
       );
 
-
-      meshRef.current.rotation.x = back_toward;
       meshRef.current.rotation.y = lerpAngle(
-        meshRef.current.rotation.y,
+        meshRef.current.rotation.y % 6.28,
         targetRotation.current.y,
-        0.05,
+        0.03,
       );
       meshRef.current.rotation.z = lerpAngle(
         meshRef.current.rotation.z,
         targetRotation.current.z,
-        0.05,
+        0.03,
       );
 
       // Ensure bobbing is off
@@ -180,14 +208,18 @@ function Model({
     <group ref={meshRef}>
       <mesh geometry={geometry}>
         <meshStandardMaterial
-          color="black"
-          side={THREE.DoubleSide}
-          roughness={0.5}
-          metalness={0}
+          color={isDark ? "#000" : "#fff"}
+          metalness={10}
+          roughness={10}
         />
       </mesh>
 
-      <Edges geometry={geometry} threshold={15} color="white" />
+      <Edges
+        geometry={geometry}
+        threshold={15}
+        color={isDark ? "#fafafa" : "#222"}
+        lineWidth={10}
+      />
 
       {label && (
         <Html
@@ -196,8 +228,6 @@ function Model({
           distanceFactor={8}
           occlude
           style={{
-            color: "white",
-            background: "rgba(0,0,0,0.5)",
             padding: "2px 6px",
             borderRadius: "4px",
             fontSize: "20px",
@@ -215,8 +245,6 @@ function Model({
           distanceFactor={8}
           occlude
           style={{
-            color: "white",
-            background: "rgba(0,0,0,0.5)",
             padding: "2px 6px",
             borderRadius: "4px",
             fontSize: "10px",
