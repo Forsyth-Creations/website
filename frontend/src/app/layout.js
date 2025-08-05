@@ -10,7 +10,8 @@ import Head from "next/head";
 
 export const metadata = {
   title: "Forsyth Creations",
-  description: "Forsyth Creations LLC is a software development company specializing in web and mobile applications. The company is run by Henry Forsyth, with this site serving as a portfolio and blog",
+  description:
+    "Forsyth Creations LLC is a software development company specializing in web and mobile applications. The company is run by Henry Forsyth, with this site serving as a portfolio and blog",
 };
 
 export default function RootLayout({ children }) {
