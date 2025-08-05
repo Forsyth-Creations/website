@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { IconButton } from "@mui/material";
 
 export default function EmblaCarousel({ slides }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -39,14 +42,35 @@ export default function EmblaCarousel({ slides }) {
           ))}
         </div>
       </div>
-      <div className="embla__buttons">
-        <button onClick={scrollPrev} disabled={prevDisabled}>
-          Prev
-        </button>
-        <button onClick={scrollNext} disabled={nextDisabled}>
-          Next
-        </button>
-      </div>
+      <IconButton
+        onClick={scrollPrev}
+        disabled={prevDisabled}
+        sx={{
+          backgroundColor: prevDisabled ? "grey.300" : "primary.main",
+          color: "white",
+          "&:hover": {
+            backgroundColor: prevDisabled ? "grey.300" : "primary.dark",
+          },
+          borderRadius: 2, // rounded corners
+        }}
+      >
+        <ChevronLeftIcon />
+      </IconButton>
+
+      <IconButton
+        onClick={scrollNext}
+        disabled={nextDisabled}
+        sx={{
+          backgroundColor: nextDisabled ? "grey.300" : "primary.main",
+          color: "white",
+          "&:hover": {
+            backgroundColor: nextDisabled ? "grey.300" : "primary.dark",
+          },
+          borderRadius: 2,
+        }}
+      >
+        <ChevronRightIcon />
+      </IconButton>
     </div>
   );
 }
