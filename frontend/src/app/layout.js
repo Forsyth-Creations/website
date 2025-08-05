@@ -6,26 +6,22 @@ import "./embla.css";
 
 import ForsythTheme from "@/contexts/ThemeProvider";
 import { AutoScrollProvider } from "@/contexts/AutoScrollContext";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Head from "next/head";
 
 export const metadata = {
   title: "Forsyth Creations",
-  description: "Created by Henry Forsyth, 2025",
+  description:
+    "Forsyth Creations LLC is a software development company specializing in web and mobile applications. The company is run by Henry Forsyth, with this site serving as a portfolio and blog",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </Head>
+      <body>
         <ForsythTheme>
           <AutoScrollProvider>{children}</AutoScrollProvider>
         </ForsythTheme>
