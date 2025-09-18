@@ -32,6 +32,13 @@ import LineAxisIcon from "@mui/icons-material/LineAxis";
 import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Joystick } from "react-joystick-component";
+import Head from "next/head";
+
+const metadata = {
+  title: "Swerve Drive Simulator",
+  description:
+    "An interactive swerve drive simulator to help visualize and understand swerve drive kinematics.",
+};
 
 // Check and Cross icon
 import CheckIcon from "@mui/icons-material/Check";
@@ -202,6 +209,10 @@ const SwerveDrivePage = () => {
 
   return (
     <Box sx={{ maxHeight: "100vh", overflowY: "clip" }}>
+      <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </Head>
       <WholeScreen>
         {/* Show an x and y axis symbol in the top right */}
         <Axis sx={{ position: "absolute", top: 20, right: 80 }} />
