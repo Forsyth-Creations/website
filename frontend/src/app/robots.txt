@@ -1,3 +1,5 @@
 User-agent: *
-Disallow: /
-Allow: /$
+Disallow: /branding
+Allow: /
+
+Sitemap: https://www.forsythcreations.com/sitemap.xml
