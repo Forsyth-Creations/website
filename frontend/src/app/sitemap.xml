@@ -5,4 +5,19 @@
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
+  <url>
+    <loc>https://forsythcreations.com/sim/follow</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://forsythcreations.com/sim/platoon</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://forsythcreations.com/sim/swerve_drive</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
