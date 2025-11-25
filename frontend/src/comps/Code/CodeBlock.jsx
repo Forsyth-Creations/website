@@ -21,11 +21,17 @@ import javascript from "highlight.js/lib/languages/javascript";
 import typescript from "highlight.js/lib/languages/typescript";
 import json from "highlight.js/lib/languages/json";
 import xml from "highlight.js/lib/languages/xml";
+import python from "highlight.js/lib/languages/python";
+import rust from "highlight.js/lib/languages/rust";
+import cpp from "highlight.js/lib/languages/cpp";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("typescript", typescript);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("cpp", cpp);
 
 // Highlight.js theme
 import "highlight.js/styles/github.css";
@@ -82,6 +88,7 @@ const CodeBlock = ({
                 position: "relative",
                 borderRadius: 1,
                 overflow: "hidden",
+                height : "100%",
                 bgcolor:
                     theme.palette.mode === "dark"
                         ? "rgba(255,255,255,0.04)"
@@ -120,7 +127,7 @@ const CodeBlock = ({
                 component="pre"
                 sx={{
                     m: 0,
-                    p: 2.5,
+                    p: 0.5,
                     overflowX: "auto",
                     fontFamily:
                         '"Fira Code", "Source Code Pro", Menlo, monospace',
@@ -209,10 +216,10 @@ const MultiExample = ({ examples = [], name = "Code examples", ...props }) => {
                         {name}
                     </Typography>
                 </AccordionSummary>
-                <Stack direction = "row" spacing = {1} sx = {{width : "100%"}}>
+                <Stack direction = "row" spacing = {0} sx = {{width : "100%", overflowX: "scroll"}}>
                     {examples.map((example, index) => (
 
-                        <AccordionDetails>
+                        <AccordionDetails key={`${example.language}-${example.filePath}`}>
                             <CodeBlock.File
                                 filePath={example.filePath}
                                 language={example.language}

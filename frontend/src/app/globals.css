@@ -44,6 +44,7 @@ a {
 /* Make the scroll bar a lot thinner */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
