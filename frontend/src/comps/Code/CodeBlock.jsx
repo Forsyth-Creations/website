@@ -88,6 +88,7 @@ const CodeBlock = ({
                 position: "relative",
                 borderRadius: 1,
                 overflow: "hidden",
+                height : "100%",
                 bgcolor:
                     theme.palette.mode === "dark"
                         ? "rgba(255,255,255,0.04)"
@@ -126,7 +127,7 @@ const CodeBlock = ({
                 component="pre"
                 sx={{
                     m: 0,
-                    p: 2.5,
+                    p: 0.5,
                     overflowX: "auto",
                     fontFamily:
                         '"Fira Code", "Source Code Pro", Menlo, monospace',
@@ -215,7 +216,7 @@ const MultiExample = ({ examples = [], name = "Code examples", ...props }) => {
                         {name}
                     </Typography>
                 </AccordionSummary>
-                <Stack direction = "row" spacing = {1} sx = {{width : "100%"}}>
+                <Stack direction = "row" spacing = {0} sx = {{width : "100%", overflowX: "scroll"}}>
                     {examples.map((example, index) => (
 
                         <AccordionDetails key={`${example.language}-${example.filePath}`}>

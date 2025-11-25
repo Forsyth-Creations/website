@@ -31,7 +31,6 @@ const Hamburger = () => {
     <Box>
       <Tooltip title="Menu" placement="right">
         <IconButton
-          color="inherit"
           aria-label="menu"
           onClick={toggleDrawer(true)}
         >
