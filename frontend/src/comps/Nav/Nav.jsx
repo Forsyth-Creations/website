@@ -11,6 +11,7 @@ import {
   IconButton,
   Stack,
   Switch,
+  Typography,
 } from "@mui/material";
 
 // import the theme provider context
@@ -18,6 +19,7 @@ import { DarkmodeContext } from "@/contexts/ThemeProvider.jsx";
 import { AutoScrollContext } from "@/contexts/AutoScrollContext.jsx";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import Hamburger from "@/comps/Nav/Hamburger.jsx";
 
 export default function Navigation() {
   const { isDark } = React.useContext(DarkmodeContext);
@@ -56,22 +58,25 @@ export default function Navigation() {
             />
           </Tooltip>
         </Stack>
-        <Box sx={{ cursor: "pointer" }} onClick={FullHome}>
-          {isDark && (
-            <img
-              src={"/forsyth/Branding/Name_White.svg"}
-              alt="Name"
-              width={200}
-            />
-          )}
-          {!isDark && (
-            <img
-              src={"/forsyth/Branding/Name_Black.svg"}
-              alt="Name"
-              width={200}
-            />
-          )}
-        </Box>
+        <Stack direction={"row"} spacing={1} alignItems="center">
+          <Stack sx={{ cursor: "pointer", mb : 0 }} onClick={FullHome} alignItems="center">
+            {isDark && (
+              <img
+                src={"/forsyth/Branding/Name_White.svg"}
+                alt="Name"
+                width={200}
+              />
+            )}
+            {!isDark && (
+              <img
+                src={"/forsyth/Branding/Name_Black.svg"}
+                alt="Name"
+                width={200}
+              />
+            )}
+          </Stack>
+        <Hamburger/>
+        </Stack>
       </Toolbar>
     </AppBar>
   );

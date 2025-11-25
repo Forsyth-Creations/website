@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "node preload.js && next dev --turbopack",
+    "build": "node preload.js && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "npx prettier src --write"
@@ -24,7 +24,8 @@
     "axios": "^1.7.9",
     "cookies-next": "^5.1.0",
     "embla-carousel-react": "^8.6.0",
-    "next": "15.1.5",
+    "highlights": "^3.1.6",
+    "next": "16.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
