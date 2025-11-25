@@ -21,11 +21,17 @@ import javascript from "highlight.js/lib/languages/javascript";
 import typescript from "highlight.js/lib/languages/typescript";
 import json from "highlight.js/lib/languages/json";
 import xml from "highlight.js/lib/languages/xml";
+import python from "highlight.js/lib/languages/python";
+import rust from "highlight.js/lib/languages/rust";
+import cpp from "highlight.js/lib/languages/cpp";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("typescript", typescript);
 hljs.registerLanguage("json", json);
 hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("cpp", cpp);
 
 // Highlight.js theme
 import "highlight.js/styles/github.css";
@@ -212,7 +218,7 @@ const MultiExample = ({ examples = [], name = "Code examples", ...props }) => {
                 <Stack direction = "row" spacing = {1} sx = {{width : "100%"}}>
                     {examples.map((example, index) => (
 
-                        <AccordionDetails>
+                        <AccordionDetails key={`${example.language}-${example.filePath}`}>
                             <CodeBlock.File
                                 filePath={example.filePath}
                                 language={example.language}
