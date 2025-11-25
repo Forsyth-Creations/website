@@ -5,3 +5,5 @@ out
 
 # CodeQL
 _codeql_detected_source_root
+
+frontend/public/examples
