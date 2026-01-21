@@ -59,7 +59,11 @@ export default function Navigation() {
           </Tooltip>
         </Stack>
         <Stack direction={"row"} spacing={1} alignItems="center">
-          <Stack sx={{ cursor: "pointer", mb : 0 }} onClick={FullHome} alignItems="center">
+          <Stack
+            sx={{ cursor: "pointer", mb: 0 }}
+            onClick={FullHome}
+            alignItems="center"
+          >
             {isDark && (
               <img
                 src={"/forsyth/Branding/Name_White.svg"}
@@ -75,7 +79,7 @@ export default function Navigation() {
               />
             )}
           </Stack>
-        <Hamburger/>
+          <Hamburger />
         </Stack>
       </Toolbar>
     </AppBar>
