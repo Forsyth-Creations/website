@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 const Options = [
   { label: "Home", link: "/" },
   { label: "Code", link: "/code" },
+  { label: "Setups", link: "/setups" },
 ];
 
 const Hamburger = () => {
@@ -30,10 +31,7 @@ const Hamburger = () => {
   return (
     <Box>
       <Tooltip title="Menu" placement="right">
-        <IconButton
-          aria-label="menu"
-          onClick={toggleDrawer(true)}
-        >
+        <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
           <MenuIcon />
         </IconButton>
       </Tooltip>
