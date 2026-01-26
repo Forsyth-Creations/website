@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 const Options = [
   { label: "Home", link: "/" },
   { label: "Code", link: "/code" },
-  { label: "Setups", link: "/setups" },
 ];
 
 const Hamburger = () => {
