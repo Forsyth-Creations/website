@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 
 const Options = [
   { label: "Home", link: "/" },
+  { label: "Blog", link: "/blog" },
   { label: "Code", link: "/code" },
 ];
 

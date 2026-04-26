@@ -24,6 +24,7 @@
     "axios": "^1.7.9",
     "cookies-next": "^5.1.0",
     "embla-carousel-react": "^8.6.0",
+    "gray-matter": "^4.0.3",
     "highlights": "^3.1.6",
     "next": "16.0.4",
     "react": "^19.0.0",
@@ -33,6 +34,8 @@
     "react-joystick-component": "^6.2.1",
     "react-syntax-highlighter": "^15.6.1",
     "react-toastify": "^11.0.3",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "three": "^0.177.0"
   },
   "devDependencies": {
