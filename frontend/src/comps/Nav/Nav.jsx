@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-
-// mui autocomplete
 import {
   AppBar,
   Toolbar,
@@ -10,75 +8,59 @@ import {
   Tooltip,
   IconButton,
   Stack,
-  Switch,
-  Typography,
 } from "@mui/material";
 
-// import the theme provider context
 import { DarkmodeContext } from "@/contexts/ThemeProvider.jsx";
-import { AutoScrollContext } from "@/contexts/AutoScrollContext.jsx";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Hamburger from "@/comps/Nav/Hamburger.jsx";
 
 export default function Navigation() {
   const { isDark } = React.useContext(DarkmodeContext);
-  const { enableAutoScroll, setEnableAutoScroll } =
-    React.useContext(AutoScrollContext);
 
-  // scroll to the top of the page
   const FullHome = () => {
-    if (window === undefined) return;
-
+    if (typeof window === "undefined") return;
     if (window.location.pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" }); // This scrolls to the top of the page
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      window.location.href = "/"; // This navigates to the home page
+      window.location.href = "/";
     }
   };
 
   return (
-    <AppBar sx={{ position: "fixed", top: 0, width: "100%" }} elevation={0}>
+    <AppBar
+      elevation={0}
+      sx={{
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        borderBottom: "1px solid",
+        borderColor: "divider",
+        bgcolor: "background.default",
+      }}
+    >
       <Toolbar
-        id="toolbar_1"
         sx={{
-          alignItems: "flex-end",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          bgcolor: "background.default",
+          minHeight: "56px !important",
+          px: { xs: 2, sm: 3 },
         }}
       >
-        <Stack direction={"row"} spacing={2}>
+        <Box
+          sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+          onClick={FullHome}
+        >
+          <img
+            src={isDark ? "/forsyth/Branding/Name_White.svg" : "/forsyth/Branding/Name_Black.svg"}
+            alt="Forsyth Creations"
+            style={{ height: 28, width: "auto" }}
+          />
+        </Box>
+
+        <Stack direction="row" spacing={0.5} alignItems="center">
           <DarkModeSwitch />
-          <Tooltip title="Toggle scroll lock" placement="bottom">
-            <Switch
-              checked={enableAutoScroll}
-              onChange={() => setEnableAutoScroll(!enableAutoScroll)}
-            />
-          </Tooltip>
-        </Stack>
-        <Stack direction={"row"} spacing={1} alignItems="center">
-          <Stack
-            sx={{ cursor: "pointer", mb: 0 }}
-            onClick={FullHome}
-            alignItems="center"
-          >
-            {isDark && (
-              <img
-                src={"/forsyth/Branding/Name_White.svg"}
-                alt="Name"
-                width={200}
-              />
-            )}
-            {!isDark && (
-              <img
-                src={"/forsyth/Branding/Name_Black.svg"}
-                alt="Name"
-                width={200}
-              />
-            )}
-          </Stack>
           <Hamburger />
         </Stack>
       </Toolbar>
@@ -91,9 +73,13 @@ export function DarkModeSwitch(props) {
 
   return (
     <Box sx={props.sx}>
-      <Tooltip title="Toggle light/dark theme" placement="bottom">
-        <IconButton onClick={() => setIsDark(!isDark)} color="secondary">
-          {isDark ? <DarkModeIcon /> : <LightModeIcon />}
+      <Tooltip title={isDark ? "Switch to light mode" : "Switch to dark mode"} placement="bottom">
+        <IconButton
+          onClick={() => setIsDark(!isDark)}
+          size="small"
+          sx={{ opacity: 0.7, "&:hover": { opacity: 1 } }}
+        >
+          {isDark ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
         </IconButton>
       </Tooltip>
     </Box>

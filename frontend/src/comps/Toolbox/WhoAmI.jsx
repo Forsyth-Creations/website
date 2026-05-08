@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  IconButton,
   Container,
   Typography,
   Paper,
   Stack,
   Modal,
   Divider,
+  IconButton,
 } from "@mui/material";
 import {
   FaHtml5,
@@ -18,7 +18,6 @@ import {
   FaPython,
   FaDocker,
 } from "react-icons/fa";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faRaspberryPi,
@@ -43,174 +42,189 @@ const myIcons = [
   { label: "Arduino" },
   { label: "Inkscape" },
   { label: "ROS2" },
-  { label: "C, C++" },
+  { label: "C / C++" },
   { label: "AWS" },
 ];
 
-const CustomCarousel = ({ items }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length); // Loop through items
-    }, 3000); // Change every 3 seconds
-    return () => clearInterval(interval);
-  }, [items.length]);
-
-  return (
+const SkillTicker = ({ onClick }) => (
+  <Box
+    onClick={onClick}
+    sx={{
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      my: 3,
+      maxWidth: "100%",
+      cursor: "pointer",
+      "&:hover .ticker-inner": { animationPlayState: "paused" },
+    }}
+  >
     <Box
-      sx={{ overflow: "hidden", whiteSpace: "nowrap", my: 2, maxWidth: "90vw" }}
-    >
-      <Box
-        sx={{
-          display: "inline-flex",
-          animation: "scroll 40s linear infinite", // Slower animation for a smoother transition
-          "@keyframes scroll": {
-            "0%": { transform: "translateX(0)" },
-            "100%": { transform: `translateX(-50%)` }, // Scroll halfway for wrap effect
-          },
-        }}
-      >
-        {[...Array(2)].map((_, i) => (
-          <React.Fragment key={i}>
-            {items.map((item, index) => (
-              <Box
-                key={index}
-                display="inline-block"
-                component={Paper}
-                variant="outlined"
-                sx={{ p: 2, mx: 1 }}
-              >
-                <Stack direction="row" spacing={1} alignItems="center">
-                  {item.icon}
-                  <Typography variant="caption" align="center">
-                    {item.label}
-                  </Typography>
-                </Stack>
-              </Box>
-            ))}
-          </React.Fragment>
-        ))}
-      </Box>
-    </Box>
-  );
-};
-
-const PaperHover = ({ children, onClick = () => {} }) => {
-  const [hoverOn, setHoverOn] = useState(false);
-
-  return (
-    <Paper
-      onMouseEnter={() => setHoverOn(true)}
-      onMouseLeave={() => setHoverOn(false)}
+      className="ticker-inner"
       sx={{
-        position: "relative",
-        overflow: "hidden", // Ensures the hover effect stays within bounds
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          backgroundColor: hoverOn ? "#cccccc55" : "transparent",
-          opacity: 0, // Default hidden
-          transition: "opacity 0.2s ease-in-out",
-          pointerEvents: "none", // Prevents interference with children
+        display: "inline-flex",
+        animation: "ticker 35s linear infinite",
+        "@keyframes ticker": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
-        "&:hover::before": {
-          opacity: 1, // Show hover effect
-        },
-        pointerEvents: "auto", // Allows hover effect to trigger
       }}
-      onClick={onClick}
     >
-      {children}
-    </Paper>
-  );
-};
+      {[0, 1].map((copy) => (
+        <React.Fragment key={copy}>
+          {myIcons.map((item, i) => (
+            <Box
+              key={i}
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                mx: 1,
+                px: 1.5,
+                py: 0.75,
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: "4px",
+                fontSize: "0.78rem",
+                fontFamily: "Barlow, sans-serif",
+                letterSpacing: "0.04em",
+                color: "text.secondary",
+                transition: "color 0.2s, borderColor 0.2s",
+              }}
+            >
+              {item.icon && (
+                <Box sx={{ fontSize: "1rem", display: "flex" }}>{item.icon}</Box>
+              )}
+              {item.label}
+            </Box>
+          ))}
+        </React.Fragment>
+      ))}
+    </Box>
+  </Box>
+);
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80vw",
-  maxWidth: "400px",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
+const chunkArray = (arr, size) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  return result;
 };
 
 const WhoAmI = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
-  // Helper to chunk icons
-  const chunkIcons = (icons, size) => {
-    const result = [];
-    for (let i = 0; i < icons.length; i += size) {
-      result.push(icons.slice(i, i + size));
-    }
-    return result;
-  };
-
   const [page, setPage] = useState(0);
-  const chunkedIcons = chunkIcons(myIcons, 5);
+  const chunkedIcons = chunkArray(myIcons, 6);
 
   return (
-    <Container>
-      <Typography variant="h1" component="h1" gutterBottom>
-        Who Am I?
-      </Typography>
-      <Typography variant="body1" sx={{ maxWidth: "600px" }}>
-        Hello, my name is Henry Forsyth. I develop software and hardware
-        solutions for the next generation of technology. I run Forsyth
-        Creations, a consulting firm that specializes in software development,
-        hardware design, and technology integration. My background includes the
-        following:
-      </Typography>
-      <PaperHover
-        onClick={() => setModalOpen(true)}
-        sx={{ my: 2, p: 2, cursor: "pointer" }}
-      >
-        <CustomCarousel items={[...myIcons, ...myIcons]} />
-      </PaperHover>
+    <Container maxWidth="md">
+      <Stack spacing={3}>
+        <Box>
+          <Typography
+            variant="h1"
+            sx={{
+              color: "primary.main",
+              mb: 0,
+              lineHeight: 0.95,
+            }}
+          >
+            Who
+          </Typography>
+          <Typography
+            variant="h1"
+            sx={{
+              color: "text.primary",
+              lineHeight: 0.95,
+            }}
+          >
+            Am I?
+          </Typography>
+        </Box>
+
+        <Divider sx={{ borderColor: "primary.main", borderWidth: 2, width: 60 }} />
+
+        <Typography
+          variant="body1"
+          sx={{ maxWidth: "600px", color: "text.secondary", fontSize: "1.05rem" }}
+        >
+          Hello, my name is{" "}
+          <Box component="span" sx={{ color: "text.primary", fontWeight: 600 }}>
+            Henry Forsyth
+          </Box>
+          . I develop software and hardware solutions for the next generation of
+          technology. I run{" "}
+          <Box component="span" sx={{ color: "primary.main", fontWeight: 600 }}>
+            Forsyth Creations
+          </Box>
+          , a consulting firm specializing in software development, hardware
+          design, and technology integration.
+        </Typography>
+
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{ mb: 1, color: "text.secondary", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.7rem" }}
+          >
+            Skills & Tools — click to expand
+          </Typography>
+          <SkillTicker onClick={() => setModalOpen(true)} />
+        </Box>
+      </Stack>
 
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
       >
-        <Box sx={modalStyle}>
-          <Typography id="modal-title" gutterBottom>
-            Yeah, I wouldn't want to wait for those to scroll either:
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "min(420px, 90vw)",
+            bgcolor: "background.paper",
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 1,
+            p: 4,
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{ mb: 2, fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, textTransform: "uppercase" }}
+          >
+            Skills & Tools
           </Typography>
-          <Divider sx={{ m: "5px" }} />
-          <Stack spacing={1}>
+          <Divider sx={{ mb: 2 }} />
+          <Stack spacing={1.5}>
             {chunkedIcons[page].map((item, index) => (
-              <Stack
-                key={index}
-                direction="row"
-                spacing={1}
-                alignItems="center"
-              >
-                {item.icon}
-                <Typography variant="caption" align="center">
+              <Stack key={index} direction="row" spacing={1.5} alignItems="center">
+                {item.icon && (
+                  <Box sx={{ fontSize: "1.2rem", color: "primary.main", display: "flex" }}>
+                    {item.icon}
+                  </Box>
+                )}
+                <Typography variant="body2" sx={{ fontWeight: 500 }}>
                   {item.label}
                 </Typography>
               </Stack>
             ))}
           </Stack>
-          <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mt: 3 }}>
             <IconButton
-              onClick={() =>
-                setPage((page - 1 + chunkedIcons.length) % chunkedIcons.length)
-              }
+              size="small"
+              onClick={() => setPage((page - 1 + chunkedIcons.length) % chunkedIcons.length)}
+              sx={{ border: "1px solid", borderColor: "divider", borderRadius: 1, px: 1.5 }}
             >
-              Prev
+              <Typography variant="body2">← Prev</Typography>
             </IconButton>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              {page + 1} / {chunkedIcons.length}
+            </Typography>
             <IconButton
+              size="small"
               onClick={() => setPage((page + 1) % chunkedIcons.length)}
+              sx={{ border: "1px solid", borderColor: "divider", borderRadius: 1, px: 1.5 }}
             >
-              Next
+              <Typography variant="body2">Next →</Typography>
             </IconButton>
           </Stack>
         </Box>

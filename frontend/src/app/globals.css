@@ -1,12 +1,15 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f5f2;
+  --foreground: #010101;
+  --accent: #204d71;
+  --font-barlow: "Barlow", sans-serif;
+  --font-barlow-condensed: "Barlow Condensed", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #010101;
+    --foreground: #ffffff;
   }
 }
 
@@ -19,7 +22,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-barlow), "Barlow", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -41,18 +44,18 @@ a {
   }
 }
 
-/* Make the scroll bar a lot thinner */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--foreground);
+  background: #204d71;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: transparent;
 }
 
 html {
@@ -60,9 +63,10 @@ html {
 }
 
 .code-block {
-  background: #282c34;
-  color: #fff;
+  background: #0d1b2a;
+  color: #e8eef5;
   padding: 10px;
   border-radius: 5px;
   overflow-x: auto;
+  font-family: "Barlow", monospace;
 }

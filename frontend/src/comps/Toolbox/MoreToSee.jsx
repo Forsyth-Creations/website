@@ -1,61 +1,57 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Fade, Stack } from "@mui/material";
+import { Box, Typography, Fade } from "@mui/material";
 import { keyframes } from "@emotion/react";
 
-// arrow icons from mui
-import { ArrowDownward } from "@mui/icons-material";
-
-const bobbing = keyframes`
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+const drift = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 `;
 
 const MoreToSee = ({ show }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (show) {
-      setVisible(true);
-      console.log("showing");
-    } else {
-      setVisible(false);
-      console.log("hiding");
-    }
+    setVisible(show);
   }, [show]);
 
   return (
-    <Fade in={visible} timeout={500}>
+    <Fade in={visible} timeout={600}>
       <Box
         sx={{
           position: "fixed",
-          right: 0,
-          bottom: 0,
-          width: "100vw",
+          bottom: 32,
+          left: "50%",
+          transform: "translateX(-50%)",
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 0.75,
+          animation: `${drift} 2.4s ease-in-out infinite`,
+          pointerEvents: "none",
         }}
       >
-        <Box
+        <Typography
+          variant="body2"
           sx={{
-            bgcolor: "background.paper",
-            p: 2,
-            boxShadow: 3,
-            borderRadius: 1,
-            animation: `${bobbing} 2s infinite`,
+            color: "text.secondary",
+            fontSize: "0.7rem",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
           }}
         >
-          <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-            <ArrowDownward />
-            <Typography variant="h6">Scroll for more!</Typography>
-            <ArrowDownward />
-          </Stack>
-        </Box>
+          Scroll
+        </Typography>
+        <Box
+          sx={{
+            width: 1.5,
+            height: 32,
+            bgcolor: "primary.main",
+            borderRadius: 1,
+            opacity: 0.6,
+          }}
+        />
       </Box>
     </Fade>
   );
