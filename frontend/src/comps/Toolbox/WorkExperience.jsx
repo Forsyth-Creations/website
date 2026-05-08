@@ -15,6 +15,13 @@ export default function WorkExperience() {
 
   const experiences = [
     {
+      name: "Anduril Industries",
+      image: "/forsyth/Achieve/Anduril.png",
+      description:
+        "At Anduril I work on FPGA and embedded systems development, building low-level hardware and firmware for defense technology. The role sits at the intersection of digital logic design and real-time embedded software, where performance and reliability are non-negotiable.",
+      link: "https://www.anduril.com/",
+    },
+    {
       name: "Torc Robotics",
       image: "/forsyth/Achieve/Torc.png",
       description:
@@ -118,12 +125,19 @@ export default function WorkExperience() {
                 fontSize: ".7rem",
                 backgroundColor:
                   selected.name === exp.name
-                    ? "#1565c0"
+                    ? "#204d71"
                     : "rgba(255, 255, 255, 0.8)",
-                color: selected.name === exp.name ? "white" : "black",
+                color: selected.name === exp.name ? "#010101" : "black",
+                fontFamily: "Barlow Condensed, sans-serif",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                fontSize: "0.7rem",
+                borderRadius: 0,
+                border: "1px solid rgba(255,255,255,0.3)",
                 "&:hover": {
-                  backgroundColor: "#1e88e5",
-                  color: "white",
+                  backgroundColor: "#c8d938",
+                  color: "#010101",
                 },
                 width: "15vw",
                 minWidth: "100px",

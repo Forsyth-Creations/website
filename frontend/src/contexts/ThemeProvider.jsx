@@ -57,68 +57,136 @@ export const brand = {
   2800: "#7F3629", // Rich, dark red, grounding accent
 };
 
+const condensed = ["Barlow Condensed", "sans-serif"].join(",");
+const body = ["Barlow", "sans-serif"].join(",");
+
 const commonText = {
-  fontFamily: ["Poppins", "sans-serif"].join(","),
+  fontFamily: body,
+  h1: {
+    fontFamily: condensed,
+    fontWeight: 800,
+    fontSize: "clamp(3rem, 8vw, 7rem)",
+    lineHeight: 1.0,
+    letterSpacing: "-0.03em",
+    textTransform: "uppercase",
+  },
+  h2: {
+    fontFamily: condensed,
+    fontWeight: 700,
+    fontSize: "clamp(2rem, 5vw, 4rem)",
+    lineHeight: 1.05,
+    textTransform: "uppercase",
+    letterSpacing: "-0.02em",
+  },
   h3: {
-    fontSize: 24,
-    fontWeight: 500,
-    lineHeight: 1.5,
-    fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+    fontFamily: condensed,
+    fontWeight: 700,
+    fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
+    lineHeight: 1.1,
+    letterSpacing: "-0.015em",
   },
   h4: {
-    fontSize: 36,
-    fontWeight: 500,
-    lineHeight: 1.5,
-    fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+    fontFamily: body,
+    fontWeight: 600,
+    fontSize: "clamp(1.1rem, 2vw, 1.5rem)",
+    lineHeight: 1.3,
+    letterSpacing: "-0.01em",
   },
-  body: {
-    fontSize: 36,
+  h5: {
+    fontFamily: body,
+    fontWeight: 600,
+    fontSize: "1.1rem",
+    lineHeight: 1.3,
+    letterSpacing: "-0.01em",
+  },
+  h6: {
+    fontFamily: body,
     fontWeight: 500,
-    lineHeight: 1.5,
-    fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+    fontSize: "1rem",
+    lineHeight: 1.4,
+  },
+  body1: {
+    fontFamily: body,
+    fontWeight: 400,
+    fontSize: "0.95rem",
+    lineHeight: 1.65,
+  },
+  body2: {
+    fontFamily: body,
+    fontWeight: 300,
+    fontSize: "0.85rem",
+    lineHeight: 1.6,
   },
 };
 
 let darkTheme = createTheme({
   palette: {
     mode: "dark",
-    // palette values for dark mode
     primary: {
       main: "#204d71",
-      light: brand[200],
-      dark: brand[200],
-      background: "204d71",
+      light: "#4576a6",
+      dark: "#173953",
+      contrastText: "#ffffff",
     },
     secondary: {
-      main: "#fff",
-      light: "#222",
+      main: "#ffffff",
+      light: "#1a1a1a",
     },
     background: {
-      default: "#000",
-      paper: "#000",
-      modal: grey[900],
+      default: "#080f18",
+      paper: "#0d1621",
+      modal: "#0d1621",
     },
     text: {
-      primary: "#fff",
-      secondary: grey[500],
+      primary: "#ffffff",
+      secondary: "#8e9291",
     },
-    forsythBlue: {
-      main: "#0A3D62",
+    divider: "rgba(255,255,255,0.1)",
+    action: {
+      hover: "rgba(255,255,255,0.05)",
     },
   },
   components: {
     MuiTableCell: {
       styleOverrides: {
-        root: {
-          backgroundColor: "transparent",
-        },
+        root: { backgroundColor: "transparent" },
       },
     },
     MuiBox: {
       defaultProps: {
-        style: {
-          backgroundColor: "transparent",
+        style: { backgroundColor: "transparent" },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          fontWeight: 700,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          fontSize: "0.78rem",
+          borderRadius: 0,
         },
+        outlined: {
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          fontSize: "0.78rem",
+          borderRadius: 0,
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: { borderRadius: 2, letterSpacing: "0.04em" },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: { borderRadius: 2 },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: { borderColor: "rgba(255,255,255,0.1)" },
       },
     },
   },
@@ -128,43 +196,66 @@ let darkTheme = createTheme({
 let lightTheme = createTheme({
   palette: {
     mode: "light",
-    // palette values for dark mode
     primary: {
       main: "#204d71",
-      light: brand[200],
-      dark: brand[500],
-      background: "#204d71",
+      light: "#4576a6",
+      dark: "#173953",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#000000",
-      light: "#eee",
+      light: "#f0f0f0",
     },
     background: {
-      default: "#fff",
-      paper: "#fff",
-      modal: grey[100],
+      default: "#f5f5f2",
+      paper: "#ffffff",
+      modal: "#ffffff",
     },
     text: {
-      primary: "#000",
-      secondary: grey[500],
+      primary: "#0d0d0d",
+      secondary: "#6c6e6b",
     },
-    forsythBlue: {
-      main: "#0A3D62",
+    divider: "rgba(0,0,0,0.1)",
+    action: {
+      hover: "rgba(0,0,0,0.04)",
     },
   },
   components: {
     MuiTableCell: {
       styleOverrides: {
-        root: {
-          backgroundColor: "transparent",
-        },
+        root: { backgroundColor: "transparent" },
       },
     },
     MuiBox: {
       defaultProps: {
-        style: {
-          backgroundColor: "transparent",
+        style: { backgroundColor: "transparent" },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          fontWeight: 700,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          fontSize: "0.78rem",
+          borderRadius: 0,
         },
+        outlined: {
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          fontSize: "0.78rem",
+          borderRadius: 0,
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: { borderRadius: 2, letterSpacing: "0.04em" },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: { borderRadius: 2 },
       },
     },
   },

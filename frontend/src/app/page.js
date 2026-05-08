@@ -8,72 +8,125 @@ import WhoAmI from "@/comps/Toolbox/WhoAmI";
 import WorkExperience from "@/comps/Toolbox/WorkExperience";
 import MoreToSee from "@/comps/Toolbox/MoreToSee";
 import Projects from "@/comps/Toolbox/Projects";
-import axios from "axios";
-import { FaDiscord } from "react-icons/fa";
-import { Button, Stack, Typography, Box, Chip } from "@mui/material";
 import React from "react";
 import Carousel from "@/comps/Toolbox/Carousel";
-import Link from "next/link";
+import { FaDiscord } from "react-icons/fa";
+import { Button, Stack, Typography, Box, Divider } from "@mui/material";
+import { OpenInNew } from "@mui/icons-material";
 
-// A functional component to write an image in a link
-const ImageLink = ({ image, link }) => {
-  return (
-    <Link href={link} style={{ textDecoration: "none" }}>
-      <img
-        src={image}
-        alt="Simulation"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        }}
-      />
-    </Link>
-  );
-};
-
-const images = [
-  ImageLink({ image: "/sims/follow.png", link: "/sim/follow" }),
-  ImageLink({ image: "/sims/platoon.png", link: "/sim/platoon" }),
-  ImageLink({ image: "/sims/swerve.png", link: "/swerve_drive" }),
+const simulations = [
+  {
+    image: "/sims/follow.png",
+    link: "/sim/follow",
+    title: "Follow Simulation",
+    description: "Multi-agent following behavior",
+  },
+  {
+    image: "/sims/platoon.png",
+    link: "/sim/platoon",
+    title: "Platoon Simulation",
+    description: "Coordinated convoy control",
+  },
+  {
+    image: "/sims/swerve.png",
+    link: "/swerve_drive",
+    title: "Swerve Drive",
+    description: "Holonomic robot control system",
+  },
 ];
 
-const BuildStatus = () => {
-  let href =
-    "https://github.com/Forsyth-Creations/website/actions/workflows/deploy.yml/badge.svg";
-  let link = "https://github.com/Forsyth-Creations/website";
+// Full-width 1px rule between sections
+const SectionRule = () => (
+  <Box sx={{ width: "100%", borderTop: "1px solid", borderColor: "divider" }} />
+);
 
-  return (
-    <Box sx={{ cursor: "pointer" }} onClick={() => window.open(link, "_blank")}>
-      <img src={href} alt="Build Status" style={{ height: 20 }} />
-    </Box>
-  );
-};
-
-const PaduaStatus = ({ api_endpoint }) => {
-  const [status, setStatus] = React.useState("loading");
-
-  React.useEffect(() => {
-    axios
-      .get(api_endpoint)
-      .then((response) => {
-        setStatus(response.data.message);
-      })
-      .catch(() => {
-        setStatus("error");
-      });
-  }, [api_endpoint]);
-
-  return (
-    <Chip
-      label={`Padua API Status: ${status}`}
-      color={status === "Healthy" ? "success" : "error"}
-      onClick={() => window.open("https://mypadua.com", "_blank")}
+// Small section label pinned to the top-left inside a relative-positioned section
+const SectionLabel = ({ number, label }) => (
+  <Box
+    sx={{
+      position: "absolute",
+      top: { xs: 68, md: 76 },
+      left: { xs: 20, md: 40 },
+      zIndex: 10,
+      display: "flex",
+      alignItems: "center",
+      gap: 1.25,
+    }}
+  >
+    <Typography
+      sx={{
+        fontFamily: "Barlow Condensed, sans-serif",
+        fontWeight: 700,
+        fontSize: "0.65rem",
+        letterSpacing: "0.2em",
+        color: "text.secondary",
+        textTransform: "uppercase",
+        lineHeight: 1,
+      }}
+    >
+      {String(number).padStart(2, "0")}
+    </Typography>
+    <Box
+      sx={{
+        width: 24,
+        height: 1,
+        bgcolor: "divider",
+      }}
     />
-  );
-};
+    <Typography
+      sx={{
+        fontFamily: "Barlow Condensed, sans-serif",
+        fontWeight: 700,
+        fontSize: "0.65rem",
+        letterSpacing: "0.2em",
+        color: "text.secondary",
+        textTransform: "uppercase",
+        lineHeight: 1,
+      }}
+    >
+      {label}
+    </Typography>
+  </Box>
+);
+
+const SiteFooter = () => (
+  <Box
+    component="footer"
+    sx={{
+      py: 3,
+      px: { xs: 3, md: 5 },
+      borderTop: "1px solid",
+      borderColor: "divider",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 2,
+    }}
+  >
+    <Typography
+      variant="body2"
+      sx={{ color: "text.secondary", fontSize: "0.72rem", letterSpacing: "0.04em" }}
+    >
+      © {new Date().getFullYear()} Forsyth Creations LLC
+    </Typography>
+    <Typography
+      component="a"
+      href="https://github.com/Forsyth-Creations/website/actions/workflows/deploy.yml"
+      target="_blank"
+      variant="body2"
+      sx={{
+        color: "text.secondary",
+        fontSize: "0.72rem",
+        textDecoration: "none",
+        letterSpacing: "0.04em",
+        "&:hover": { color: "text.primary" },
+      }}
+    >
+      Build Status ↗
+    </Typography>
+  </Box>
+);
 
 export default function Home() {
   const [stillOnTop, setStillOnTop] = React.useState(false);
@@ -85,20 +138,13 @@ export default function Home() {
       clearTimeout(timeoutRef.current);
     } else {
       clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        setStillOnTop(true);
-      }, 2000);
+      timeoutRef.current = setTimeout(() => setStillOnTop(true), 2000);
     }
   };
 
   React.useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
-    // Initial timeout in case the user doesn't scroll at all
-    timeoutRef.current = setTimeout(() => {
-      setStillOnTop(true);
-    }, 2000);
-
+    timeoutRef.current = setTimeout(() => setStillOnTop(true), 2000);
     return () => {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timeoutRef.current);
@@ -107,62 +153,126 @@ export default function Home() {
 
   return (
     <WithNav>
-      <WholeScreen>
-        <Art
-          lightModeSVG={"/forsyth/Branding/Logo_Black.svg"}
-          darkModeSVG={"/forsyth/Branding/Logo_White.svg"}
-        />
-        <MoreToSee show={stillOnTop} />
-      </WholeScreen>
-      <WholeScreen>
-        <Stack>
+      {/* 01 — Hero */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={1} label="Forsyth Creations" />
+        <WholeScreen>
+          <Stack alignItems="center" spacing={3}>
+            <Art
+              lightModeSVG="/forsyth/Branding/Logo_Black.svg"
+              darkModeSVG="/forsyth/Branding/Logo_White.svg"
+            />
+            <Typography
+              sx={{
+                fontFamily: "Barlow Condensed, sans-serif",
+                fontWeight: 600,
+                fontSize: { xs: "0.75rem", md: "0.85rem" },
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "text.secondary",
+              }}
+            >
+              Software · Hardware · Innovation
+            </Typography>
+          </Stack>
+          <MoreToSee show={stillOnTop} />
+        </WholeScreen>
+      </Box>
+
+      <SectionRule />
+
+      {/* 02 — About */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={2} label="About" />
+        <WholeScreen>
           <WhoAmI />
-        </Stack>
-      </WholeScreen>
-      <Projects />
-      <WholeScreen>
-        <WorkExperience />
-      </WholeScreen>
-      <WholeScreen>
-        <Stack spacing={3} alignItems="center" justifyContent={"center"}>
-          <Typography variant="h4" align="center">
-            Online Simulations
-          </Typography>
-          <Carousel
-            slides={images}
-            interval={3000}
-            speed={20}
-            height={
-              typeof window !== "undefined" ? window.innerHeight / 1.5 : 500
-            }
-          />
-        </Stack>
-      </WholeScreen>
-      <WholeScreen>
-        <Contact />
-      </WholeScreen>
-      <WholeScreen>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-          sx={{ mt: 2 }}
-        >
-          <Typography variant="h6" align="center">
-            Join the official Discord server for updates and more!
-          </Typography>
-          <FaDiscord size={32} />
-          <Button variant="contained" href="https://discord.gg/bJc8gUBXDj">
-            Join Discord
-          </Button>
-        </Stack>
-      </WholeScreen>
-      <WholeScreen>
-        <Stack>
-          <BuildStatus />
-          <PaduaStatus api_endpoint="https://mypadua.com/api/health" />
-        </Stack>
-      </WholeScreen>
+        </WholeScreen>
+      </Box>
+
+      <SectionRule />
+
+      {/* 03 — Work */}
+      <Box sx={{ position: "relative" }}>
+        <SectionLabel number={3} label="Selected Work" />
+        <Projects />
+      </Box>
+
+      <SectionRule />
+
+      {/* 04 — Experience */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={4} label="Experience" />
+        <WholeScreen>
+          <WorkExperience />
+        </WholeScreen>
+      </Box>
+
+      <SectionRule />
+
+      {/* 05 — Simulations */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={5} label="Simulations" />
+        <WholeScreen>
+          <Stack spacing={4} alignItems="center" sx={{ width: "100%", px: 3 }}>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography variant="h2">Online Simulations</Typography>
+              <Box
+                sx={{
+                  mt: 1.5,
+                  width: 40,
+                  height: 2,
+                  bgcolor: "primary.main",
+                  mx: "auto",
+                }}
+              />
+            </Box>
+            <Carousel slides={simulations} />
+          </Stack>
+        </WholeScreen>
+      </Box>
+
+      <SectionRule />
+
+      {/* 06 — Contact */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={6} label="Contact" />
+        <WholeScreen>
+          <Contact />
+        </WholeScreen>
+      </Box>
+
+      <SectionRule />
+
+      {/* 07 — Community */}
+      <Box className="adjustable-content" sx={{ position: "relative" }}>
+        <SectionLabel number={7} label="Community" />
+        <WholeScreen>
+          <Box sx={{ textAlign: "center", maxWidth: 480, mx: "auto", px: 4 }}>
+            <FaDiscord size={40} color="#5865F2" style={{ marginBottom: 24 }} />
+            <Typography variant="h2" sx={{ mb: 1.5 }}>
+              Join the Community
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ color: "text.secondary", mb: 4, lineHeight: 1.7 }}
+            >
+              Get updates, discuss projects, and connect directly. Open to
+              everyone interested in robotics, software, and making things.
+            </Typography>
+            <Button
+              variant="contained"
+              size="large"
+              href="https://discord.gg/bJc8gUBXDj"
+              target="_blank"
+              endIcon={<OpenInNew fontSize="small" />}
+            >
+              Join Discord
+            </Button>
+          </Box>
+        </WholeScreen>
+      </Box>
+
+      <SiteFooter />
     </WithNav>
   );
 }
