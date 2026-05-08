@@ -32,7 +32,7 @@ export default function BlogPage() {
           {posts.map((post) => (
             <Link
               key={post.slug}
-              href={`/blog/post?slug=${post.slug}`}
+              href={`/blog/${post.slug}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Card

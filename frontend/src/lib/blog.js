@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
-const postsDirectory = path.join(process.cwd(), "src/content/blog");
+const postsDirectory = path.join(process.cwd(), "../blog_posts");
 
 export function getAllPosts() {
   const fileNames = fs.readdirSync(postsDirectory);
@@ -31,5 +31,20 @@ export function getAllSlugs() {
   return fileNames
     .filter((name) => name.endsWith(".md"))
     .map((fileName) => fileName.replace(/\.md$/, ""));
+}
+
+export async function getPostBySlug(slug) {
+  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { data, content } = matter(fileContents);
+  const processed = await remark().use(html).process(content);
+  return {
+    slug,
+    title: data.title || slug,
+    date: data.date || "",
+    description: data.description || "",
+    tags: data.tags || [],
+    contentHtml: processed.toString(),
+  };
 }
 

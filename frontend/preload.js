@@ -30,7 +30,7 @@ copyDir(src, dest);
 console.log("✓ Copied /examples → /frontend/public/examples");
 
 // Generate static JSON for each blog post
-const blogSrc = path.join(process.cwd(), "src/content/blog");
+const blogSrc = path.join(process.cwd(), "../blog_posts");
 const blogDest = path.join(process.cwd(), "public/blog-data");
 
 fs.rmSync(blogDest, { recursive: true, force: true });
