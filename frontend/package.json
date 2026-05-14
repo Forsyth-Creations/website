@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node preload.js && next dev --turbopack",
+    "dev": "node dev.mjs",
     "build": "node preload.js && next build",
     "start": "next start",
     "lint": "next lint",
