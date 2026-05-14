@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node preload.js && next dev --turbopack",
+    "dev": "node dev.mjs",
     "build": "node preload.js && next build",
     "start": "next start",
     "lint": "next lint",
@@ -24,6 +24,7 @@
     "axios": "^1.7.9",
     "cookies-next": "^5.1.0",
     "embla-carousel-react": "^8.6.0",
+    "gray-matter": "^4.0.3",
     "highlights": "^3.1.6",
     "next": "16.0.4",
     "react": "^19.0.0",
@@ -33,11 +34,14 @@
     "react-joystick-component": "^6.2.1",
     "react-syntax-highlighter": "^15.6.1",
     "react-toastify": "^11.0.3",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "three": "^0.177.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "24.2.0",
+    "baseline-browser-mapping": "^2.10.27",
     "eslint": "^9",
     "eslint-config-next": "15.1.5"
   }
